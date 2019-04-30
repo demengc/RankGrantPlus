@@ -4,10 +4,11 @@ import ga.demeng7215.demapi.api.MessageUtils;
 import ga.demeng7215.rankgrantplus.RankGrantPlus;
 import ga.demeng7215.rankgrantplus.utils.DurationUtils;
 import ga.demeng7215.rankgrantplus.utils.RGPInventory;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,8 @@ class ConfirmationInv extends RGPInventory {
 
     ConfirmationInv(RankGrantPlus i, OfflinePlayer target, Player op,
                     String rank, DurationUtils duration, String displayReason) {
-        super(27, MessageUtils.color(i.getLanguage().getString("gui-names.confirm-grant")));
+        super(27, MessageUtils.color(i.getLanguage().getString("gui-names.confirm-grant")
+                .replace("%target%", target.getName())));
 
         this.i = i;
         this.duration = duration;
@@ -32,7 +34,8 @@ class ConfirmationInv extends RGPInventory {
         }
 
         setItem(11,
-                new ItemStack(Material.valueOf(i.getConfiguration().getString("confirmation.confirm.item"))),
+                CompMaterial.valueOf(i.getConfiguration().getString("confirmation.confirm.item"))
+                        .toItem(),
                 i.getConfiguration().getString("confirmation.confirm.name"), confirmLore,
                 player -> {
                     player.closeInventory();
@@ -48,7 +51,8 @@ class ConfirmationInv extends RGPInventory {
         }
 
         setItem(15,
-                new ItemStack(Material.valueOf(i.getConfiguration().getString("confirmation.cancel.item"))),
+                CompMaterial.valueOf(i.getConfiguration().getString("confirmation.cancel.item"))
+                        .toItem(),
                 i.getConfiguration().getString("confirmation.cancel.name"), cancelLore,
                 player -> {
                     player.closeInventory();
@@ -61,19 +65,28 @@ class ConfirmationInv extends RGPInventory {
 
         try {
 
-            if (i.getConfiguration().getBoolean("delete-old-ranks"))
-                for (String group : i.getPermissions().getPlayerGroups(null, target))
-                    i.getPermissions().playerRemoveGroup(null, target, group);
+            if (i.getConfiguration().getStringList("compatibility-commands.grant").contains("none")) {
 
-            if (i.getConfiguration().getBoolean("global"))
-                if (!i.getPermissions().playerAddGroup(null, target, rank)) {
+                if (i.getConfiguration().getBoolean("delete-old-ranks"))
+                    for (String group : i.getPermissions().getPlayerGroups(null, target))
+                        i.getPermissions().playerRemoveGroup(null, target, group);
+
+                if (i.getConfiguration().getBoolean("global"))
+                    if (!i.getPermissions().playerAddGroup(null, target, rank)) {
+                        MessageUtils.sendMessageToPlayer(i.getLanguage().getString("failed-grant"), op);
+                        return false;
+                    }
+
+                if (!i.getPermissions().playerAddGroup(op.getWorld().getName(), target, rank)) {
                     MessageUtils.sendMessageToPlayer(i.getLanguage().getString("failed-grant"), op);
                     return false;
                 }
 
-            if (!i.getPermissions().playerAddGroup(op.getWorld().getName(), target, rank)) {
-                MessageUtils.sendMessageToPlayer(i.getLanguage().getString("failed-grant"), op);
-                return false;
+            } else {
+                for (String cmd : i.getConfiguration().getStringList("compatibility-commands.grant"))
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd
+                            .replace("%target%", target.getName())
+                            .replace("%rank%", rank));
             }
 
             i.getGrantLogs().log(RankGrantPlus.stripColorCodes(replaceInfo(i.getLanguage()

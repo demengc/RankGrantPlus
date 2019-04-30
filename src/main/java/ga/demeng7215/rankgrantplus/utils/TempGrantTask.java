@@ -27,8 +27,17 @@ public class TempGrantTask extends BukkitRunnable {
                 String uuid = args[0];
                 String rank = args[1];
 
-                i.getPermissions().playerRemoveGroup(null,
-                        Bukkit.getOfflinePlayer(UUID.fromString(uuid)), rank);
+                if (i.getConfiguration().getStringList("compatibility-commands.ungrant").contains("none")) {
+
+                    i.getPermissions().playerRemoveGroup(null,
+                            Bukkit.getOfflinePlayer(UUID.fromString(uuid)), rank);
+
+                } else {
+                    for (String cmd : i.getConfiguration().getStringList("compatibility-commands.ungrant"))
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd
+                                .replace("%target%", Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName())
+                                .replace("%rank%", rank));
+                }
 
                 i.getData().set(id, null);
 

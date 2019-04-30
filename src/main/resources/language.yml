@@ -31,6 +31,7 @@
 # console: "&aYou must be a player to execute this command.";
 # |
 # The names of the GUI's.
+# You can use the %target% placeholder for the target player's name.
 # select-rank = the rank selection GUI
 # choose-time = the GUI which you set the duration of the grant
 # select-reason = the reason selection GUI

@@ -3,10 +3,10 @@ package ga.demeng7215.rankgrantplus.inventories;
 import ga.demeng7215.demapi.api.MessageUtils;
 import ga.demeng7215.rankgrantplus.RankGrantPlus;
 import ga.demeng7215.rankgrantplus.utils.RGPInventory;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,8 @@ public class RankSelectInv extends RGPInventory {
     private final RankGrantPlus i;
 
     public RankSelectInv(RankGrantPlus i, OfflinePlayer target, Player op) {
-        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.select-rank")));
+        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.select-rank")
+                .replace("%target%", target.getName())));
 
         this.i = i;
 
@@ -34,7 +35,8 @@ public class RankSelectInv extends RGPInventory {
                 if (slot < 53)
 
                     setItem(slot++,
-                            new ItemStack(Material.valueOf(i.getRanks().getString("default-format.item"))),
+                            CompMaterial.valueOf(i.getRanks().getString("default-format.item"))
+                                    .toItem(),
                             replaceInfo(i.getRanks().getString("default-format.name"), rank, target),
                             finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
             }
@@ -60,7 +62,8 @@ public class RankSelectInv extends RGPInventory {
                         slotsOccupied.add(slot);
 
                         setItem(slot,
-                                new ItemStack(Material.valueOf(i.getRanks().getString(path + "item"))),
+                                CompMaterial.valueOf(i.getRanks().getString(path + "item"))
+                                        .toItem(),
                                 replaceInfo(i.getRanks().getString(path + "name"), rank, target),
                                 finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
                     } else {

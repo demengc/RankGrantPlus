@@ -6,7 +6,7 @@
 
     <groupId>ga.demeng7215</groupId>
     <artifactId>rankgrantplus</artifactId>
-    <version>3.0.0</version>
+    <version>3.2.1</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -59,6 +59,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.kangarko</groupId>
+            <artifactId>Remain</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.4</version>
@@ -99,6 +105,10 @@
                                 <relocation>
                                     <pattern>ga.demeng7215.demapi</pattern>
                                     <shadedPattern>ga.demeng7215.rankgrantplus.shaded.demapi</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mineacademy.remain</pattern>
+                                    <shadedPattern>ga.demeng7215.rankgrantplus.shaded.remain</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

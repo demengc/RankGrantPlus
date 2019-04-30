@@ -5,10 +5,10 @@ import ga.demeng7215.rankgrantplus.RankGrantPlus;
 import ga.demeng7215.rankgrantplus.utils.DurationUtils;
 import ga.demeng7215.rankgrantplus.utils.RGPInventory;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +23,8 @@ public class DurationChooseInv extends RGPInventory {
     private static int taskId;
 
     DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {
-        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.choose-time")));
+        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.choose-time")
+                .replace("%target%", target.getName())));
         this.i = i;
 
         List<String> times = Arrays.asList("add-second", "add-minute", "add-hour", "add-day", "add-week", "subtract-second",
@@ -44,7 +45,8 @@ public class DurationChooseInv extends RGPInventory {
                 }
 
                 setItem(i.getConfiguration().getInt("duration.continue.slot") - 1,
-                        new ItemStack(Material.valueOf(i.getConfiguration().getString("duration.continue.item"))),
+                        CompMaterial.valueOf(i.getConfiguration()
+                                .getString("duration.continue.item")).toItem(),
                         i.getConfiguration().getString("duration.continue.name"),
                         continueLore, player -> new ReasonSelectInv(i, target, op, rank, currentDurationUtil).open(op));
 
@@ -53,7 +55,8 @@ public class DurationChooseInv extends RGPInventory {
                     finalLore.add(replaceInfo(lore, rank, target));
                 }
                 setItem(i.getConfiguration().getInt(path + "slot") - 1,
-                        new ItemStack(Material.valueOf(i.getConfiguration().getString(path + "item"))),
+                        CompMaterial.valueOf(i.getConfiguration().getString(path + "item"))
+                                .toItem(),
                         replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
                         finalLore, player -> {
 

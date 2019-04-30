@@ -4,10 +4,10 @@ import ga.demeng7215.demapi.api.MessageUtils;
 import ga.demeng7215.rankgrantplus.RankGrantPlus;
 import ga.demeng7215.rankgrantplus.utils.DurationUtils;
 import ga.demeng7215.rankgrantplus.utils.RGPInventory;
-import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,8 @@ class ReasonSelectInv extends RGPInventory {
     private final DurationUtils duration;
 
     ReasonSelectInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank, DurationUtils duration) {
-        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.select-reason")));
+        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.select-reason")
+                .replace("%target%", target.getName())));
 
         this.i = i;
         this.duration = duration;
@@ -43,7 +44,8 @@ class ReasonSelectInv extends RGPInventory {
                     slotsOccupied.add(slot);
 
                     setItem(slot,
-                            new ItemStack(Material.valueOf(i.getConfiguration().getString(path + "item"))),
+                            CompMaterial.valueOf(i.getConfiguration().getString(path + "item"))
+                            .toItem(),
                             replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
                             finalLore, player -> new ConfirmationInv(i, target, op, rank, duration,
                                     i.getConfiguration().getString(path + "name")).open(op));

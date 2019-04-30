@@ -20,6 +20,24 @@
 # This value can be either "true" or "false".
 # log-grants: true
 # |
+# NOTE: IF YOU USE THIS CONFIGURATION SECTION, THE NEXT 2 CONFIGURATIONS AFTER THIS ARE NOT NEEDED.
+# Due to some permission plugins such as LuckPerms and PermissionsEx having issues with global and per-world works,
+# as well as adding/setting ranks, this configuration section has been added.
+# If you default Vault system is not working properly for you, you can input custom commands in here.
+# If you set commands here, the Vault process will not be executed. Type "none" to use the Vault system.
+# WARNING: This system does not allow the plugin to detect if a grant was successful or not.
+# If a command is not valid or there is something wrong during the command execution, the operator will still see the
+# grant as a successful grant.
+# You do not need a "/" in front of your commands.
+# You can use %target% for the target player and %rank% for the rank name.
+# The commands under "grant" will be executed on confirmation of a grant.
+# The commands under "ungrant" will be executed on timed grant expiry.
+# compatibility-commands:
+#  grant:
+#    - "none"
+#  ungrant:
+#    - "none"
+# |
 # Should RankGrant+ grant ranks globally or just in the current world of the GUI operator?
 # true = global, false = current world.
 # global: true
@@ -33,7 +51,7 @@
 # You can use %target% for the name of the player who is receiving the rank, %rank% for the rank name,
 # %duration% for the duration of the grant, and %reason% for the reason (shouldn't really be needed).
 # slot = the slot number in the GUI, 1 being the first slot
-# item = the material that will be shown in the GUI (https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html)
+# item = the material that will be shown in the GUI- use 1.13 material enums
 # name = the display name of the item
 # lore = the item description
 # permission = the permission required to select that reason
@@ -214,6 +232,11 @@
 
 config-version: 2
 log-grants: true
+compatibility-commands:
+  grant:
+    - "none"
+  ungrant:
+    - "none"
 global: true
 delete-old-ranks: true
 reasons:

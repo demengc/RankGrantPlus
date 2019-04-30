@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mineacademy.remain.Remain;
 
 
 public class RankGrantPlus extends JavaPlugin {
@@ -42,6 +43,7 @@ public class RankGrantPlus extends JavaPlugin {
 
         DemAPI.setPlugin(this);
         MessageUtils.setPrefix("[RankGrant+] ");
+        Remain.setPlugin(this);
 
         MessageUtils.sendColoredConsoleMessage("Enabling RankGrant+...\n" +
                 "&a  _____             _     _____                 _   \n" +
