@@ -27,18 +27,25 @@ public class RankSelectInv extends RGPInventory {
 
             for (String rank : i.getPermissions().getGroups()) {
 
-                List<String> finalLore = new ArrayList<>();
-                for (String lore : i.getRanks().getStringList("default-format.lore")) {
-                    finalLore.add(replaceInfo(lore, rank, target));
-                }
-
-                if (slot < 53)
-
-                    setItem(slot++,
-                            CompMaterial.valueOf(i.getRanks().getString("default-format.item"))
-                                    .toItem(),
-                            replaceInfo(i.getRanks().getString("default-format.name"), rank, target),
-                            finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
+            	
+            	for (String perm : i.getRanks().getString("default-format.permission")) {
+            		if (op.hasPermission(replaceInfo(perm, rank, target))) {
+            	
+		                List<String> finalLore = new ArrayList<>();
+		                for (String lore : i.getRanks().getStringList("default-format.lore")) {
+		                    finalLore.add(replaceInfo(lore, rank, target));
+		                }
+		
+		                if (slot < 53)
+		
+		                    setItem(slot++,
+		                            CompMaterial.valueOf(i.getRanks().getString("default-format.item"))
+		                                    .toItem(),
+		                            replaceInfo(i.getRanks().getString("default-format.name"), rank, target),
+		                            finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
+	            
+            		}
+            	}
             }
         } else {
 
