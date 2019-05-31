@@ -38,8 +38,8 @@ class ConfirmationInv extends RGPInventory {
                 player -> {
                     player.closeInventory();
                     if (grant(target, rank, duration, displayReason, player)) {
-                        MessageUtils.sendMessageToPlayer(replaceInfo(i.getConfiguration()
-                                .getString("confirmation.confirm.message"), rank, target, displayReason, op), op);
+                        MessageUtils.sendMessageToPlayer(op, replaceInfo(i.getConfiguration()
+                                .getString("confirmation.confirm.message"), rank, target, displayReason, op));
                     }
                 });
 
@@ -54,8 +54,8 @@ class ConfirmationInv extends RGPInventory {
                 i.getConfiguration().getString("confirmation.cancel.name"), cancelLore,
                 player -> {
                     player.closeInventory();
-                    MessageUtils.sendMessageToPlayer(replaceInfo(i.getConfiguration()
-                            .getString("confirmation.cancel.message"), rank, target, displayReason, op), op);
+                    MessageUtils.sendMessageToPlayer(op, replaceInfo(i.getConfiguration()
+                            .getString("confirmation.cancel.message"), rank, target, displayReason, op));
                 });
     }
 
@@ -81,7 +81,7 @@ class ConfirmationInv extends RGPInventory {
             return true;
 
         } catch (final Exception ex) {
-            MessageUtils.sendMessageToPlayer(i.getConfiguration().getString("failed-grant"), op);
+            MessageUtils.sendMessageToPlayer(op, i.getConfiguration().getString("failed-grant"));
             return false;
         }
     }

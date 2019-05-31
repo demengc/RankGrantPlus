@@ -25,6 +25,8 @@ public class GrantCmd extends DemCommand {
     @Override
     protected void run(CommandSender sender, String[] args) {
 
+        if(!i.isEnabled()) return;
+
         if (!checkIsPlayer(sender, i.getLanguage().getString("console"))) return;
 
         if (!checkArgsStrict(args, 1, sender, i.getLanguage().getString("invalid-args"))) return;

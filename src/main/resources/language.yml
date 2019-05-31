@@ -30,9 +30,6 @@
 # This message will be sent if the console tries to do a players-only action.
 # console: "&aYou must be a player to execute this command.";
 # |
-# The message that will be sent if the commands for granting or ungranting are not set up.
-# not-set-up: "&aYour grant and ungrant commands are not set up. Please see &7configuration.yml&a."
-# |
 # The names of the GUI's.
 # You can use the %target% placeholder for the target player's name.
 # select-rank = the rank selection GUI

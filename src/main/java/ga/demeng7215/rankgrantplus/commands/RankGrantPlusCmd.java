@@ -25,10 +25,10 @@ public class RankGrantPlusCmd extends DemCommand {
     protected void run(CommandSender sender, String[] args) {
 
         if (args.length == 0) {
-            MessageUtils.sendMessageToCommandSender("&aRunning RankGrant+ v" +
-                    Common.getVersion() + " by Demeng7215.", sender);
-            MessageUtils.sendMessageToCommandSender("&fhttps://spigotmc.org/resources/63403/", sender);
-            MessageUtils.sendMessageToCommandSender("&aType &f/grant <player> &ato grant a rank.", sender);
+            MessageUtils.sendMessageToCommandSender(sender, "&aRunning RankGrant+ v" +
+                    Common.getVersion() + " by Demeng7215.");
+            MessageUtils.sendMessageToCommandSender(sender, "&fhttps://spigotmc.org/resources/63403/");
+            MessageUtils.sendMessageToCommandSender(sender, "&aType &f/grant <player> &ato grant a rank.");
             return;
         }
 
@@ -43,7 +43,7 @@ public class RankGrantPlusCmd extends DemCommand {
             i.language.reloadConfig();
             i.ranks.reloadConfig();
 
-            MessageUtils.sendMessageToCommandSender(i.getLanguage().getString("reloaded"), sender);
+            MessageUtils.sendMessageToCommandSender(sender, i.getLanguage().getString("reloaded"));
         }
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>ga.demeng7215</groupId>
     <artifactId>rankgrantplus</artifactId>
-    <version>3.3.3</version>
+    <version>3.3.4</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -44,13 +44,8 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.1-R0.1-SNAPSHOT</version>
+            <version>1.14.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.Demeng7215</groupId>
-            <artifactId>DemAPI</artifactId>
-            <version>2.3.3</version>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -68,6 +63,12 @@
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ga.demeng7215</groupId>
+            <artifactId>demapi</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

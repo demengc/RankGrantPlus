@@ -89,7 +89,7 @@ public class RankGrantPlus extends JavaPlugin {
         new Metrics(this);
         getLogger().info("Loaded metrics.");
 
-        Common.sendSuccessfulEnableMessage();
+        MessageUtils.sendSuccessfulEnableMessage();
 
         UpdateChecker.checkForUpdates(63403);
 
@@ -104,7 +104,7 @@ public class RankGrantPlus extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        Common.sendSuccessfulDisableMessage();
+        MessageUtils.sendSuccessfulDisableMessage();
     }
 
     public FileConfiguration getConfiguration() {
