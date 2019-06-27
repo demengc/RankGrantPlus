@@ -46,12 +46,11 @@ public class RankGrantPlus extends JavaPlugin {
         Remain.setPlugin(this);
 
         MessageUtils.sendColoredConsoleMessage("Enabling RankGrant+...\n" +
-                "&a  _____             _     _____                 _   \n" +
-                "&a |  __ \\           | |   / ____|               | |  \n" +
-                "&a | |__) |__ _ _ __ | | _| |  __ _ __ __ _ _ __ | |_ \n" +
-                "&a |  _  // _` | '_ \\| |/ / | |_ | '__/ _` | '_ \\| __|\n" +
-                "&a | | \\ \\ (_| | | | |   <| |__| | | | (_| | | | | |_ \n" +
-                "&a |_|  \\_\\__,_|_| |_|_|\\_\\\\_____|_|  \\__,_|_| |_|\\__|\n");
+                "&a  ____             _     ____                 _         \n" +
+                "&a |  _ \ __ _ _ __ | | __/ ___|_ __ __ _ _ __ | |_  _    \n" +
+                "&a | |_) / _` | '_ \| |/ / |  _| '__/ _` | '_ \| __|| |_  \n" +
+                "&a |  _ < (_| | | | |   <| |_| | | | (_| | | | | ||_   _| \n" +
+                "&a |_| \_\__,_|_| |_|_|\_\\____|_|  \__,_|_| |_|\__||_|   \n");
 
         if(!Bukkit.getOnlinePlayers().isEmpty()) {
             this.getPluginLoader().disablePlugin(this);
