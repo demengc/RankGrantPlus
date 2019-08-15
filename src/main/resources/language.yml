@@ -1,0 +1,78 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#  _____             _     _____                 _          #
+# |  __ \           | |   / ____|               | |    _    #
+# | |__) |__ _ _ __ | | _| |  __ _ __ __ _ _ __ | |_ _| |_  #
+# |  _  // _` | '_ \| |/ / | |_ | '__/ _` | '_ \| __|_   _| #
+# | | \ \ (_| | | | |   <| |__| | | | (_| | | | | |_  |_|   #
+# |_|  \_\__,_|_| |_|_|\_\\_____|_|  \__,_|_| |_|\__|       #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# |
+# LANGUAGE CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
+# This is where you can customize the messages for RankGrant+. #
+# Everything in this file should be clearly explained. For questions, use the support options. #
+# Below is the configuration example/explanation, followed by the actual configuration. #
+# |
+# Do not edit this value.
+# config-version: 1
+# |
+# The prefix for RankGrant+.
+# prefix: "&2[RankGrant+] "
+# |
+# This message will be send to the TARGET player when he or she has RECEIVED rank.
+# You can use the following placeholders or put 'none' for no notification:
+# %rank% - the rank being granted
+# %duration% - the duration of the grant
+# %reason% - the reason for the grant
+# %op% - the player who granted the rank
+# notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
+# |
+# The message that will be sent when the player does not have sufficient permission(s) to do that action.
+# no-perms: "&aYou do not have permission to do that."
+# |
+# This message will be sent if a command is used incorrectly and without the correct arguments.
+# invalid-args: "&aInvalid arguments. Please see command usage."
+# |
+# The message that will be sent when the configuration files have been successfully reloaded.
+# reloaded: "&aSuccessfully reloaded all configuration files."
+# |
+# This message will be sent if the console tries to do a players-only action.
+# console: "&aYou must be a player to execute this command.";
+# |
+# The names of the GUI's.
+# You can use the %target% placeholder for the target player's name.
+# select-rank = the rank selection GUI
+# choose-time = the GUI which you set the duration of the grant
+# select-reason = the reason selection GUI
+# confirm-grant = the confirmation GUI
+# gui-names:
+#  select-rank: "&2Select a Rank"
+#  choose-time: "&2Choose Duration of Grant"
+#  select-reason: "&2Select a Reason"
+#  confirm-grant: "&2Confirm Grant"
+# |
+# The message that will be sent if there was an error during the grant.
+# This could be because the selected rank doesn't exist, or the target was invalid.
+# failed-grant: "&aError: Could not grant. Please try again."
+# |
+# The format all log messages will be in.
+# You can use the %op% placeholder for the person who granted the rank, %target% for the person who received the rank,
+# %rank% for the rank's name, %duration% for the duration of grant, and %reason% for the reason of grant.
+# log-format: "%op% granted %target% the %rank% rank for %duration% for the reason %reason%."
+# |
+# END OF CONFIGURATION EXAMPLE AND EXPLANATION, START OF CONFIGURATION. #
+
+config-version: 4
+prefix: "&2[RankGrant+] "
+notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
+no-perms: "&aYou do not have permission to do that."
+invalid-args: "&aInvalid arguments. Please see command usage."
+reloaded: "&aSuccessfully reloaded all configuration files."
+console: "&aYou must be a player to execute this command."
+not-set-up: "&aYour grant and ungrant commands are not set up. Please see &7configuration.yml&a."
+gui-names:
+  select-rank: "&2Select a Rank"
+  choose-time: "&2Choose Duration of Grant"
+  select-reason: "&2Select a Reason"
+  confirm-grant: "&2Confirm Grant"
+failed-grant: "&aError: Could not grant. Please try again."
+log-format: "%op% granted %target% the %rank% rank for the reason %reason%. Duration: %duration%"

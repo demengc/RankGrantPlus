@@ -1,0 +1,9 @@
+name: RankGrantPlus
+version: ${project.version}
+main: com.demeng7215.rankgrantplus.RankGrantPlus
+api-version: 1.13
+prefix: RankGrant+
+depend: [Vault]
+author: Demeng7215
+description: Give ranks through an awesome GUI!
+website: http://demeng7215.com
