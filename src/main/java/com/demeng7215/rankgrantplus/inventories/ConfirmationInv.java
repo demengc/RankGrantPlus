@@ -1,8 +1,8 @@
 package com.demeng7215.rankgrantplus.inventories;
 
-import com.demeng7215.demapi.api.MessageUtils;
+import com.demeng7215.demlib.api.gui.CustomInventory;
+import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.utils.DurationUtils;
-import com.demeng7215.rankgrantplus.utils.RGPInventory;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,14 +12,14 @@ import org.mineacademy.remain.model.CompMaterial;
 import java.util.ArrayList;
 import java.util.List;
 
-class ConfirmationInv extends RGPInventory {
+class ConfirmationInv extends CustomInventory {
 
     private final RankGrantPlus i;
     private final DurationUtils duration;
 
     ConfirmationInv(RankGrantPlus i, OfflinePlayer target, Player op,
                     String rank, DurationUtils duration, String displayReason) {
-        super(27, MessageUtils.color(i.getLanguage().getString("gui-names.confirm-grant")
+        super(27, MessageUtils.colorize(i.getLang().getString("gui-names.confirm-grant")
                 .replace("%target%", target.getName())));
 
         this.i = i;
@@ -37,7 +37,7 @@ class ConfirmationInv extends RGPInventory {
                 player -> {
                     player.closeInventory();
                     if (grant(target, rank, duration, displayReason, player)) {
-                        MessageUtils.sendMessageToPlayer(op, replaceInfo(i.getConfiguration()
+                        MessageUtils.tell(op, replaceInfo(i.getConfiguration()
                                 .getString("confirmation.confirm.message"), rank, target, displayReason, op));
                     }
                 });
@@ -53,7 +53,7 @@ class ConfirmationInv extends RGPInventory {
                 i.getConfiguration().getString("confirmation.cancel.name"), cancelLore,
                 player -> {
                     player.closeInventory();
-                    MessageUtils.sendMessageToPlayer(op, replaceInfo(i.getConfiguration()
+                    MessageUtils.tell(op, replaceInfo(i.getConfiguration()
                             .getString("confirmation.cancel.message"), rank, target, displayReason, op));
                 });
     }
@@ -67,24 +67,25 @@ class ConfirmationInv extends RGPInventory {
                         .replace("%target%", target.getName())
                         .replace("%rank%", rank));
 
-            i.getGrantLogs().log(RankGrantPlus.stripColorCodes(replaceInfo(i.getLanguage()
+            i.getGrantLogs().log(RankGrantPlus.stripColorCodes(replaceInfo(i.getLang()
                     .getString("log-format"), rank, target, displayReason, op)), true);
 
             if (!utils.isPermanent()) {
                 i.getData().createSection(target.getUniqueId() + "," + rank)
                         .set("remaining", duration.getTotalSeconds());
                 i.getData().set(target.getUniqueId() + "," + rank + ".remaining", duration.getTotalSeconds());
-                i.data.saveConfig();
+                i.dataFile.saveConfig();
             }
 
-            final String message = i.getLanguage().getString("notification");
+            final String message = i.getLang().getString("notification");
             if (!message.equals("none") && target.isOnline())
-                MessageUtils.sendMessageToPlayer((Player) target, replaceInfo(message, rank, target, displayReason, op));
+                MessageUtils.tell((Player) target, replaceInfo(message, rank, target, displayReason, op));
 
             return true;
 
         } catch (final Exception ex) {
-            MessageUtils.sendMessageToPlayer(op, i.getConfiguration().getString("failed-grant"));
+            ex.printStackTrace();
+            MessageUtils.tell(op, i.getLang().getString("failed-grant"));
             return false;
         }
     }
@@ -111,7 +112,7 @@ class ConfirmationInv extends RGPInventory {
         return s.replace("%rank%", rankName)
                 .replace("%target%", target.getName())
                 .replace("%duration%",
-                        MessageUtils.color(replaceTimes(duration)))
+                        MessageUtils.colorize(replaceTimes(duration)))
                 .replace("%reason%", RankGrantPlus.stripColorCodes(displayReason))
                 .replace("%op%", op.getName());
     }

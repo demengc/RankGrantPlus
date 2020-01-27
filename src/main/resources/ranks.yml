@@ -9,65 +9,16 @@
 # |
 # RANKS CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
 # This is where you can customize basically everything that has to do with ranks in RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options. #
-# Below is the configuration example/explanation, followed by the actual configuration. #
-# |
-# Do not edit this value.
-# config-version: 1
-# |
-# Should RankGrant+ search for your server's ranks automatically and list them in the GUI?
-# WARNING: This means that owner, admin, and other potentially dangerous ranks will show.
-# It is recommended you list ranks you want to show manually for full customization and safety.
-# This value can be either "true" or "false".
-# auto-list-ranks: true
-#|
-# The default format of rank buttons in the GUI.
-# NOTE: This will only work if the configuration option above is set to TRUE.
-# item = the material that will be shown in the GUI- use 1.13 material enums
-# name = the display name of the item
-# lore = the item description
-# You can use the placeholders %rank% for the group name and %target% for the player that is getting the rank.
-# default-format:
-#  item: "NETHER_STAR"
-#  name: "&2%rank%"
-#  lore:
-#    - "&f&m                                                          "
-#    - "&aClick to grant &f%target% &athe &f%rank% &arank."
-#    - "&f&m                                                          "
-# |
-# This is a very important configuration section if you DO NOT WANT TO AUTO-LIST RANKS.
-# This is where you list all your ranks and customize each rank item in the GUI.
-# To add a rank, simply start a new configuration section by the name of the group in your permission plugin.
-# Then, fill out the slot, item, name, lore, and special permission required to grant this rank.
-# slot = the slot number in the GUI, 1 being the first slot
-# item = the material that will be shown in the GUI (https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html)
-# name = the display name of the item
-# lore = the item description
-# permission = the permission required to grant this rank,
-# set as rankgrantplus.grant to allow anyone who has access to the GUI to grant the rank.
-# You can use the placeholders %rank% for the group name and %target% for the player that is getting the rank.
-# ranks:
-#  Admin:
-#    slot: 1
-#    item: "REDSTONE"
-#    name: "&4&lAdmin"
-#    lore:
-#      - "&cClick me to get the awesome ADMIN rank and get"
-#      - "&csome cool admin permissions! :)"
-#    permission: "rankgrantplus.grant"
-#  Cool:
-#    slot: 9
-#    item: "NETHER_STAR"
-#    name: "&b&lCOOL GUY"
-#    lore:
-#      - "&3Want to make somebody a cool guy?"
-#      - "&3Grant them this rank!"
-#    permission: "custom.permission"
-# |
-# END OF CONFIGURATION EXAMPLE AND EXPLANATION, START OF CONFIGURATION. #
+# Everything in this file should be clearly explained. For questions, use the support options.
+# Thank you for using RankGrant+!
 
+# Do not edit this value.
 config-version: 1
+
+# Should RankGrant+ automatically search through your permissions plugin and list all ranks in the /grant GUI?
 auto-list-ranks: true
+
+# If the setting above is "true", what will each button be in terms of visuals?
 default-format:
   item: "NETHER_STAR"
   name: "&2%rank%"
@@ -75,19 +26,24 @@ default-format:
     - "&f&m                                                          "
     - "&aClick to grant &f%target% &athe &f%rank% &arank."
     - "&f&m                                                          "
+
+# This is a very important configuration section if you DO NOT WANT TO AUTO-LIST RANKS.
+# This is where you list all your ranks and customize each rank item in the GUI.
+# To add a rank, simply start a new configuration section by the name of the group in your permission plugin.
+# Then, fill out the slot, item, name, lore, and special permission required to grant this rank.
 ranks:
-  Admin:
+  JUST_AN_EXAMPLE_RANK:
     slot: 1
     item: "REDSTONE"
-    name: "&4&lAdmin"
+    name: "&4&lExample Rank"
     lore:
-      - "&cClick me to get the awesome ADMIN rank and get"
-      - "&csome cool admin permissions! :)"
-    permission: "rankgrantplus.grant"
-  Cool:
-    slot: 9
+      - "&cThis is the description of the rank."
+      - "&cHope you enjoy this example! :)"
+    permission: "your.custom.required.permission.here"
+  Rank2:
+    slot: 2
     item: "NETHER_STAR"
-    name: "&b&lCOOL GUY"
+    name: "&b&lA Cool Rank"
     lore:
       - "&6Want to make somebody a cool guy?"
       - "&6Grant them this rank!"

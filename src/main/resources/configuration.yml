@@ -9,226 +9,27 @@
 # |
 # CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
 # This is where you can customize the functions of RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options. #
-# NOTE: Some rank-related configuration options are in the "ranks.yml" file.
-# Below is the configuration example/explanation, followed by the actual configuration. #
-# |
-# Do not edit this value.
-# config-version: 1
-# |
-# Should RankGrant+ log all grants in the "log.txt" file?
-# This value can be either "true" or "false".
-# log-grants: true
-# |
-# The commands that will be executed on grant and ungrant.
-# Specific BASED ON YOUR PERMISSIONS PLUGIN.
-# You can use the %target% and %rank% placeholders.
-# commands:
-#  grant:
-#    - "none"
-#  ungrant:
-#    - "none"
-# |
-# The sizes of the rank selection GUI and the reason selection GUI.
-# MUST be a multiple of nine and 54 or under.
-# gui-size:
-#  ranks: 54
-#  reasons: 54
-# |
-# The reasons of grant that will be listed in the reason selection GUI.
-# To create a new reason, start a new configuration section under "reasons".
-# You can use %target% for the name of the player who is receiving the rank, %rank% for the rank name,
-# %duration% for the duration of the grant, and %reason% for the reason (shouldn't really be needed).
-# slot = the slot number in the GUI, 1 being the first slot
-# item = the material that will be shown in the GUI- use 1.13 material enums
-# name = the display name of the item
-# lore = the item description
-# permission = the permission required to select that reason
-# reasons:
-#  issue:
-#    slot: 1
-#    item: "PAPER"
-#    name: "&2Donation Store Issues"
-#    lore:
-#      - "&aThere was an issue in the donation store."
-#      - "&aThe purchased rank requires to be manually given."
-#    permission: "rankgrantplus.grant"
-#  promotion:
-#    slot: 2
-#    item: "PAPER"
-#    name: "&2Promotion"
-#    lore:
-#      - "&aPromote &f%target% &ato the &f%rank% &arank!"
-#    permission: "rankgrantplus.grant"
-#  demotion:
-#    slot: 3
-#    item: "PAPER"
-#    name: "&2Demotion"
-#    lore:
-#      - "&aDemote &f%target% &ato the &f%rank% &arank!"
-#    permission: "rankgrantplus.grant"
-#  other:
-#    slot: 4
-#    item: "BOOK"
-#    name: "&2Other"
-#    lore:
-#      - "&aThis grant has no reason or the reason is not listed."
-#    permission: "rankgrantplus.grant"
-# |
-# This is a long one. This customize every single button in the duration-choosing GUI. Do not add new configuration sections.
-# duration-format customizes the format of the duration text.
-# The %duration% placeholders in later configurations will be replaced with this text.
-# In duration-format, you can use %weeks%, %days%, %hours%, %minutes%, and %seconds%
-# for the number of weeks, days, hours, minutes and minutes.
-# You can use the %target% placeholder for the person who is receiving the rank in all configurations after the
-# duration-format configuration. You can also use %rank% for the display name of the rank that the target is receiving.
-# In word-permanent, simply fill out the word that you want %duration% to be replaced with if the grant is permanent.
-# slot = the slot number in the GUI, 1 being the first slot
-# item = the material that will be shown in the GUI (https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html)
-# name = the display name of the item
-# lore = the item description
-# duration:
-#  duration-format: "&f%weeks%&7w &f%days%&7d &f%hours%&7h &f%minutes%&7m &f%seconds%&7s"
-#  word-permanent: "&fPermanent"
-#  add-week:
-#    slot: 12
-#    item: "EMERALD_BLOCK"
-#    name: "&2Add Week"
-#    lore:
-#      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-#      - "&f&m                                                          "
-#      - "&aCurrent Duration:"
-#      - "%duration%"
-#  add-day:
-#    slot: 21
-#    item: "EMERALD_BLOCK"
-#    name: "&2Add Day"
-#    lore:
-#      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-#      - "&f&m                                                          "
-#      - "&aCurrent Duration:"
-#      - "%duration%"
-#  add-hour:
-#    slot: 30
-#    item: "EMERALD_BLOCK"
-#    name: "&2Add Hour"
-#    lore:
-#      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-#      - "&f&m                                                          "
-#      - "&aCurrent Duration:"
-#      - "%duration%"
-#  add-minute:
-#    slot: 39
-#    item: "EMERALD_BLOCK"
-#    name: "&2Add Minute"
-#    lore:
-#      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-#      - "&f&m                                                          "
-#      - "&aCurrent Duration:"
-#      - "%duration%"
-#  add-second:
-#    slot: 48
-#    item: "EMERALD_BLOCK"
-#    name: "&2Add Second"
-#    lore:
-#      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-#      - "&f&m                                                          "
-#      - "&aCurrent Duration:"
-#      - "%duration%"
-#  subtract-week:
-#    slot: 16
-#    item: "REDSTONE_BLOCK"
-#    name: "&4Subtract Week"
-#    lore:
-#      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-#      - "&f&m                                                          "
-#      - "&cCurrent Duration:"
-#      - "%duration%"
-#  subtract-day:
-#    slot: 25
-#    item: "REDSTONE_BLOCK"
-#    name: "&4Subtract Day"
-#    lore:
-#      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-#      - "&f&m                                                          "
-#      - "&cCurrent Duration:"
-#      - "%duration%"
-#  subtract-hour:
-#    slot: 34
-#    item: "REDSTONE_BLOCK"
-#    name: "&4Subtract Hour"
-#    lore:
-#      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-#      - "&f&m                                                          "
-#      - "&cCurrent Duration:"
-#      - "%duration%"
-#  subtract-minute:
-#    slot: 43
-#    item: "REDSTONE_BLOCK"
-#    name: "&4Subtract Minute"
-#    lore:
-#      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-#      - "&f&m                                                          "
-#      - "&cCurrent Duration:"
-#      - "%duration%"
-#  subtract-second:
-#    slot: 52
-#    item: "REDSTONE_BLOCK"
-#    name: "&4Subtract Second"
-#    lore:
-#      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-#      - "&f&m                                                          "
-#      - "&cCurrent Duration:"
-#      - "%duration%"
-#  permanent:
-#    slot: 5
-#    item: "OBSIDIAN"
-#    name: "&6Permanent"
-#    lore:
-#      - "&f%target% &ewill have the &f%rank% &erank forever."
-#  continue:
-#    slot: 54
-#    item: "ARROW"
-#    name: "&6&lContinue"
-#    lore:
-#      - "&eGrant &f%target% &ethe &f%rank% &efor &f%duration%&e."
-#      - "&eContinue to the reason selection page."
-#confirmation:
-#  confirm:
-#    item: "EMERALD_BLOCK"
-#    name: "&2&lConfirm Grant"
-#    lore:
-#      - "&aConfirm your grant."
-#      - "&f&m                                                          "
-#      - "&aTarget: &f%target%"
-#      - "&aRank: &f%rank%"
-#      - "&aDuration: %duration%"
-#      - "&aReason: &f%reason%"
-#    message: "&aGranted &f%target% &athe &f%rank% &arank for &f%duration% &afor the reason &f%reason%&a."
-#  cancel:
-#    item: "REDSTONE_BLOCK"
-#    name: "&4&lCancel Grant"
-#    lore:
-#      - "&cCancel your grant."
-#      - "&f&m                                                          "
-#      - "&cTarget: &f%target%"
-#      - "&cRank: &f%rank%"
-#      - "&cDuration: %duration%"
-#      - "&cReason: &f%reason%"
-#    message: "&aGrant has been successfully cancelled."
-# |
-# END OF CONFIGURATION EXAMPLE AND EXPLANATION, START OF CONFIGURATION. #
+# Everything in this file should be clearly explained. For questions, use the support options.
+# Thank you for using RankGrant+!
 
+# Do not edit this value.
 config-version: 4
-log-grants: true
+
+# The commands that are executed on grant/ungrant. This should be the commands from your permissions plugin.
+# DO NOT leave this as "none"!
 commands:
   grant:
     - "none"
   ungrant:
     - "none"
+
+# The size of the Rank Selection GUI and the Reason Selection GUI, in terms of number of slots.
+# Must be a multiple of 9.
 gui-size:
   ranks: 54
   reasons: 54
+
+# Everything that will be listed in the reason selection GUI.
 reasons:
   issue:
     slot: 1
@@ -259,9 +60,14 @@ reasons:
     lore:
       - "&aThis grant has no reason or the reason is not listed."
     permission: "rankgrantplus.grant"
+
+# Everything related to the Duration Selection GUI.
 duration:
+  # How should the durations be displayed?
   duration-format: "&f%weeks%&7w &f%days%&7d &f%hours%&7h &f%minutes%&7m &f%seconds%&7s"
+  # If the grant is permanent, how should the word "Permanent" be displayed in place of the temporary duration?
   word-permanent: "&fPermanent"
+  # Everything below in this section are the buttons in the Duration Selection GUI.
   add-week:
     slot: 12
     item: "EMERALD_BLOCK"
@@ -365,6 +171,8 @@ duration:
     lore:
       - "&eGrant &f%target% &ethe &f%rank% &efor &f%duration%&e."
       - "&eContinue to the reason selection page."
+
+# Modify items in the Grant Confirmation GUI.
 confirmation:
   confirm:
     item: "EMERALD_BLOCK"

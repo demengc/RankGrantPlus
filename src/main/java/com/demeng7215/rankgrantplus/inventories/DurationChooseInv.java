@@ -1,8 +1,8 @@
 package com.demeng7215.rankgrantplus.inventories;
 
-import com.demeng7215.demapi.api.MessageUtils;
+import com.demeng7215.demlib.api.gui.CustomInventory;
+import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.utils.DurationUtils;
-import com.demeng7215.rankgrantplus.utils.RGPInventory;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DurationChooseInv extends RGPInventory {
+public class DurationChooseInv extends CustomInventory {
 
     private final RankGrantPlus i;
 
@@ -22,8 +22,9 @@ public class DurationChooseInv extends RGPInventory {
     private static int taskId;
 
     DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {
-        super(54, MessageUtils.color(i.getLanguage().getString("gui-names.choose-time")
+        super(54, MessageUtils.colorize(i.getLang().getString("gui-names.choose-time")
                 .replace("%target%", target.getName())));
+
         this.i = i;
 
         List<String> times = Arrays.asList("add-second", "add-minute", "add-hour", "add-day", "add-week", "subtract-second",
@@ -118,7 +119,7 @@ public class DurationChooseInv extends RGPInventory {
         return s.replace("%rank%", rankName)
                 .replace("%target%", target.getName())
                 .replace("%duration%",
-                        MessageUtils.color(duration));
+                        MessageUtils.colorize(duration));
     }
 
     private String replaceTimes(String s) {

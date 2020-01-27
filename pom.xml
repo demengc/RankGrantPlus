@@ -6,7 +6,7 @@
 
     <groupId>com.demeng7215</groupId>
     <artifactId>rankgrantplus</artifactId>
-    <version>3.5.2</version>
+    <version>3.6.0</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.15-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -54,12 +54,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.kangarko</groupId>
-            <artifactId>Remain</artifactId>
-            <version>3.2.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>1.5</version>
@@ -67,8 +61,20 @@
         </dependency>
         <dependency>
             <groupId>com.demeng7215</groupId>
-            <artifactId>demapi</artifactId>
+            <artifactId>demlib</artifactId>
             <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.kangarko</groupId>
+            <artifactId>Remain</artifactId>
+            <version>3.2.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -96,6 +102,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <minimizeJar>true</minimizeJar>
                             <relocations>
                                 <relocation>
@@ -103,8 +110,8 @@
                                     <shadedPattern>com.demeng7215.rankgrantplus.shaded.metrics</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>com.demeng7215.demapi</pattern>
-                                    <shadedPattern>com.demeng7215.rankgrantplus.shaded.demapi</shadedPattern>
+                                    <pattern>com.demeng7215.demlib</pattern>
+                                    <shadedPattern>com.demeng7215.rankgrantplus.shaded.lib</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.mineacademy.remain</pattern>

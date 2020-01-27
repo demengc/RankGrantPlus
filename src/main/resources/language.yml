@@ -9,70 +9,42 @@
 # |
 # LANGUAGE CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
 # This is where you can customize the messages for RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options. #
-# Below is the configuration example/explanation, followed by the actual configuration. #
-# |
-# Do not edit this value.
-# config-version: 1
-# |
-# The prefix for RankGrant+.
-# prefix: "&2[RankGrant+] "
-# |
-# This message will be send to the TARGET player when he or she has RECEIVED rank.
-# You can use the following placeholders or put 'none' for no notification:
-# %rank% - the rank being granted
-# %duration% - the duration of the grant
-# %reason% - the reason for the grant
-# %op% - the player who granted the rank
-# notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
-# |
-# The message that will be sent when the player does not have sufficient permission(s) to do that action.
-# no-perms: "&aYou do not have permission to do that."
-# |
-# This message will be sent if a command is used incorrectly and without the correct arguments.
-# invalid-args: "&aInvalid arguments. Please see command usage."
-# |
-# The message that will be sent when the configuration files have been successfully reloaded.
-# reloaded: "&aSuccessfully reloaded all configuration files."
-# |
-# This message will be sent if the console tries to do a players-only action.
-# console: "&aYou must be a player to execute this command.";
-# |
-# The names of the GUI's.
-# You can use the %target% placeholder for the target player's name.
-# select-rank = the rank selection GUI
-# choose-time = the GUI which you set the duration of the grant
-# select-reason = the reason selection GUI
-# confirm-grant = the confirmation GUI
-# gui-names:
-#  select-rank: "&2Select a Rank"
-#  choose-time: "&2Choose Duration of Grant"
-#  select-reason: "&2Select a Reason"
-#  confirm-grant: "&2Confirm Grant"
-# |
-# The message that will be sent if there was an error during the grant.
-# This could be because the selected rank doesn't exist, or the target was invalid.
-# failed-grant: "&aError: Could not grant. Please try again."
-# |
-# The format all log messages will be in.
-# You can use the %op% placeholder for the person who granted the rank, %target% for the person who received the rank,
-# %rank% for the rank's name, %duration% for the duration of grant, and %reason% for the reason of grant.
-# log-format: "%op% granted %target% the %rank% rank for %duration% for the reason %reason%."
-# |
-# END OF CONFIGURATION EXAMPLE AND EXPLANATION, START OF CONFIGURATION. #
+# Everything in this file should be clearly explained. For questions, use the support options.
+# Thank you for using RankGrant+!
 
+# Do not edit this value.
 config-version: 4
-prefix: "&2[RankGrant+] "
+
+# The prefix that will be displayed in front of every message RankGrant+ sends.
+prefix: "&8[&2RankGrant+&8] &r"
+
+# The message the person WHO RECEIVES THE RANK will receive.
 notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
-no-perms: "&aYou do not have permission to do that."
+
+# This message will be sent if the command executor does not have permission to execute the command.
+no-perms: "&aYou do not have permission to execute that command."
+
+# The message that will be sent if a user uses one of RankGrant+'s command incorrectly.
 invalid-args: "&aInvalid arguments. Please see command usage."
+
+# This message will be sent when all configuration files have been successfully reloaded.
 reloaded: "&aSuccessfully reloaded all configuration files."
+
+# The message that will be sent if a player tries to execute a command they do not have sufficient permission to.
 console: "&aYou must be a player to execute this command."
+
+# This message will be sent upon attempting to open the /grant GUI without first setting up their grant/ungrant commands.
 not-set-up: "&aYour grant and ungrant commands are not set up. Please see &7configuration.yml&a."
+
+# The names of the GUIs for Select Rank, Duration Selection, Select Reason, and Confirm Grant.
 gui-names:
   select-rank: "&2Select a Rank"
   choose-time: "&2Choose Duration of Grant"
   select-reason: "&2Select a Reason"
   confirm-grant: "&2Confirm Grant"
+
+# This message will be sent if an error occurred during the granting process.
 failed-grant: "&aError: Could not grant. Please try again."
+
+# The format of each log in log.txt.
 log-format: "%op% granted %target% the %rank% rank for the reason %reason%. Duration: %duration%"
