@@ -3,9 +3,9 @@ package com.demeng7215.rankgrantplus.inventories;
 import com.demeng7215.demlib.api.gui.CustomInventory;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
+import com.demeng7215.rankgrantplus.utils.XMaterial;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,8 @@ public class RankSelectInv extends CustomInventory {
 				if (slot < 53)
 
 					setItem(slot++,
-							CompMaterial.valueOf(i.getRanks().getString("default-format.item"))
-									.toItem(),
+							XMaterial.valueOf(i.getRanks().getString("default-format.item"))
+									.parseItem(),
 							replaceInfo(i.getRanks().getString("default-format.name"), rank, target),
 							finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
 			}
@@ -61,8 +61,8 @@ public class RankSelectInv extends CustomInventory {
 						slotsOccupied.add(slot);
 
 						setItem(slot,
-								CompMaterial.valueOf(i.getRanks().getString(path + "item"))
-										.toItem(),
+								XMaterial.valueOf(i.getRanks().getString(path + "item"))
+										.parseItem(),
 								replaceInfo(i.getRanks().getString(path + "name"), rank, target),
 								finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
 					} else {

@@ -27,7 +27,7 @@ public class GrantCmd extends CustomCommand {
 	protected void run(CommandSender sender, String[] args) {
 
 		if (!i.isEnabled()) {
-			MessageUtils.consoleWithoutPrefix("&cRankGrant+ has already been disabled due to an error " +
+			MessageUtils.tellWithoutPrefix(sender, "&cRankGrant+ has already been disabled due to an error " +
 					"prior to this. Please resolve that error and try granting again.");
 			return;
 		}

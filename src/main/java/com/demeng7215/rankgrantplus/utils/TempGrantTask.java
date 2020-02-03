@@ -38,6 +38,7 @@ public class TempGrantTask extends BukkitRunnable {
 						i.getData().set(id, null);
 
 					} catch (final NullPointerException ignored) {
+						i.getData().set(id, null);
 					}
 
 					try {

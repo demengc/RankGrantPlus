@@ -4,9 +4,9 @@ import com.demeng7215.demlib.api.gui.CustomInventory;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
 import com.demeng7215.rankgrantplus.utils.DurationUtils;
+import com.demeng7215.rankgrantplus.utils.XMaterial;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +44,8 @@ class ReasonSelectInv extends CustomInventory {
 					slotsOccupied.add(slot);
 
 					setItem(slot,
-							CompMaterial.valueOf(i.getConfiguration().getString(path + "item"))
-									.toItem(),
+							XMaterial.valueOf(i.getConfiguration().getString(path + "item"))
+									.parseItem(),
 							replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
 							finalLore, player -> new ConfirmationInv(i, target, op, rank, duration,
 									i.getConfiguration().getString(path + "name")).open(op));

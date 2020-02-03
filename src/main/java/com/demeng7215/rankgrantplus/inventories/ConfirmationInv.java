@@ -4,10 +4,10 @@ import com.demeng7215.demlib.api.gui.CustomInventory;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.utils.DurationUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
+import com.demeng7215.rankgrantplus.utils.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ class ConfirmationInv extends CustomInventory {
         }
 
         setItem(11,
-                CompMaterial.valueOf(i.getConfiguration().getString("confirmation.confirm.item"))
-                        .toItem(),
+                XMaterial.valueOf(i.getConfiguration().getString("confirmation.confirm.item"))
+                        .parseItem(),
                 i.getConfiguration().getString("confirmation.confirm.name"), confirmLore,
                 player -> {
                     player.closeInventory();
@@ -48,8 +48,8 @@ class ConfirmationInv extends CustomInventory {
         }
 
         setItem(15,
-                CompMaterial.valueOf(i.getConfiguration().getString("confirmation.cancel.item"))
-                        .toItem(),
+                XMaterial.valueOf(i.getConfiguration().getString("confirmation.cancel.item"))
+                        .parseItem(),
                 i.getConfiguration().getString("confirmation.cancel.name"), cancelLore,
                 player -> {
                     player.closeInventory();
@@ -72,8 +72,8 @@ class ConfirmationInv extends CustomInventory {
 
             if (!utils.isPermanent()) {
                 i.getData().createSection(target.getUniqueId() + "," + rank)
-                        .set("remaining", duration.getTotalSeconds());
-                i.getData().set(target.getUniqueId() + "," + rank + ".remaining", duration.getTotalSeconds());
+                        .set("XMaterialing", duration.getTotalSeconds());
+                i.getData().set(target.getUniqueId() + "," + rank + ".XMaterialing", duration.getTotalSeconds());
                 i.dataFile.saveConfig();
             }
 

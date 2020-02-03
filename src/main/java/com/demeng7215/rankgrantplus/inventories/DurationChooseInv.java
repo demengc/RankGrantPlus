@@ -4,10 +4,10 @@ import com.demeng7215.demlib.api.gui.CustomInventory;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.utils.DurationUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
+import com.demeng7215.rankgrantplus.utils.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.mineacademy.remain.model.CompMaterial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,8 +45,8 @@ public class DurationChooseInv extends CustomInventory {
                 }
 
                 setItem(i.getConfiguration().getInt("duration.continue.slot") - 1,
-                        CompMaterial.valueOf(i.getConfiguration()
-                                .getString("duration.continue.item")).toItem(),
+                        XMaterial.valueOf(i.getConfiguration()
+                                .getString("duration.continue.item")).parseItem(),
                         i.getConfiguration().getString("duration.continue.name"),
                         continueLore, player -> new ReasonSelectInv(i, target, op, rank, currentDurationUtil).open(op));
 
@@ -55,8 +55,8 @@ public class DurationChooseInv extends CustomInventory {
                     finalLore.add(replaceInfo(lore, rank, target));
                 }
                 setItem(i.getConfiguration().getInt(path + "slot") - 1,
-                        CompMaterial.valueOf(i.getConfiguration().getString(path + "item"))
-                                .toItem(),
+                        XMaterial.valueOf(i.getConfiguration().getString(path + "item"))
+                                .parseItem(),
                         replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
                         finalLore, player -> {
 

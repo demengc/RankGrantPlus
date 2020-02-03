@@ -6,7 +6,7 @@
 
     <groupId>com.demeng7215</groupId>
     <artifactId>rankgrantplus</artifactId>
-    <version>3.6.0</version>
+    <version>3.6.1</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -70,12 +70,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.10</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.kangarko</groupId>
-            <artifactId>Remain</artifactId>
-            <version>3.2.0</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -112,10 +106,6 @@
                                 <relocation>
                                     <pattern>com.demeng7215.demlib</pattern>
                                     <shadedPattern>com.demeng7215.rankgrantplus.shaded.lib</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.mineacademy.remain</pattern>
-                                    <shadedPattern>com.demeng7215.rankgrantplus.shaded.remain</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
