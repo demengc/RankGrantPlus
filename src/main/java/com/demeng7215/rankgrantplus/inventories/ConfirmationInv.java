@@ -72,8 +72,7 @@ class ConfirmationInv extends CustomInventory {
 
             if (!utils.isPermanent()) {
                 i.getData().createSection(target.getUniqueId() + "," + rank)
-                        .set("XMaterialing", duration.getTotalSeconds());
-                i.getData().set(target.getUniqueId() + "," + rank + ".XMaterialing", duration.getTotalSeconds());
+                        .set("remaining", duration.getTotalSeconds());
                 i.dataFile.saveConfig();
             }
 
