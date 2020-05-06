@@ -1,136 +1,148 @@
 package com.demeng7215.rankgrantplus.inventories;
 
-import com.demeng7215.demlib.api.gui.CustomInventory;
+import com.demeng7215.demlib.api.Common;
+import com.demeng7215.demlib.api.items.ItemBuilder;
+import com.demeng7215.demlib.api.menus.CustomMenu;
 import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.rankgrantplus.utils.DurationUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
+import com.demeng7215.rankgrantplus.utils.Duration;
 import com.demeng7215.rankgrantplus.utils.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class DurationChooseInv extends CustomInventory {
+public class DurationChooseInv {
 
-    private final RankGrantPlus i;
+  private RankGrantPlus i;
+  private Duration currentDuration;
 
-    private DurationUtils currentDurationUtil;
+  DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {
 
-    private static int taskId;
+    this.i = i;
 
-    DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {
-        super(54, MessageUtils.colorize(i.getLang().getString("gui-names.choose-time")
-                .replace("%target%", target.getName())));
+    final CustomMenu menu =
+        new CustomMenu(
+            54,
+            i.getMessages()
+                .getString("gui-names.choose-time")
+                .replace("%target%", target.getName()));
 
-        this.i = i;
+    final String[] times =
+        new String[] {
+          "add-second",
+          "add-minute",
+          "add-hour",
+          "add-day",
+          "add-week",
+          "subtract-second",
+          "subtract-minute",
+          "subtract-hour",
+          "subtract-day",
+          "subtract-week",
+          "permanent"
+        };
 
-        List<String> times = Arrays.asList("add-second", "add-minute", "add-hour", "add-day", "add-week", "subtract-second",
-                "subtract-minute", "subtract-hour", "subtract-day", "subtract-week", "permanent");
+    for (String duration : times) {
 
-        for (String duration : times) {
+      final String path = "duration." + duration + ".";
 
-            String path = "duration." + duration + ".";
+      this.currentDuration = new Duration(0L);
 
-            this.currentDurationUtil = new DurationUtils(0L);
+      Common.repeatTaskAsync(
+          () -> {
+            final List<String> continueLore = new ArrayList<>();
+            for (String lore : i.getSettings().getStringList("duration.continue.lore")) {
+              continueLore.add(setPlaceholders(lore, rank, target));
+            }
 
+            menu.setItem(
+                i.getSettings().getInt("duration.continue.slot") - 1,
+                ItemBuilder.build(
+                    XMaterial.valueOf(i.getSettings().getString("duration.continue.item"))
+                        .parseItem(),
+                    i.getSettings().getString("duration.continue.name"),
+                    continueLore),
+                event -> new ReasonSelectInv(i, target, op, rank, currentDuration));
 
-            taskId = Bukkit.getScheduler().scheduleAsyncRepeatingTask(i, () -> {
+            final List<String> finalLore = new ArrayList<>();
+            for (String lore : i.getSettings().getStringList(path + "lore")) {
+              finalLore.add(setPlaceholders(lore, rank, target));
+            }
 
-                List<String> continueLore = new ArrayList<>();
-                for (String lore : i.getConfiguration().getStringList("duration.continue.lore")) {
-                    continueLore.add(replaceInfo(lore, rank, target));
-                }
+            menu.setItem(
+                i.getSettings().getInt(path + "slot") - 1,
+                ItemBuilder.build(
+                    XMaterial.valueOf(i.getSettings().getString(path + "item")).parseItem(),
+                    setPlaceholders(i.getSettings().getString(path + "name"), rank, target),
+                    finalLore),
+                event -> {
+                  if (duration.startsWith("add-")) {
+                    if (duration.endsWith("week")) addSeconds(604800L);
+                    if (duration.endsWith("day")) addSeconds(86400L);
+                    if (duration.endsWith("hour")) addSeconds(3600L);
+                    if (duration.endsWith("minute")) addSeconds(60L);
+                    if (duration.endsWith("second")) addSeconds(1L);
+                    return;
+                  }
 
-                setItem(i.getConfiguration().getInt("duration.continue.slot") - 1,
-                        XMaterial.valueOf(i.getConfiguration()
-                                .getString("duration.continue.item")).parseItem(),
-                        i.getConfiguration().getString("duration.continue.name"),
-                        continueLore, player -> new ReasonSelectInv(i, target, op, rank, currentDurationUtil).open(op));
+                  if (duration.startsWith("subtract-")) {
+                    if (duration.endsWith("week")) addSeconds(-604800L);
+                    if (duration.endsWith("day")) addSeconds(-86400L);
+                    if (duration.endsWith("hour")) addSeconds(-3600L);
+                    if (duration.endsWith("minute")) addSeconds(-60L);
+                    if (duration.endsWith("second")) addSeconds(-1L);
+                  }
 
-                List<String> finalLore = new ArrayList<>();
-                for (String lore : i.getConfiguration().getStringList(path + "lore")) {
-                    finalLore.add(replaceInfo(lore, rank, target));
-                }
-                setItem(i.getConfiguration().getInt(path + "slot") - 1,
-                        XMaterial.valueOf(i.getConfiguration().getString(path + "item"))
-                                .parseItem(),
-                        replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
-                        finalLore, player -> {
-
-                            if (duration.contains("add")) {
-                                if (duration.contains("week")) addSeconds(604800L);
-                                if (duration.contains("day")) addSeconds(86400L);
-                                if (duration.contains("hour")) addSeconds(3600L);
-                                if (duration.contains("minute")) addSeconds(60L);
-                                if (duration.contains("second")) addSeconds(1L);
-                                return;
-                            }
-
-                            if (duration.contains("subtract")) {
-                                if (duration.contains("week")) addSeconds(-604800L);
-                                if (duration.contains("day")) addSeconds(-86400L);
-                                if (duration.contains("hour")) addSeconds(-3600L);
-                                if (duration.contains("minute")) addSeconds(-60L);
-                                if (duration.contains("second")) addSeconds(-1L);
-                            }
-
-                            if (duration.equals("permanent")) {
-                                currentDurationUtil.setPermanent();
-                                new ReasonSelectInv(i, target, op, rank, currentDurationUtil).open(op);
-                            }
-                        });
-            }, 0L, 5L);
-        }
+                  if (duration.equals("permanent")) {
+                    currentDuration = new Duration(-1);
+                    new ReasonSelectInv(i, target, op, rank, currentDuration);
+                  }
+                });
+          },
+          5L);
     }
 
-    private long durationInSeconds = 0;
+    menu.open(op);
+  }
 
-    private void addSeconds(long seconds) {
-        if (seconds < 0 && durationInSeconds + seconds < 0) {
-            durationInSeconds = 0;
-            currentDurationUtil = new DurationUtils(0);
-            return;
-        }
+  private long durationInSeconds = 0;
 
-        durationInSeconds = durationInSeconds + seconds;
-        currentDurationUtil = new DurationUtils(durationInSeconds);
+  private void addSeconds(long seconds) {
+
+    if (seconds < 0 && durationInSeconds + seconds < 0) {
+      durationInSeconds = 0;
+      currentDuration = new Duration(0);
+      return;
     }
 
-    private String replaceInfo(String s, String rank, OfflinePlayer target) {
+    durationInSeconds = durationInSeconds + seconds;
+    currentDuration = new Duration(durationInSeconds);
+  }
 
-        String rankName;
+  private String setPlaceholders(String s, String rank, OfflinePlayer target) {
 
-        if (i.getRanks().getString("ranks." + rank + ".name") == null) {
-            rankName = rank;
-        } else {
-            rankName = RankGrantPlus.stripColorCodes(i.getRanks().getString("ranks." + rank + ".name"));
-        }
+    String rankName;
 
-        String duration;
-        if (currentDurationUtil.isPermanent()) {
-            duration = i.getConfiguration().getString("duration.word-permanent");
-        } else {
-            duration = replaceTimes(i.getConfiguration().getString("duration.duration-format"));
-        }
-
-        return s.replace("%rank%", rankName)
-                .replace("%target%", target.getName())
-                .replace("%duration%",
-                        MessageUtils.colorize(duration));
+    if (i.getRanks().getString("ranks." + rank + ".name") == null) {
+      rankName = rank;
+    } else {
+      rankName = MessageUtils.colorAndStrip(i.getRanks().getString("ranks." + rank + ".name"));
     }
 
-    private String replaceTimes(String s) {
-        return s.replace("%weeks%", this.currentDurationUtil.getWeeks())
-                .replace("%days%", this.currentDurationUtil.getDays())
-                .replace("%hours%", this.currentDurationUtil.getHours())
-                .replace("%minutes%", this.currentDurationUtil.getMinutes())
-                .replace("%seconds%", this.currentDurationUtil.getSeconds());
+    final String duration;
+
+    if (currentDuration.isPermanent()) {
+      duration = i.getSettings().getString("duration.word-permanent");
+
+    } else {
+      duration =
+          currentDuration.replaceTimes(i.getSettings().getString("duration.duration-format"));
     }
 
-    public static int getTaskId() {
-        return taskId;
-    }
+    return s.replace("%rank%", rankName)
+        .replace("%target%", target.getName())
+        .replace("%duration%", MessageUtils.colorize(duration));
+  }
 }

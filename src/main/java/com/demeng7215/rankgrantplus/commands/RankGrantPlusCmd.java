@@ -6,43 +6,45 @@ import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 public class RankGrantPlusCmd extends CustomCommand {
 
-	private final RankGrantPlus i;
+  private RankGrantPlus i;
 
-	public RankGrantPlusCmd(RankGrantPlus i) {
-		super("rankgrantplus");
+  public RankGrantPlusCmd(RankGrantPlus i) {
+    super("rankgrantplus");
 
-		setDescription("Main command of RankGrant+.");
-		setAliases(Arrays.asList("rankgrant+", "rankgrant"));
+    this.i = i;
 
-		this.i = i;
-	}
+    setDescription("Main command of RankGrant+.");
+    setAliases(Collections.singletonList("rankgrant+"));
+  }
 
-	@Override
-	protected void run(CommandSender sender, String[] args) {
+  @Override
+  protected void run(CommandSender sender, String[] args) {
 
-		if (args.length == 0) {
-			MessageUtils.tellWithoutPrefix(sender, "&2Running RankGrant+ v" + Common.getVersion() +
-					" by Demeng7215.");
-			MessageUtils.tellWithoutPrefix(sender, "&fhttps://spigotmc.org/resources/63403/");
-			MessageUtils.tellWithoutPrefix(sender, "&aType &f/grant <player> &ato grant a rank.");
-			return;
-		}
+    if (args.length == 0) {
+      MessageUtils.tellWithoutPrefix(
+          sender,
+          "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.",
+          "&aLink: &fhttps://spigotmc.org/resources/63403/",
+          "&aLike RG+? Check out GrantX: &fdemeng7215.com/grantx");
+      return;
+    }
 
-		if (!checkArgsStrict(args, 1, sender, i.getLang().getString("invalid-args"))) return;
+    if (!checkArgsStrict(args, 1, sender, i.getMessages().getString("invalid-args"))) return;
 
-		if (args[0].equalsIgnoreCase("reload")) {
+    if (args[0].equalsIgnoreCase("reload")) {
 
-			if (!checkHasPerm("rankgrantplus.reload", sender, i.getLang().getString("no-perms"))) return;
+      if (!checkHasPerm("rankgrantplus.reload", sender, i.getMessages().getString("no-perms")))
+        return;
 
-			i.configFile.reloadConfig();
-			i.languageFile.reloadConfig();
-			i.ranksFile.reloadConfig();
+      i.settingsFile.reloadConfig();
+      i.messagesFile.reloadConfig();
+      i.ranksFile.reloadConfig();
 
-			MessageUtils.tell(sender, i.getLang().getString("reloaded"));
-		}
-	}
+      MessageUtils.tell(sender, i.getMessages().getString("reloaded"));
+    }
+  }
 }

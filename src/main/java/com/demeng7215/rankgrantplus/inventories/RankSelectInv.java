@@ -1,6 +1,7 @@
 package com.demeng7215.rankgrantplus.inventories;
 
-import com.demeng7215.demlib.api.gui.CustomInventory;
+import com.demeng7215.demlib.api.items.ItemBuilder;
+import com.demeng7215.demlib.api.menus.CustomMenu;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
 import com.demeng7215.rankgrantplus.utils.XMaterial;
@@ -10,80 +11,82 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RankSelectInv extends CustomInventory {
+public class RankSelectInv {
 
-	private final RankGrantPlus i;
+  private RankGrantPlus i;
 
-	public RankSelectInv(RankGrantPlus i, OfflinePlayer target, Player op) {
-		super(i.getConfiguration().getInt("gui-size.ranks"), MessageUtils.colorize(i.getLang()
-				.getString("gui-names.select-rank").replace("%target%", target.getName())));
+  public RankSelectInv(RankGrantPlus i, OfflinePlayer target, Player op) {
 
-		this.i = i;
+    this.i = i;
 
-		if (i.getRanks().getBoolean("auto-list-ranks")) {
+    final CustomMenu menu =
+        new CustomMenu(
+            i.getSettings().getInt("gui-size.ranks"),
+            i.getMessages()
+                .getString("gui-names.select-rank")
+                .replace("%target%", target.getName()));
 
-			int slot = 0;
+    if (i.getRanks().getBoolean("auto-list-ranks")) {
 
-			for (String rank : i.getPermissions().getGroups()) {
+      int slot = 0;
 
-				List<String> finalLore = new ArrayList<>();
-				for (String lore : i.getRanks().getStringList("default-format.lore")) {
-					finalLore.add(replaceInfo(lore, rank, target));
-				}
+      for (String rank : i.getPermission().getGroups()) {
 
-				if (slot < 53)
+        final List<String> finalLore = new ArrayList<>();
+        for (String lore : i.getRanks().getStringList("default-format.lore")) {
+          finalLore.add(setPlaceholders(lore, rank, target));
+        }
 
-					setItem(slot++,
-							XMaterial.valueOf(i.getRanks().getString("default-format.item"))
-									.parseItem(),
-							replaceInfo(i.getRanks().getString("default-format.name"), rank, target),
-							finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
-			}
-		} else {
+        if (slot < 53) {
 
-			List<Integer> slotsOccupied = new ArrayList<>();
+          menu.setItem(
+              slot++,
+              ItemBuilder.build(
+                  XMaterial.valueOf(i.getRanks().getString("default-format.item")).parseItem(),
+                  setPlaceholders(i.getRanks().getString("default-format.name"), rank, target),
+                  finalLore),
+              event -> new DurationChooseInv(i, target, op, rank));
+        }
+      }
 
-			for (String rank : i.getRanks().getConfigurationSection("ranks").getKeys(false)) {
+    } else {
 
-				String path = "ranks." + rank + ".";
+      for (String rank : i.getRanks().getConfigurationSection("ranks").getKeys(false)) {
 
-				if (op.hasPermission(i.getRanks().getString(path + "permission"))) {
+        String path = "ranks." + rank + ".";
 
-					List<String> finalLore = new ArrayList<>();
-					for (String lore : i.getRanks().getStringList(path + "lore")) {
-						finalLore.add(replaceInfo(lore, rank, target));
-					}
+        if (op.hasPermission(i.getRanks().getString(path + "permission"))) {
 
-					int slot = i.getRanks().getInt(path + "slot") - 1;
+          final List<String> finalLore = new ArrayList<>();
 
-					if (slot <= 54 && !slotsOccupied.contains(slot)) {
+          for (String lore : i.getRanks().getStringList(path + "lore")) {
+            finalLore.add(setPlaceholders(lore, rank, target));
+          }
 
-						slotsOccupied.add(slot);
+          menu.setItem(
+              i.getRanks().getInt(path + "slot") - 1,
+              ItemBuilder.build(
+                  XMaterial.valueOf(i.getRanks().getString(path + "item")).parseItem(),
+                  setPlaceholders(i.getRanks().getString(path + "name"), rank, target),
+                  finalLore),
+              event -> new DurationChooseInv(i, target, op, rank));
+        }
+      }
+    }
 
-						setItem(slot,
-								XMaterial.valueOf(i.getRanks().getString(path + "item"))
-										.parseItem(),
-								replaceInfo(i.getRanks().getString(path + "name"), rank, target),
-								finalLore, player -> new DurationChooseInv(i, target, op, rank).open(op));
-					} else {
-						MessageUtils.console("&cYou have chosen to display 2 ranks in the same slot " +
-								"or have a slot ID higher than 54. Please check your ranks.yml.");
-					}
-				}
-			}
-		}
-	}
+    menu.open(op);
+  }
 
-	private String replaceInfo(String s, String rank, OfflinePlayer target) {
+  private String setPlaceholders(String s, String rank, OfflinePlayer target) {
 
-		String rankName;
+    final String rankName;
 
-		if (i.getRanks().getString("ranks." + rank + ".name") == null) {
-			rankName = rank;
-		} else {
-			rankName = RankGrantPlus.stripColorCodes(i.getRanks().getString("ranks." + rank + ".name"));
-		}
+    if (i.getRanks().getString("ranks." + rank + ".name") == null) {
+      rankName = rank;
+    } else {
+      rankName = MessageUtils.colorAndStrip(i.getRanks().getString("ranks." + rank + ".name"));
+    }
 
-		return s.replace("%rank%", rankName).replace("%target%", target.getName());
-	}
+    return s.replace("%rank%", rankName).replace("%target%", target.getName());
+  }
 }

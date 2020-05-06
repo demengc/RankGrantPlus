@@ -12,8 +12,7 @@
 # Everything in this file should be clearly explained. For questions, use the support options.
 # Thank you for using RankGrant+!
 
-# Do not edit this value.
-config-version: 4
+config-version: 5
 
 # The prefix that will be displayed in front of every message RankGrant+ sends.
 prefix: "&8[&2RankGrant+&8] &r"
@@ -32,9 +31,6 @@ reloaded: "&aSuccessfully reloaded all configuration files."
 
 # The message that will be sent if a player tries to execute a command they do not have sufficient permission to.
 console: "&aYou must be a player to execute this command."
-
-# This message will be sent upon attempting to open the /grant GUI without first setting up their grant/ungrant commands.
-not-set-up: "&aYour grant and ungrant commands are not set up. Please see &7configuration.yml&a."
 
 # The names of the GUIs for Select Rank, Duration Selection, Select Reason, and Confirm Grant.
 gui-names:

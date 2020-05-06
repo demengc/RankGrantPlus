@@ -8,39 +8,37 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 public class GrantCmd extends CustomCommand {
 
-	private final RankGrantPlus i;
+  private RankGrantPlus i;
 
-	public GrantCmd(RankGrantPlus i) {
-		super("grant");
+  public GrantCmd(RankGrantPlus i) {
+    super("grant");
 
-		setDescription("Grant a player a rank.");
-		setAliases(Arrays.asList("appoint", "grantrank", "appointrank"));
+    this.i = i;
 
-		this.i = i;
-	}
+    setDescription("Grant a player a rank.");
+  }
 
-	@Override
-	protected void run(CommandSender sender, String[] args) {
+  @Override
+  protected void run(CommandSender sender, String[] args) {
 
-		if (!i.isEnabled()) {
-			MessageUtils.tellWithoutPrefix(sender, "&cRankGrant+ has already been disabled due to an error " +
-					"prior to this. Please resolve that error and try granting again.");
-			return;
-		}
+    if (!i.isEnabled()) {
+      MessageUtils.tellWithoutPrefix(
+          sender,
+          "&cRankGrant+ has already been disabled due to an error "
+              + "prior to this. Please resolve that error and try granting again.");
+      return;
+    }
 
-		if (!checkIsPlayer(sender, i.getLang().getString("console"))) return;
+    if (!checkIsPlayer(sender, i.getMessages().getString("console"))) return;
 
-		if (!checkArgsStrict(args, 1, sender, i.getLang().getString("invalid-args"))) return;
+    if (!checkArgsStrict(args, 1, sender, i.getMessages().getString("invalid-args"))) return;
 
-		if (!checkHasPerm("rankgrantplus.grant", sender,
-				i.getLang().getString("no-perms"))) return;
+    if (!checkHasPerm("rankgrantplus.grant", sender, i.getMessages().getString("no-perms"))) return;
 
-		final Player p = (Player) sender;
+    final Player p = (Player) sender;
 
-		new RankSelectInv(i, Bukkit.getOfflinePlayer(args[0]), p).open((Player) sender);
-	}
+    new RankSelectInv(i, Bukkit.getOfflinePlayer(args[0]), p);
+  }
 }

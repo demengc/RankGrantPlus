@@ -7,13 +7,12 @@
 # |_|  \_\__,_|_| |_|_|\_\\_____|_|  \__,_|_| |_|\__|       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # |
-# CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
+# CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG #
 # This is where you can customize the functions of RankGrant+. #
 # Everything in this file should be clearly explained. For questions, use the support options.
 # Thank you for using RankGrant+!
 
-# Do not edit this value.
-config-version: 4
+config-version: 5
 
 # The commands that are executed on grant/ungrant. This should be the commands from your permissions plugin.
 # DO NOT leave this as "none"!

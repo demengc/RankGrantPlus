@@ -1,9 +1,10 @@
 package com.demeng7215.rankgrantplus.inventories;
 
-import com.demeng7215.demlib.api.gui.CustomInventory;
+import com.demeng7215.demlib.api.items.ItemBuilder;
+import com.demeng7215.demlib.api.menus.CustomMenu;
 import com.demeng7215.demlib.api.messages.MessageUtils;
 import com.demeng7215.rankgrantplus.RankGrantPlus;
-import com.demeng7215.rankgrantplus.utils.DurationUtils;
+import com.demeng7215.rankgrantplus.utils.Duration;
 import com.demeng7215.rankgrantplus.utils.XMaterial;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -11,81 +12,70 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-class ReasonSelectInv extends CustomInventory {
+class ReasonSelectInv {
 
-	private final RankGrantPlus i;
-	private final DurationUtils duration;
+  private RankGrantPlus i;
+  private Duration duration;
 
-	ReasonSelectInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank, DurationUtils duration) {
-		super(i.getConfiguration().getInt("gui-size.reasons"),
-				MessageUtils.colorize(i.getLang().getString("gui-names.select-reason")
-						.replace("%target%", target.getName())));
+  ReasonSelectInv(
+      RankGrantPlus i, OfflinePlayer target, Player op, String rank, Duration duration) {
 
-		this.i = i;
-		this.duration = duration;
+    this.i = i;
+    this.duration = duration;
 
-		List<Integer> slotsOccupied = new ArrayList<>();
+    final CustomMenu menu =
+        new CustomMenu(
+            i.getSettings().getInt("gui-size.reasons"),
+            i.getMessages()
+                .getString("gui-names.select-reason")
+                .replace("%target%", target.getName()));
 
-		for (String reason : i.getConfiguration().getConfigurationSection("reasons").getKeys(false)) {
+    for (String reason : i.getSettings().getConfigurationSection("reasons").getKeys(false)) {
 
-			String path = "reasons." + reason + ".";
+      final String path = "reasons." + reason + ".";
 
-			if (op.hasPermission(i.getConfiguration().getString(path + "permission"))) {
+      if (op.hasPermission(i.getSettings().getString(path + "permission"))) {
 
-				List<String> finalLore = new ArrayList<>();
-				for (String lore : i.getConfiguration().getStringList(path + "lore")) {
-					finalLore.add(replaceInfo(lore, rank, target));
-				}
+        final List<String> finalLore = new ArrayList<>();
+        for (String lore : i.getSettings().getStringList(path + "lore")) {
+          finalLore.add(setPlaceholders(lore, rank, target));
+        }
 
-				int slot = i.getConfiguration().getInt(path + "slot") - 1;
+        menu.setItem(
+            i.getSettings().getInt(path + "slot") - 1,
+            ItemBuilder.build(
+                XMaterial.valueOf(i.getSettings().getString(path + "item")).parseItem(),
+                setPlaceholders(i.getSettings().getString(path + "name"), rank, target),
+                finalLore),
+            event ->
+                new ConfirmationInv(
+                    i, target, op, rank, duration, i.getSettings().getString(path + "name")));
+      }
+    }
 
-				if (slot <= 54 && !slotsOccupied.contains(slot)) {
+    menu.open(op);
+  }
 
-					slotsOccupied.add(slot);
+  private String setPlaceholders(String s, String rank, OfflinePlayer target) {
 
-					setItem(slot,
-							XMaterial.valueOf(i.getConfiguration().getString(path + "item"))
-									.parseItem(),
-							replaceInfo(i.getConfiguration().getString(path + "name"), rank, target),
-							finalLore, player -> new ConfirmationInv(i, target, op, rank, duration,
-									i.getConfiguration().getString(path + "name")).open(op));
-				} else {
-					MessageUtils.console("&cYou have chosen to display 2 reasons in the same slot " +
-							"or have a slot ID higher than 54. Please check your configuration.yml.");
-				}
-			}
-		}
-	}
+    final String rankName;
 
-	private String replaceInfo(String s, String rank, OfflinePlayer target) {
+    if (i.getRanks().getString("ranks." + rank + ".name") == null) {
+      rankName = rank;
+    } else {
+      rankName = MessageUtils.colorAndStrip(i.getRanks().getString("ranks." + rank + ".name"));
+    }
 
-		String rankName;
+    final String duration;
 
-		if (i.getRanks().getString("ranks." + rank + ".name") == null) {
-			rankName = rank;
-		} else {
-			rankName = RankGrantPlus.stripColorCodes(i.getRanks().getString("ranks." + rank + ".name"));
-		}
+    if (this.duration.isPermanent()) {
+      duration = i.getSettings().getString("duration.word-permanent");
+    } else {
+      duration = this.duration.replaceTimes(i.getSettings().getString("duration.duration-format"));
+    }
 
-		String duration;
-
-		if (this.duration.isPermanent()) {
-			duration = i.getConfiguration().getString("duration.word-permanent");
-		} else {
-			duration = replaceTimes(i.getConfiguration().getString("duration.duration-format"));
-		}
-
-		return s.replace("%rank%", rankName)
-				.replace("%target%", target.getName())
-				.replace("%duration%",
-						MessageUtils.colorize(duration));
-	}
-
-	private String replaceTimes(String s) {
-		return s.replace("%weeks%", duration.getWeeks())
-				.replace("%days%", this.duration.getDays())
-				.replace("%hours%", this.duration.getHours())
-				.replace("%minutes%", this.duration.getMinutes())
-				.replace("%seconds%", this.duration.getSeconds());
-	}
+    return s.replace("%rank%", rankName)
+        .replace("%target%", target.getName())
+        .replace("%duration%", MessageUtils.colorize(duration));
+  }
 }

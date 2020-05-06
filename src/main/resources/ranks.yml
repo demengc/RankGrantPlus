@@ -12,15 +12,14 @@
 # Everything in this file should be clearly explained. For questions, use the support options.
 # Thank you for using RankGrant+!
 
-# Do not edit this value.
-config-version: 1
+config-version: 2
 
 # Should RankGrant+ automatically search through your permissions plugin and list all ranks in the /grant GUI?
 auto-list-ranks: true
 
 # If the setting above is "true", what will each button be in terms of visuals?
 default-format:
-  item: "NETHER_STAR"
+  item: "WHITE_WOOL"
   name: "&2%rank%"
   lore:
     - "&f&m                                                          "

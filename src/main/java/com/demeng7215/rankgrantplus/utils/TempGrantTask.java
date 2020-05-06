@@ -9,54 +9,55 @@ import java.util.UUID;
 
 public class TempGrantTask extends BukkitRunnable {
 
-	private final RankGrantPlus i;
+  private final RankGrantPlus i;
 
-	public TempGrantTask(RankGrantPlus i) {
-		this.i = i;
-	}
+  public TempGrantTask(RankGrantPlus i) {
+    this.i = i;
+  }
 
-	@Override
-	public void run() {
+  @Override
+  public void run() {
 
-		for (String id : i.getData().getKeys(false)) {
+    for (String id : i.getData().getKeys(false)) {
 
-			if (!id.equals("do-not-remove")) {
+      if (!id.equals("do-not-remove")) {
 
-				if (i.getData().getLong(id + ".remaining") <= 0L) {
+        if (i.getData().getLong(id + ".remaining") <= 0L) {
 
-					String[] args = id.split(",");
-					String uuid = args[0];
-					String rank = args[1];
+          String[] args = id.split(",");
+          String uuid = args[0];
+          String rank = args[1];
 
-					try {
+          try {
 
-						for (String cmd : i.getConfiguration().getStringList("commands.ungrant"))
-							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd
-									.replace("%target%", Bukkit.getOfflinePlayer(UUID.fromString(uuid))
-											.getName()).replace("%rank%", rank));
+            for (String cmd : i.getSettings().getStringList("commands.ungrant"))
+              Bukkit.dispatchCommand(
+                  Bukkit.getConsoleSender(),
+                  cmd.replace("%target%", Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName())
+                      .replace("%rank%", rank));
 
-						i.getData().set(id, null);
+            i.getData().set(id, null);
 
-					} catch (final NullPointerException ignored) {
-						i.getData().set(id, null);
-					}
+          } catch (final NullPointerException ignored) {
+            i.getData().set(id, null);
+          }
 
-					try {
-						i.dataFile.saveConfig();
-					} catch (final Exception ex) {
-						MessageUtils.error(ex, 5, "Failed to save data.", true);
-					}
-					return;
-				}
+          try {
+            i.dataFile.saveConfig();
+          } catch (final Exception ex) {
+            MessageUtils.error(ex, 5, "Failed to save data.", true);
+          }
+          return;
+        }
 
-				i.getData().set(id + ".remaining", i.getData().getLong(id + ".remaining") - 1L);
+        i.getData().set(id + ".remaining", i.getData().getLong(id + ".remaining") - 1L);
 
-				try {
-					i.dataFile.saveConfig();
-				} catch (final Exception ex) {
-					MessageUtils.error(ex, 5, "Failed to save data.", true);
-				}
-			}
-		}
-	}
+        try {
+          i.dataFile.saveConfig();
+        } catch (final Exception ex) {
+          MessageUtils.error(ex, 5, "Failed to save data.", true);
+        }
+      }
+    }
+  }
 }

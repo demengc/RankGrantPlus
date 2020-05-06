@@ -4,7 +4,7 @@ import com.demeng7215.demlib.DemLib;
 import com.demeng7215.demlib.api.Common;
 import com.demeng7215.demlib.api.DeveloperNotifications;
 import com.demeng7215.demlib.api.Registerer;
-import com.demeng7215.demlib.api.SpigotUpdateChecker;
+import com.demeng7215.demlib.api.connections.SpigotUpdateChecker;
 import com.demeng7215.demlib.api.files.CustomConfig;
 import com.demeng7215.demlib.api.files.CustomLog;
 import com.demeng7215.demlib.api.messages.MessageUtils;
@@ -15,7 +15,6 @@ import lombok.Getter;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,205 +24,199 @@ import java.util.Collections;
 
 public final class RankGrantPlus extends JavaPlugin {
 
-    /* ERROR CODES
-    1: Failed to load configuration files.
-    2: Outdated configuration file.
-    3: Failed to load log file.
-    4: Failed to hook into Vault.
-    5: Failed to save data.
-    6: Commands not set up.
-     */
+  /* ERROR CODES
+  1: Failed to load configuration files.
+  2: Outdated configuration file.
+  3: Failed to load log file.
+  4: Failed to hook into Vault.
+  5: Failed to save data.
+  6: Commands not set up.
+   */
 
-	@Getter
-	public CustomConfig configFile, languageFile, ranksFile, dataFile;
+  @Getter public CustomConfig settingsFile;
+  @Getter public CustomConfig messagesFile;
+  @Getter public CustomConfig ranksFile;
+  @Getter public CustomConfig dataFile;
 
-	private CustomLog grantLogs;
+  @Getter private CustomLog grantLogs;
 
-	private static final int CONFIGURATION_VERSION = 4;
-	private static final int LANGUAGE_VERSION = 4;
-	private static final int RANKS_VERSION = 1;
+  private static final int SETTINGS_VERSION = 5;
+  private static final int MESSAGES_VERSION = 5;
+  private static final int RANKS_VERSION = 2;
 
-	private Permission perms = null;
+  @Getter private Permission permission = null;
 
-	@Override
-	public void onEnable() {
+  @Override
+  public void onEnable() {
 
-		final long startTime = System.currentTimeMillis();
+    final long startTime = System.currentTimeMillis();
 
-		DemLib.setPlugin(this, "N/A");
+    DemLib.setPlugin(this);
+    MessageUtils.setPrefix("&8[&2RankGrant+&8] &r");
 
-		MessageUtils.setPrefix("&8[&2RankGrant+&8] &r");
+    getLogger().info("Loading files...");
+    if (!setupFiles()) return;
 
-		MessageUtils.console("Beginning to enable RankGrant+...\n\n" +
-				"&a__________                __     ________                     __               \n" +
-				"&a\\______   \\_____    ____ |  | __/  _____/___________    _____/  |_     .__     \n" +
-				"&a |       _/\\__  \\  /    \\|  |/ /   \\  __\\_  __ \\__  \\  /    \\   __\\  __|  |___ \n" +
-				"&2 |    |   \\ / __ \\|   |  \\    <\\    \\_\\  \\  | \\// __ \\|   |  \\  |   /__    __/ \n" +
-				"&2 |____|_  /(____  /___|  /__|_ \\\\______  /__|  (____  /___|  /__|      |__|    \n" +
-				"&2        \\/      \\/     \\/     \\/       \\/           \\/     \\/                  \n\n");
+    getLogger().info("Registering commands...");
+    Registerer.registerCommand(new RankGrantPlusCmd(this));
+    Registerer.registerCommand(new GrantCmd(this));
 
-		getLogger().info("Loading files...");
-		if (!setupFiles()) return;
+    getLogger().info("Registering listeners...");
+    DeveloperNotifications.enableNotifications("ca19af04-a156-482e-a35d-3f5f434975b5");
 
-		getLogger().info("Registering commands...");
-		Registerer.registerCommand(new RankGrantPlusCmd(this));
-		Registerer.registerCommand(new GrantCmd(this));
+    getLogger().info("Hooking into Vault...");
+    if (!setupPermsHook()) {
+      MessageUtils.error(null, 4, "Failed to hook into Vault.", true);
+      return;
+    }
 
-		getLogger().info("Registering listeners...");
-		DeveloperNotifications.enableNotifications("ca19af04-a156-482e-a35d-3f5f434975b5");
+    final String permsPlugin = setupCommands();
 
-		getLogger().info("Hooking into Vault...");
-		if (!setupPermissions()) {
-			MessageUtils.error(null, 4, "Failed to hook into Vault.", true);
-			return;
-		}
+    if (permsPlugin != null)
+      getLogger().info("Automatically setup " + "RankGrant+ to work with " + permsPlugin + ".");
 
-		final String permsPlugin = setupCommands();
+    if (!isEnabled()) return;
 
-		if (permsPlugin != null) getLogger().info("Automatically setup " +
-				"RankGrant+ to work with " + permsPlugin + ".");
+    getLogger().info("Launching tasks...");
+    new TempGrantTask(this).runTaskTimer(this, 0L, 20L);
 
-		if (!isEnabled()) return;
+    getLogger().info("Loading metrics...");
+    new Metrics(this);
 
-		getLogger().info("Starting tasks...");
-		TempGrantTask task = new TempGrantTask(this);
-		task.runTaskTimer(this, 0L, 20L);
+    SpigotUpdateChecker.checkForUpdates(63403);
 
-		getLogger().info("Loading metrics...");
-		new Metrics(this);
+    final long loadTime = System.currentTimeMillis() - startTime;
 
-		SpigotUpdateChecker.checkForUpdates(63403);
+    MessageUtils.console(
+        "&aRankGrant+ v"
+            + Common.getVersion()
+            + " by Demeng has been successfully enabled in "
+            + loadTime
+            + "ms.");
 
-		final long loadTime = System.currentTimeMillis() - startTime;
+    MessageUtils.console("&6Like RG+? Check out GrantX: &ehttps://demeng7215.com/grantx");
+  }
 
-		MessageUtils.console("&aRankGrant+ v" + Common.getVersion() +
-				" by Demeng7215 has been successfully enabled in " + loadTime + "ms.");
-	}
+  @Override
+  public void onDisable() {
+    MessageUtils.console(
+        "&cRankGrant+ v" + Common.getVersion() + " by Demeng has been successfully disabled.");
+  }
 
-	@Override
-	public void onDisable() {
-		MessageUtils.console("&cRankGrant+ v" + Common.getVersion() +
-				" by Demeng7215 has been successfully disabled.");
-	}
+  public FileConfiguration getSettings() {
+    return this.settingsFile.getConfig();
+  }
 
-	public FileConfiguration getConfiguration() {
-		return this.configFile.getConfig();
-	}
+  public FileConfiguration getMessages() {
+    return this.messagesFile.getConfig();
+  }
 
-	public FileConfiguration getLang() {
-		return this.languageFile.getConfig();
-	}
+  public FileConfiguration getRanks() {
+    return this.ranksFile.getConfig();
+  }
 
-	public FileConfiguration getRanks() {
-		return this.ranksFile.getConfig();
-	}
+  public FileConfiguration getData() {
+    return this.dataFile.getConfig();
+  }
 
-	public FileConfiguration getData() {
-		return this.dataFile.getConfig();
-	}
+  private boolean setupPermsHook() {
+    final RegisteredServiceProvider<Permission> rsp =
+        getServer().getServicesManager().getRegistration(Permission.class);
+    this.permission = rsp.getProvider();
+    return this.permission != null;
+  }
 
-	public CustomLog getGrantLogs() {
-		return this.grantLogs;
-	}
+  private boolean setupFiles() {
 
-	private boolean setupPermissions() {
-		RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
-		perms = rsp.getProvider();
-		return perms != null;
-	}
+    try {
+      settingsFile = new CustomConfig("settings.yml");
+      messagesFile = new CustomConfig("messages.yml");
+      ranksFile = new CustomConfig("ranks.yml");
+      dataFile = new CustomConfig("data.yml");
+    } catch (final Exception ex) {
+      MessageUtils.error(ex, 1, "Failed to load configuration files.", true);
+      return false;
+    }
 
-	public Permission getPermissions() {
-		return perms;
-	}
+    if (!settingsFile.configUpToDate(SETTINGS_VERSION)) {
+      MessageUtils.error(null, 2, "Outdated settings.yml file.", true);
+      return false;
+    }
+    if (!messagesFile.configUpToDate(MESSAGES_VERSION)) {
+      MessageUtils.error(null, 2, "Outdated messages.yml file.", true);
+      return false;
+    }
+    if (!ranksFile.configUpToDate(RANKS_VERSION)) {
+      MessageUtils.error(null, 2, "Outdated ranks.yml file.", true);
+      return false;
+    }
 
-	private boolean setupFiles() {
+    MessageUtils.setPrefix(getMessages().getString("prefix"));
 
-		try {
-			configFile = new CustomConfig("configuration.yml");
-			languageFile = new CustomConfig("language.yml");
-			ranksFile = new CustomConfig("ranks.yml");
-			dataFile = new CustomConfig("data.yml");
-		} catch (final Exception ex) {
-			MessageUtils.error(ex, 1, "Failed to load configuration files.", true);
-			return false;
-		}
+    try {
+      grantLogs = new CustomLog();
+    } catch (final Exception ex) {
+      MessageUtils.error(ex, 3, "Failed to load log file.", true);
+      return false;
+    }
 
-		if (getConfiguration().getInt("config-version") != CONFIGURATION_VERSION) {
-			MessageUtils.error(new Exception(), 2, "Outdated configuration.yml file.", true);
-			return false;
-		}
+    return true;
+  }
 
-		if (getLang().getInt("config-version") != LANGUAGE_VERSION) {
-			MessageUtils.error(new Exception(), 2, "Outdated language.yml file.", true);
-			return false;
-		}
+  private String setupCommands() {
 
-		if (getRanks().getInt("config-version") != RANKS_VERSION) {
-			MessageUtils.error(new Exception(), 2, "Outdated ranks.yml file.", true);
-			return false;
-		}
+    if (getSettings().getStringList("commands.grant").contains("none")
+        || getSettings().getStringList("commands.ungrant").contains("none")) {
 
-		MessageUtils.setPrefix(getLang().getString("prefix"));
+      String permsPlugin = null;
 
-		try {
-			grantLogs = new CustomLog("logs.txt");
-		} catch (final Exception ex) {
-			MessageUtils.error(ex, 3, "Failed to load log file.", true);
-			return false;
-		}
+      if (Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx") != null) {
+        getSettings()
+            .set("commands.grant", Collections.singletonList("pex user %target% group set %rank%"));
+        getSettings()
+            .set(
+                "commands.ungrant",
+                Collections.singletonList("pex user %target% group set default"));
+        permsPlugin = "PermissionsEx";
+      }
 
-		return true;
-	}
+      if (Bukkit.getServer().getPluginManager().getPlugin("UltraPermissions") != null) {
+        getSettings()
+            .set("commands.grant", Collections.singletonList("upc setGroups %target% %rank%"));
+        getSettings()
+            .set("commands.ungrant", Collections.singletonList("upc setGroups %target% %rank%"));
+        permsPlugin = "UltraPermissions";
+      }
 
-	public static String stripColorCodes(String s) {
-		return ChatColor.stripColor(MessageUtils.colorize(s));
-	}
+      if (Bukkit.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
+        getSettings()
+            .set("commands.grant", Collections.singletonList("lp user %target% parent set %rank%"));
+        getSettings()
+            .set(
+                "commands.ungrant",
+                Collections.singletonList("lp user %target% parent set default"));
+        permsPlugin = "LuckPerms";
+      }
 
-	private String setupCommands() {
+      if (Bukkit.getServer().getPluginManager().getPlugin("GroupManager") != null) {
+        getSettings().set("commands.grant", Collections.singletonList("manuadd %target% %rank%"));
+        getSettings().set("commands.ungrant", Collections.singletonList("manudel %target%"));
+        permsPlugin = "GroupManager";
+      }
 
-		if (getConfiguration().getStringList("commands.grant").contains("none")
-				|| getConfiguration().getStringList("commands.ungrant").contains("none")) {
+      try {
+        this.settingsFile.saveConfig();
+      } catch (final IOException ex) {
+        MessageUtils.error(ex, 5, "Failed to save data.", true);
+        return null;
+      }
 
-			String permsPlugin = null;
+      if (permsPlugin == null) {
+        MessageUtils.error(null, 6, "Grant/ungrant commands are not set (settings.yml)", true);
+      }
 
-			if (Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx") != null) {
-				getConfiguration().set("commands.grant", Collections.singletonList("pex user %target% group set %rank%"));
-				getConfiguration().set("commands.ungrant", Collections.singletonList("pex user %target% group set default"));
-				permsPlugin = "PermissionsEx";
-			}
-
-			if (Bukkit.getServer().getPluginManager().getPlugin("UltraPermissions") != null) {
-				getConfiguration().set("commands.grant", Collections.singletonList("upc setGroups %target% %rank%"));
-				getConfiguration().set("commands.ungrant", Collections.singletonList("upc setGroups %target% %rank%"));
-				permsPlugin = "UltraPermissions";
-			}
-
-			if (Bukkit.getServer().getPluginManager().getPlugin("LuckPerms") != null) {
-				getConfiguration().set("commands.grant", Collections.singletonList("lp user %target% parent set %rank%"));
-				getConfiguration().set("commands.ungrant", Collections.singletonList("lp user %target% parent set default"));
-				permsPlugin = "LuckPerms";
-			}
-
-			if (Bukkit.getServer().getPluginManager().getPlugin("GroupManager") != null) {
-				getConfiguration().set("commands.grant", Collections.singletonList("manuadd %target% %rank%"));
-				getConfiguration().set("commands.ungrant", Collections.singletonList("manudel %target%"));
-				permsPlugin = "GroupManager";
-			}
-
-			try {
-				this.configFile.saveConfig();
-			} catch (final IOException ex) {
-				MessageUtils.error(ex, 5, "Failed to save data.", true);
-				return null;
-			}
-
-			if (permsPlugin == null) {
-				MessageUtils.error(null, 6,
-						"Grant/ungrant commands are not set (configuration.yml)", true);
-			}
-
-			return permsPlugin;
-		}
-		return null;
-	}
+      return permsPlugin;
+    }
+    return null;
+  }
 }

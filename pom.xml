@@ -6,7 +6,7 @@
 
     <groupId>com.demeng7215</groupId>
     <artifactId>rankgrantplus</artifactId>
-    <version>3.6.2</version>
+    <version>3.7.0</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.demeng7215</groupId>
             <artifactId>demlib</artifactId>
-            <version>1.0.0</version>
+            <version>4.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -105,7 +105,7 @@
                                 </relocation>
                                 <relocation>
                                     <pattern>com.demeng7215.demlib</pattern>
-                                    <shadedPattern>com.demeng7215.rankgrantplus.shaded.lib</shadedPattern>
+                                    <shadedPattern>com.demeng7215.rankgrantplus.shaded.demlib</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
