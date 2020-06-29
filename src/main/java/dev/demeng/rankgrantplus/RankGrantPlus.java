@@ -1,16 +1,18 @@
-package com.demeng7215.rankgrantplus;
+package dev.demeng.rankgrantplus;
 
-import com.demeng7215.demlib.DemLib;
-import com.demeng7215.demlib.api.Common;
-import com.demeng7215.demlib.api.DeveloperNotifications;
-import com.demeng7215.demlib.api.Registerer;
-import com.demeng7215.demlib.api.connections.SpigotUpdateChecker;
-import com.demeng7215.demlib.api.files.CustomConfig;
-import com.demeng7215.demlib.api.files.CustomLog;
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.rankgrantplus.commands.GrantCmd;
-import com.demeng7215.rankgrantplus.commands.RankGrantPlusCmd;
-import com.demeng7215.rankgrantplus.utils.TempGrantTask;
+import dev.demeng.demlib.DemLib;
+import dev.demeng.demlib.api.Common;
+import dev.demeng.demlib.api.DeveloperNotifications;
+import dev.demeng.demlib.api.Registerer;
+import dev.demeng.demlib.api.commands.CommandSettings;
+import dev.demeng.demlib.api.connections.SpigotUpdateChecker;
+import dev.demeng.demlib.api.files.CustomConfig;
+import dev.demeng.demlib.api.files.CustomLog;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.rankgrantplus.commands.GrantCmd;
+import dev.demeng.rankgrantplus.commands.RankGrantPlusCmd;
+import dev.demeng.rankgrantplus.commands.ReloadCmd;
+import dev.demeng.rankgrantplus.utils.DurationTask;
 import lombok.Getter;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
@@ -40,6 +42,8 @@ public final class RankGrantPlus extends JavaPlugin {
 
   @Getter private CustomLog grantLogs;
 
+  @Getter private CommandSettings commandSettings;
+
   private static final int SETTINGS_VERSION = 5;
   private static final int MESSAGES_VERSION = 5;
   private static final int RANKS_VERSION = 2;
@@ -58,7 +62,13 @@ public final class RankGrantPlus extends JavaPlugin {
     if (!setupFiles()) return;
 
     getLogger().info("Registering commands...");
+    this.commandSettings = new CommandSettings();
+    commandSettings.setIncorrectUsageMessage(getMessages().getString("invalid-args"));
+    commandSettings.setNotPlayerMessage(getMessages().getString("console"));
+    commandSettings.setNoPermissionMessage(getMessages().getString("no-perms"));
+
     Registerer.registerCommand(new RankGrantPlusCmd(this));
+    Registerer.registerCommand(new ReloadCmd(this));
     Registerer.registerCommand(new GrantCmd(this));
 
     getLogger().info("Registering listeners...");
@@ -78,10 +88,10 @@ public final class RankGrantPlus extends JavaPlugin {
     if (!isEnabled()) return;
 
     getLogger().info("Launching tasks...");
-    new TempGrantTask(this).runTaskTimer(this, 0L, 20L);
+    new DurationTask(this).runTaskTimer(this, 20L, 20L);
 
     getLogger().info("Loading metrics...");
-    new Metrics(this);
+    new Metrics(this, 3766);
 
     SpigotUpdateChecker.checkForUpdates(63403);
 
@@ -94,7 +104,7 @@ public final class RankGrantPlus extends JavaPlugin {
             + loadTime
             + "ms.");
 
-    MessageUtils.console("&6Like RG+? Check out GrantX: &ehttps://demeng7215.com/grantx");
+    MessageUtils.console("&6Like RG+? Check out GrantX: &ehttps://demeng.dev/grantx");
   }
 
   @Override

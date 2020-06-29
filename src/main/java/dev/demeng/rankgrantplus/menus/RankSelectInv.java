@@ -1,10 +1,10 @@
-package com.demeng7215.rankgrantplus.inventories;
+package dev.demeng.rankgrantplus.menus;
 
-import com.demeng7215.demlib.api.items.ItemBuilder;
-import com.demeng7215.demlib.api.menus.CustomMenu;
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.rankgrantplus.RankGrantPlus;
-import com.demeng7215.rankgrantplus.utils.XMaterial;
+import dev.demeng.demlib.api.items.ItemBuilder;
+import dev.demeng.demlib.api.items.XMaterial;
+import dev.demeng.demlib.api.menus.CustomMenu;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.rankgrantplus.RankGrantPlus;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RankSelectInv {
 
-  private RankGrantPlus i;
+  private final RankGrantPlus i;
 
   public RankSelectInv(RankGrantPlus i, OfflinePlayer target, Player op) {
 

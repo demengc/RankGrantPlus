@@ -1,10 +1,10 @@
-package com.demeng7215.rankgrantplus.utils;
+package dev.demeng.rankgrantplus.utils;
 
 import lombok.Getter;
 
 public class Duration {
 
-  @Getter private long totalSeconds = 0;
+  @Getter private final long totalSeconds;
 
   @Getter private long weeks = 0;
   @Getter private long days = 0;

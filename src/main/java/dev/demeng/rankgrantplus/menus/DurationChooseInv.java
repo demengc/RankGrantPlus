@@ -1,12 +1,12 @@
-package com.demeng7215.rankgrantplus.inventories;
+package dev.demeng.rankgrantplus.menus;
 
-import com.demeng7215.demlib.api.Common;
-import com.demeng7215.demlib.api.items.ItemBuilder;
-import com.demeng7215.demlib.api.menus.CustomMenu;
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.rankgrantplus.RankGrantPlus;
-import com.demeng7215.rankgrantplus.utils.Duration;
-import com.demeng7215.rankgrantplus.utils.XMaterial;
+import dev.demeng.demlib.api.Common;
+import dev.demeng.demlib.api.items.ItemBuilder;
+import dev.demeng.demlib.api.items.XMaterial;
+import dev.demeng.demlib.api.menus.CustomMenu;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.rankgrantplus.RankGrantPlus;
+import dev.demeng.rankgrantplus.utils.Duration;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DurationChooseInv {
 
-  private RankGrantPlus i;
+  private final RankGrantPlus i;
   private Duration currentDuration;
 
   DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {

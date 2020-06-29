@@ -1,17 +1,17 @@
-package com.demeng7215.rankgrantplus.utils;
+package dev.demeng.rankgrantplus.utils;
 
-import com.demeng7215.demlib.api.messages.MessageUtils;
-import com.demeng7215.rankgrantplus.RankGrantPlus;
+import dev.demeng.demlib.api.messages.MessageUtils;
+import dev.demeng.rankgrantplus.RankGrantPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class TempGrantTask extends BukkitRunnable {
+public class DurationTask extends BukkitRunnable {
 
   private final RankGrantPlus i;
 
-  public TempGrantTask(RankGrantPlus i) {
+  public DurationTask(RankGrantPlus i) {
     this.i = i;
   }
 
