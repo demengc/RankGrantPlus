@@ -1,14 +1,9 @@
 name: RankGrantPlus
 version: ${project.version}
-main: dev.demeng.rankgrantplus.RankGrantPlus
+main: dev.demeng.rgp.RankGrantPlus
 api-version: 1.13
 prefix: RankGrant+
 depend: [Vault]
 author: Demeng
 description: Give ranks through an awesome GUI!
 website: https://demeng.dev/
-
-commands:
-  rankgrantplus:
-    aliases: [rankgrant+]
-  grant:
