@@ -1,19 +1,20 @@
-package dev.demeng.rankgrantplus.menus;
+package dev.demeng.rgp.menu;
 
-import dev.demeng.demlib.api.items.ItemBuilder;
-import dev.demeng.demlib.api.items.XMaterial;
-import dev.demeng.demlib.api.menus.CustomMenu;
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.rankgrantplus.RankGrantPlus;
-import dev.demeng.rankgrantplus.utils.Duration;
+import dev.demeng.demlib.item.ItemCreator;
+import dev.demeng.demlib.menu.Menu;
+import dev.demeng.demlib.message.MessageUtils;
+import dev.demeng.demlib.xseries.XMaterial;
+import dev.demeng.rgp.RankGrantPlus;
+import dev.demeng.rgp.model.Duration;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-class ConfirmationInv {
+class ConfirmationInv extends Menu {
 
   private final RankGrantPlus i;
   private final Duration duration;
@@ -25,27 +26,24 @@ class ConfirmationInv {
       String rank,
       Duration duration,
       String displayReason) {
+    super(
+        27,
+        Objects.requireNonNull(i.getMessages().getString("gui-names.confirm-grant"))
+            .replace("%target%", Objects.requireNonNull(target.getName())));
 
     this.i = i;
     this.duration = duration;
-
-    final CustomMenu menu =
-        new CustomMenu(
-            27,
-            i.getMessages()
-                .getString("gui-names.confirm-grant")
-                .replace("%target%", target.getName()));
 
     final List<String> confirmLore = new ArrayList<>();
     for (String lore : i.getSettings().getStringList("confirmation.confirm.lore")) {
       confirmLore.add(setPlaceholders(lore, rank, target, displayReason, op));
     }
 
-    menu.setItem(
+    setItem(
         11,
-        ItemBuilder.build(
+        ItemCreator.quickBuild(
             XMaterial.valueOf(i.getSettings().getString("confirmation.confirm.item")).parseItem(),
-            i.getSettings().getString("confirmation.confirm.name"),
+            Objects.requireNonNull(i.getSettings().getString("confirmation.confirm.name")),
             confirmLore),
         event -> {
           op.closeInventory();
@@ -66,11 +64,11 @@ class ConfirmationInv {
       cancelLore.add(setPlaceholders(lore, rank, target, displayReason, op));
     }
 
-    menu.setItem(
+    setItem(
         15,
-        ItemBuilder.build(
+        ItemCreator.quickBuild(
             XMaterial.valueOf(i.getSettings().getString("confirmation.cancel.item")).parseItem(),
-            i.getSettings().getString("confirmation.cancel.name"),
+            Objects.requireNonNull(i.getSettings().getString("confirmation.cancel.name")),
             cancelLore),
         event -> {
           op.closeInventory();
@@ -84,7 +82,7 @@ class ConfirmationInv {
                   op));
         });
 
-    menu.open(op);
+    open(op);
   }
 
   private boolean grant(
@@ -94,7 +92,8 @@ class ConfirmationInv {
       for (String cmd : i.getSettings().getStringList("commands.grant"))
         Bukkit.dispatchCommand(
             Bukkit.getConsoleSender(),
-            cmd.replace("%target%", target.getName()).replace("%rank%", rank));
+            cmd.replace("%target%", Objects.requireNonNull(target.getName()))
+                .replace("%rank%", rank));
 
       i.getGrantLogs()
           .log(
@@ -110,7 +109,7 @@ class ConfirmationInv {
       }
 
       final String message = i.getMessages().getString("notification");
-      if (!message.equals("none") && target.isOnline())
+      if (!Objects.requireNonNull(message).equals("none") && target.isOnline())
         MessageUtils.tell(
             (Player) target, setPlaceholders(message, rank, target, displayReason, op));
 
@@ -131,7 +130,9 @@ class ConfirmationInv {
     if (i.getRanks().getString("ranks." + rank + ".name") == null) {
       rankName = rank;
     } else {
-      rankName = MessageUtils.colorAndStrip(i.getRanks().getString("ranks." + rank + ".name"));
+      rankName =
+          MessageUtils.colorAndStrip(
+              Objects.requireNonNull(i.getRanks().getString("ranks." + rank + ".name")));
     }
 
     final String duration;
@@ -139,12 +140,16 @@ class ConfirmationInv {
     if (this.duration.isPermanent()) {
       duration = i.getSettings().getString("duration.word-permanent");
     } else {
-      duration = this.duration.replaceTimes(i.getSettings().getString("duration.duration-format"));
+      duration =
+          this.duration.replaceTimes(
+              Objects.requireNonNull(i.getSettings().getString("duration.duration-format")));
     }
 
     return s.replace("%rank%", rankName)
-        .replace("%target%", target.getName())
-        .replace("%duration%", MessageUtils.colorize(this.duration.replaceTimes(duration)))
+        .replace("%target%", Objects.requireNonNull(target.getName()))
+        .replace(
+            "%duration%",
+            MessageUtils.colorize(this.duration.replaceTimes(Objects.requireNonNull(duration))))
         .replace("%reason%", MessageUtils.colorAndStrip(displayReason))
         .replace("%op%", op.getName());
   }

@@ -1,4 +1,4 @@
-package dev.demeng.rankgrantplus.utils;
+package dev.demeng.rgp.model;
 
 import lombok.Getter;
 

@@ -1,33 +1,31 @@
-package dev.demeng.rankgrantplus.menus;
+package dev.demeng.rgp.menu;
 
-import dev.demeng.demlib.api.Common;
-import dev.demeng.demlib.api.items.ItemBuilder;
-import dev.demeng.demlib.api.items.XMaterial;
-import dev.demeng.demlib.api.menus.CustomMenu;
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.rankgrantplus.RankGrantPlus;
-import dev.demeng.rankgrantplus.utils.Duration;
+import dev.demeng.demlib.Common;
+import dev.demeng.demlib.item.ItemCreator;
+import dev.demeng.demlib.menu.Menu;
+import dev.demeng.demlib.message.MessageUtils;
+import dev.demeng.demlib.xseries.XMaterial;
+import dev.demeng.rgp.RankGrantPlus;
+import dev.demeng.rgp.model.Duration;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class DurationChooseInv {
+public class DurationChooseInv extends Menu {
 
   private final RankGrantPlus i;
   private Duration currentDuration;
 
   DurationChooseInv(RankGrantPlus i, OfflinePlayer target, Player op, String rank) {
+    super(
+        54,
+        Objects.requireNonNull(i.getMessages().getString("gui-names.choose-time"))
+            .replace("%target%", Objects.requireNonNull(target.getName())));
 
     this.i = i;
-
-    final CustomMenu menu =
-        new CustomMenu(
-            54,
-            i.getMessages()
-                .getString("gui-names.choose-time")
-                .replace("%target%", target.getName()));
 
     final String[] times =
         new String[] {
@@ -50,30 +48,36 @@ public class DurationChooseInv {
 
       this.currentDuration = new Duration(0L);
 
-      Common.repeatTaskAsync(
+      Common.repeatTask(
           () -> {
             final List<String> continueLore = new ArrayList<>();
             for (String lore : i.getSettings().getStringList("duration.continue.lore")) {
               continueLore.add(setPlaceholders(lore, rank, target));
             }
 
-            menu.setItem(
+            setItem(
                 i.getSettings().getInt("duration.continue.slot") - 1,
-                ItemBuilder.build(
+                ItemCreator.quickBuild(
                     XMaterial.valueOf(i.getSettings().getString("duration.continue.item"))
                         .parseItem(),
-                    i.getSettings().getString("duration.continue.name"),
+                    Objects.requireNonNull(i.getSettings().getString("duration.continue.name")),
                     continueLore),
-                event -> new ReasonSelectInv(i, target, op, rank, currentDuration));
+                event -> {
+                  if (currentDuration.getTotalSeconds() == 0) {
+                    return;
+                  }
+
+                  new ReasonSelectInv(i, target, op, rank, currentDuration);
+                });
 
             final List<String> finalLore = new ArrayList<>();
             for (String lore : i.getSettings().getStringList(path + "lore")) {
               finalLore.add(setPlaceholders(lore, rank, target));
             }
 
-            menu.setItem(
+            setItem(
                 i.getSettings().getInt(path + "slot") - 1,
-                ItemBuilder.build(
+                ItemCreator.quickBuild(
                     XMaterial.valueOf(i.getSettings().getString(path + "item")).parseItem(),
                     setPlaceholders(i.getSettings().getString(path + "name"), rank, target),
                     finalLore),
@@ -101,10 +105,12 @@ public class DurationChooseInv {
                   }
                 });
           },
-          5L);
+          5L,
+          5L,
+          true);
     }
 
-    menu.open(op);
+    open(op);
   }
 
   private long durationInSeconds = 0;
@@ -128,7 +134,9 @@ public class DurationChooseInv {
     if (i.getRanks().getString("ranks." + rank + ".name") == null) {
       rankName = rank;
     } else {
-      rankName = MessageUtils.colorAndStrip(i.getRanks().getString("ranks." + rank + ".name"));
+      rankName =
+          MessageUtils.colorAndStrip(
+              Objects.requireNonNull(i.getRanks().getString("ranks." + rank + ".name")));
     }
 
     final String duration;
@@ -138,11 +146,12 @@ public class DurationChooseInv {
 
     } else {
       duration =
-          currentDuration.replaceTimes(i.getSettings().getString("duration.duration-format"));
+          currentDuration.replaceTimes(
+              Objects.requireNonNull(i.getSettings().getString("duration.duration-format")));
     }
 
     return s.replace("%rank%", rankName)
-        .replace("%target%", target.getName())
-        .replace("%duration%", MessageUtils.colorize(duration));
+        .replace("%target%", Objects.requireNonNull(target.getName()))
+        .replace("%duration%", MessageUtils.colorize(Objects.requireNonNull(duration)));
   }
 }

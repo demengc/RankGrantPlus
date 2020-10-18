@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>dev.demeng</groupId>
-    <artifactId>rankgrantplus</artifactId>
-    <version>3.7.1</version>
+    <artifactId>RankGrantPlus</artifactId>
+    <version>3.8.0</version>
     <packaging>jar</packaging>
 
     <name>RankGrantPlus</name>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.1-R0.1-SNAPSHOT</version>
+            <version>1.16.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>dev.demeng</groupId>
             <artifactId>demlib</artifactId>
-            <version>4.1.0</version>
+            <version>4.4.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -88,7 +88,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -101,11 +101,11 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>dev.demeng.rankgrantplus.shaded.bstats</shadedPattern>
+                                    <shadedPattern>dev.demeng.rgp.shaded.bstats</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>dev.demeng.demlib</pattern>
-                                    <shadedPattern>dev.demeng.rankgrantplus.shaded.demlib</shadedPattern>
+                                    <shadedPattern>dev.demeng.rgp.shaded.demlib</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

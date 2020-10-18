@@ -12,7 +12,7 @@
 # Everything in this file should be clearly explained. For questions, use the support options.
 # Thank you for using RankGrant+!
 
-config-version: 5
+config-version: 6
 
 # The prefix that will be displayed in front of every message RankGrant+ sends.
 prefix: "&8[&2RankGrant+&8] &r"
@@ -21,7 +21,7 @@ prefix: "&8[&2RankGrant+&8] &r"
 notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
 
 # This message will be sent if the command executor does not have permission to execute the command.
-no-perms: "&aYou do not have permission to execute that command."
+no-permission: "&aYou do not have permission to execute that command."
 
 # The message that will be sent if a user uses one of RankGrant+'s command incorrectly.
 invalid-args: "&aInvalid arguments. Please see command usage."
@@ -30,7 +30,7 @@ invalid-args: "&aInvalid arguments. Please see command usage."
 reloaded: "&aSuccessfully reloaded all configuration files."
 
 # The message that will be sent if a player tries to execute a command they do not have sufficient permission to.
-console: "&aYou must be a player to execute this command."
+not-player: "&aYou must be a player to execute this command."
 
 # The names of the GUIs for Select Rank, Duration Selection, Select Reason, and Confirm Grant.
 gui-names:

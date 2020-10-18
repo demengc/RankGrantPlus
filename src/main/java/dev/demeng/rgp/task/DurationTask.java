@@ -1,7 +1,7 @@
-package dev.demeng.rankgrantplus.utils;
+package dev.demeng.rgp.task;
 
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.rankgrantplus.RankGrantPlus;
+import dev.demeng.demlib.message.MessageUtils;
+import dev.demeng.rgp.RankGrantPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -45,7 +45,7 @@ public class DurationTask extends BukkitRunnable {
           try {
             i.dataFile.saveConfig();
           } catch (final Exception ex) {
-            MessageUtils.error(ex, 5, "Failed to save data.", true);
+            MessageUtils.error(ex, "Failed to save data.", true);
           }
           return;
         }
@@ -55,7 +55,7 @@ public class DurationTask extends BukkitRunnable {
         try {
           i.dataFile.saveConfig();
         } catch (final Exception ex) {
-          MessageUtils.error(ex, 5, "Failed to save data.", true);
+          MessageUtils.error(ex, "Failed to save data.", true);
         }
       }
     }

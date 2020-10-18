@@ -1,18 +1,17 @@
-package dev.demeng.rankgrantplus;
+package dev.demeng.rgp;
 
-import dev.demeng.demlib.DemLib;
-import dev.demeng.demlib.api.Common;
-import dev.demeng.demlib.api.DeveloperNotifications;
-import dev.demeng.demlib.api.Registerer;
-import dev.demeng.demlib.api.commands.CommandSettings;
-import dev.demeng.demlib.api.connections.SpigotUpdateChecker;
-import dev.demeng.demlib.api.files.CustomConfig;
-import dev.demeng.demlib.api.files.CustomLog;
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.rankgrantplus.commands.GrantCmd;
-import dev.demeng.rankgrantplus.commands.RankGrantPlusCmd;
-import dev.demeng.rankgrantplus.commands.ReloadCmd;
-import dev.demeng.rankgrantplus.utils.DurationTask;
+import dev.demeng.demlib.Common;
+import dev.demeng.demlib.JoinNotification;
+import dev.demeng.demlib.Registerer;
+import dev.demeng.demlib.command.CommandMessages;
+import dev.demeng.demlib.connection.SpigotUpdateChecker;
+import dev.demeng.demlib.core.DemLib;
+import dev.demeng.demlib.file.LogFile;
+import dev.demeng.demlib.file.YamlFile;
+import dev.demeng.demlib.message.MessageUtils;
+import dev.demeng.rgp.command.GrantCmd;
+import dev.demeng.rgp.command.RankGrantPlusCmd;
+import dev.demeng.rgp.task.DurationTask;
 import lombok.Getter;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
@@ -23,29 +22,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 public final class RankGrantPlus extends JavaPlugin {
 
-  /* ERROR CODES
-  1: Failed to load configuration files.
-  2: Outdated configuration file.
-  3: Failed to load log file.
-  4: Failed to hook into Vault.
-  5: Failed to save data.
-  6: Commands not set up.
-   */
+  @Getter public YamlFile settingsFile;
+  @Getter public YamlFile messagesFile;
+  @Getter public YamlFile ranksFile;
+  @Getter public YamlFile dataFile;
 
-  @Getter public CustomConfig settingsFile;
-  @Getter public CustomConfig messagesFile;
-  @Getter public CustomConfig ranksFile;
-  @Getter public CustomConfig dataFile;
-
-  @Getter private CustomLog grantLogs;
-
-  @Getter private CommandSettings commandSettings;
+  @Getter private LogFile grantLogs;
 
   private static final int SETTINGS_VERSION = 5;
-  private static final int MESSAGES_VERSION = 5;
+  private static final int MESSAGES_VERSION = 6;
   private static final int RANKS_VERSION = 2;
 
   @Getter private Permission permission = null;
@@ -56,27 +45,29 @@ public final class RankGrantPlus extends JavaPlugin {
     final long startTime = System.currentTimeMillis();
 
     DemLib.setPlugin(this);
-    MessageUtils.setPrefix("&8[&2RankGrant+&8] &r");
+    DemLib.setPrefix("&8[&2RankGrant+&8] &r");
 
     getLogger().info("Loading files...");
     if (!setupFiles()) return;
 
     getLogger().info("Registering commands...");
-    this.commandSettings = new CommandSettings();
-    commandSettings.setIncorrectUsageMessage(getMessages().getString("invalid-args"));
-    commandSettings.setNotPlayerMessage(getMessages().getString("console"));
-    commandSettings.setNoPermissionMessage(getMessages().getString("no-perms"));
+    DemLib.setCommandMessages(new CommandMessages(getMessages()));
 
-    Registerer.registerCommand(new RankGrantPlusCmd(this));
-    Registerer.registerCommand(new ReloadCmd(this));
-    Registerer.registerCommand(new GrantCmd(this));
+    try {
+      Registerer.registerCommand(new RankGrantPlusCmd(this));
+      Registerer.registerCommand(new GrantCmd(this));
+
+    } catch (NoSuchFieldException | IllegalAccessException ex) {
+      MessageUtils.error(ex, "Failed to register commands.", true);
+      return;
+    }
 
     getLogger().info("Registering listeners...");
-    DeveloperNotifications.enableNotifications("ca19af04-a156-482e-a35d-3f5f434975b5");
+    new JoinNotification(UUID.fromString("ca19af04-a156-482e-a35d-3f5f434975b5"));
 
     getLogger().info("Hooking into Vault...");
-    if (!setupPermsHook()) {
-      MessageUtils.error(null, 4, "Failed to hook into Vault.", true);
+    if (!setupPermissions()) {
+      MessageUtils.error(null, "Failed to hook into Vault.", true);
       return;
     }
 
@@ -129,44 +120,44 @@ public final class RankGrantPlus extends JavaPlugin {
     return this.dataFile.getConfig();
   }
 
-  private boolean setupPermsHook() {
-    final RegisteredServiceProvider<Permission> rsp =
+  private boolean setupPermissions() {
+    RegisteredServiceProvider<Permission> rsp =
         getServer().getServicesManager().getRegistration(Permission.class);
-    this.permission = rsp.getProvider();
-    return this.permission != null;
+    permission = rsp.getProvider();
+    return permission != null;
   }
 
   private boolean setupFiles() {
 
     try {
-      settingsFile = new CustomConfig("settings.yml");
-      messagesFile = new CustomConfig("messages.yml");
-      ranksFile = new CustomConfig("ranks.yml");
-      dataFile = new CustomConfig("data.yml");
+      settingsFile = new YamlFile("settings.yml");
+      messagesFile = new YamlFile("messages.yml");
+      ranksFile = new YamlFile("ranks.yml");
+      dataFile = new YamlFile("data.yml");
     } catch (final Exception ex) {
-      MessageUtils.error(ex, 1, "Failed to load configuration files.", true);
+      MessageUtils.error(ex, "Failed to load configuration files.", true);
       return false;
     }
 
     if (!settingsFile.configUpToDate(SETTINGS_VERSION)) {
-      MessageUtils.error(null, 2, "Outdated settings.yml file.", true);
+      MessageUtils.error(null, "Outdated settings.yml file.", true);
       return false;
     }
     if (!messagesFile.configUpToDate(MESSAGES_VERSION)) {
-      MessageUtils.error(null, 2, "Outdated messages.yml file.", true);
+      MessageUtils.error(null, "Outdated messages.yml file.", true);
       return false;
     }
     if (!ranksFile.configUpToDate(RANKS_VERSION)) {
-      MessageUtils.error(null, 2, "Outdated ranks.yml file.", true);
+      MessageUtils.error(null, "Outdated ranks.yml file.", true);
       return false;
     }
 
     MessageUtils.setPrefix(getMessages().getString("prefix"));
 
     try {
-      grantLogs = new CustomLog();
+      grantLogs = new LogFile();
     } catch (final Exception ex) {
-      MessageUtils.error(ex, 3, "Failed to load log file.", true);
+      MessageUtils.error(ex, "Failed to load log file.", true);
       return false;
     }
 
@@ -217,12 +208,12 @@ public final class RankGrantPlus extends JavaPlugin {
       try {
         this.settingsFile.saveConfig();
       } catch (final IOException ex) {
-        MessageUtils.error(ex, 5, "Failed to save data.", true);
+        MessageUtils.error(ex, "Failed to save data.", true);
         return null;
       }
 
       if (permsPlugin == null) {
-        MessageUtils.error(null, 6, "Grant/ungrant commands are not set (settings.yml)", true);
+        MessageUtils.error(null, "Grant/ungrant commands are not set (settings.yml)", true);
       }
 
       return permsPlugin;

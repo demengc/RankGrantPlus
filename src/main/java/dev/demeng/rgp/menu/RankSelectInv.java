@@ -1,30 +1,28 @@
-package dev.demeng.rankgrantplus.menus;
+package dev.demeng.rgp.menu;
 
-import dev.demeng.demlib.api.items.ItemBuilder;
-import dev.demeng.demlib.api.items.XMaterial;
-import dev.demeng.demlib.api.menus.CustomMenu;
-import dev.demeng.demlib.api.messages.MessageUtils;
-import dev.demeng.rankgrantplus.RankGrantPlus;
+import dev.demeng.demlib.item.ItemCreator;
+import dev.demeng.demlib.menu.Menu;
+import dev.demeng.demlib.message.MessageUtils;
+import dev.demeng.demlib.xseries.XMaterial;
+import dev.demeng.rgp.RankGrantPlus;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class RankSelectInv {
+public class RankSelectInv extends Menu {
 
   private final RankGrantPlus i;
 
   public RankSelectInv(RankGrantPlus i, OfflinePlayer target, Player op) {
+    super(
+        i.getSettings().getInt("gui-size.ranks"),
+        Objects.requireNonNull(i.getMessages().getString("gui-names.select-rank"))
+            .replace("%target%", Objects.requireNonNull(target.getName())));
 
     this.i = i;
-
-    final CustomMenu menu =
-        new CustomMenu(
-            i.getSettings().getInt("gui-size.ranks"),
-            i.getMessages()
-                .getString("gui-names.select-rank")
-                .replace("%target%", target.getName()));
 
     if (i.getRanks().getBoolean("auto-list-ranks")) {
 
@@ -39,9 +37,9 @@ public class RankSelectInv {
 
         if (slot < 53) {
 
-          menu.setItem(
+          setItem(
               slot++,
-              ItemBuilder.build(
+              ItemCreator.quickBuild(
                   XMaterial.valueOf(i.getRanks().getString("default-format.item")).parseItem(),
                   setPlaceholders(i.getRanks().getString("default-format.name"), rank, target),
                   finalLore),
@@ -63,9 +61,9 @@ public class RankSelectInv {
             finalLore.add(setPlaceholders(lore, rank, target));
           }
 
-          menu.setItem(
+          setItem(
               i.getRanks().getInt(path + "slot") - 1,
-              ItemBuilder.build(
+              ItemCreator.quickBuild(
                   XMaterial.valueOf(i.getRanks().getString(path + "item")).parseItem(),
                   setPlaceholders(i.getRanks().getString(path + "name"), rank, target),
                   finalLore),
@@ -74,7 +72,7 @@ public class RankSelectInv {
       }
     }
 
-    menu.open(op);
+    open(op);
   }
 
   private String setPlaceholders(String s, String rank, OfflinePlayer target) {
