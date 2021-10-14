@@ -177,6 +177,9 @@ public final class RankGrantPlus extends BasePlugin {
     return true;
   }
 
+  /**
+   * Checks if the current plugin version matches the one on SpigotMC.
+   */
   private void checkUpdates() {
     TaskUtils.runAsync(task -> {
       final UpdateChecker checker = new UpdateChecker(63403);
