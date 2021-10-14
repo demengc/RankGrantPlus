@@ -24,8 +24,7 @@ public enum SupportedPermissionPlugin {
   PERMISSIONSEX(
       "PermissionsEx",
       "pex user %target% group set %rank%",
-      "pex user %target% group set default"
-  ),
+      "pex user %target% group set default"),
   GROUPMANAGER(
       "GroupManager",
       "manuadd %target% %rank%",
@@ -48,7 +47,7 @@ public enum SupportedPermissionPlugin {
    * Creates a new supported permission plugin with a single command for activation and a single
    * command for expiration.
    *
-   * @param name        The name of the plugin
+   * @param name              The name of the plugin
    * @param activationCommand The command to execute on grant activation
    * @param expirationCommand The command to execute on grant expiration
    */
