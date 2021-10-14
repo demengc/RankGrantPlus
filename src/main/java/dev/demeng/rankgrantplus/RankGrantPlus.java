@@ -65,6 +65,14 @@ public final class RankGrantPlus extends BasePlugin {
 
     final long startTime = System.currentTimeMillis();
 
+    ChatUtils.coloredConsole("\n\n"
+        + "&2__________  ________             \n"
+        + "&2\\______   \\/  _____/     .__     \n"
+        + "&2 |       _/   \\  ___   __|  |___ \n"
+        + "&a |    |   \\    \\_\\  \\ /__    __/ \n"
+        + "&a |____|_  /\\______  /    |__|    \n"
+        + "&a        \\/        \\/             \n\n");
+
     getLogger().info("Loading configuration files...");
     if (!loadFiles()) {
       return;
