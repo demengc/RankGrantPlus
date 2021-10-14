@@ -11,3 +11,17 @@
 # -----------------------------------------------------------------------------
 
 config-version: 7
+
+# The prefix that will be displayed in front of most messages.
+prefix: "&2[RG+] &r"
+
+# If the command is players-only but was executed by the console.
+not-player: "&aYou must be a player to execute that command."
+
+# If the command executor does not have sufficient permission.
+# Use %permission% for the required permission.
+insufficient-permission: "&aYou must have the &f%permission% &apermission to do that!"
+
+# If the command sender does not provide enough/valid arguments.
+# Use %usage% for the correct usage.
+incorrect-usage: "&aIncorrect usage! Did you mean: &f%usage%"

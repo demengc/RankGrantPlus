@@ -24,12 +24,14 @@
 
 package dev.demeng.rankgrantplus;
 
+import dev.demeng.pluginbase.BaseSettings;
 import dev.demeng.pluginbase.Common;
 import dev.demeng.pluginbase.TaskUtils;
 import dev.demeng.pluginbase.UpdateChecker;
 import dev.demeng.pluginbase.UpdateChecker.Result;
 import dev.demeng.pluginbase.YamlConfig;
 import dev.demeng.pluginbase.chat.ChatUtils;
+import dev.demeng.pluginbase.plugin.BaseManager;
 import dev.demeng.pluginbase.plugin.BasePlugin;
 import java.io.IOException;
 import java.security.Permission;
@@ -77,6 +79,9 @@ public final class RankGrantPlus extends BasePlugin {
     if (!loadFiles()) {
       return;
     }
+
+    getLogger().info("Initializing base settings...");
+    BaseManager.setBaseSettings(new RankGrantPlus.Settings());
 
     getLogger().info("Hooking into Vault...");
     if (!hookPermission()) {
@@ -207,5 +212,31 @@ public final class RankGrantPlus extends BasePlugin {
 
   public FileConfiguration getData() {
     return dataFile.getConfig();
+  }
+
+  /**
+   * The settings to use for PluginBase.
+   */
+  private class Settings implements BaseSettings {
+
+    @Override
+    public String prefix() {
+      return getMessages().getString("prefix");
+    }
+
+    @Override
+    public String notPlayer() {
+      return getMessages().getString("not-player");
+    }
+
+    @Override
+    public String insufficientPermission() {
+      return getMessages().getString("insufficient-permission");
+    }
+
+    @Override
+    public String incorrectUsage() {
+      return getMessages().getString("incorrect-usage");
+    }
   }
 }
