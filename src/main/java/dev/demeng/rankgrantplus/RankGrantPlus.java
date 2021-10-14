@@ -33,8 +33,11 @@ import dev.demeng.pluginbase.YamlConfig;
 import dev.demeng.pluginbase.chat.ChatUtils;
 import dev.demeng.pluginbase.plugin.BaseManager;
 import dev.demeng.pluginbase.plugin.BasePlugin;
+import dev.demeng.rankgrantplus.util.SupportedPermissionPlugin;
 import java.io.IOException;
 import java.security.Permission;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -83,8 +86,8 @@ public final class RankGrantPlus extends BasePlugin {
     getLogger().info("Initializing base settings...");
     BaseManager.setBaseSettings(new RankGrantPlus.Settings());
 
-    getLogger().info("Hooking into Vault...");
-    if (!hookPermission()) {
+    getLogger().info("Hooking into Vault and permission plugin...");
+    if (!hookPermission() || !initialSetup()) {
       return;
     }
 
@@ -175,6 +178,52 @@ public final class RankGrantPlus extends BasePlugin {
 
     permissionHook = provider.getProvider();
     return true;
+  }
+
+  /**
+   * Performs the initial setup of the activation and expiration commands if they have not already
+   * been set and a supported permission plugin is being used. A list of plugins that can be
+   * automatically set up can be found in {@link SupportedPermissionPlugin}.
+   *
+   * @return true if OK to continue, false otherwise
+   */
+  private boolean initialSetup() {
+
+    // Commands for grant activation.
+    final List<String> activation = new ArrayList<>(
+        getSettings().getStringList("commands.activation"));
+
+    // Commands for grant expiration.
+    final List<String> expiration = new ArrayList<>(
+        getSettings().getStringList("commands.expiration"));
+
+    if (!activation.isEmpty() && !expiration.isEmpty()) {
+      return true;
+    }
+
+    for (SupportedPermissionPlugin plugin : SupportedPermissionPlugin.values()) {
+      if (Bukkit.getPluginManager().getPlugin(plugin.getName()) != null) {
+
+        activation.addAll(plugin.getActivationCommands());
+        expiration.addAll(plugin.getExpirationCommands());
+
+        getSettings().set("commands.activation", activation);
+        getSettings().set("commands.expiration", expiration);
+
+        try {
+          settingsFile.save();
+        } catch (IOException ex) {
+          Common.error(ex, "Failed to save settings.yml.", true);
+          return false;
+        }
+
+        getLogger().warning("Successfully completed initial setup for " + plugin.getName() + ".");
+        return true;
+      }
+    }
+
+    Common.error(null, "Activation/expiration commands are not set in settings.yml.", true);
+    return false;
   }
 
   /**

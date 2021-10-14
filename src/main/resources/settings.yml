@@ -11,3 +11,12 @@
 # -----------------------------------------------------------------------------
 
 config-version: 6
+
+# The commands that will be executed on grant activation and expiration.
+# These should correspond to your permission plugin and automatically set on startup.
+# Do not include the /. Use %target% for the player name and %rank% for the rank ID.
+commands:
+  # The list of commands to be executed when a rank is granted.
+  activation: [ ]
+  # The list of commands to be executed when a rank expires.
+  expiration: [ ]
