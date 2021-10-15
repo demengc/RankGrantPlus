@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
  */
 public class RankSelectMenu extends ConfigMenu {
 
-  public RankSelectMenu(RankGrantPlus i, OfflinePlayer target, Player issuer) {
+  public RankSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target) {
     super(i, "rank-select", Placeholders.of("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 

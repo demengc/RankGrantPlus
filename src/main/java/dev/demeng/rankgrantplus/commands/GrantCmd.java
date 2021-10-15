@@ -28,6 +28,6 @@ public class GrantCmd extends CommandBase {
   @Usage("/grant <player>")
   public void runDefault(Player sender, @Completion("#players") String strTarget) {
     //noinspection deprecation
-    new RankSelectMenu(i, Bukkit.getOfflinePlayer(strTarget), sender).open(sender);
+    new RankSelectMenu(i, sender, Bukkit.getOfflinePlayer(strTarget)).open(sender);
   }
 }
