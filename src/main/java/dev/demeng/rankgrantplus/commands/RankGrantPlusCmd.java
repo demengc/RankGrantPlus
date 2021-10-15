@@ -6,11 +6,11 @@ import dev.demeng.pluginbase.command.CommandBase;
 import dev.demeng.pluginbase.command.annotations.Aliases;
 import dev.demeng.pluginbase.command.annotations.Command;
 import dev.demeng.pluginbase.command.annotations.Default;
+import dev.demeng.pluginbase.command.annotations.Description;
 import dev.demeng.pluginbase.command.annotations.Permission;
 import dev.demeng.pluginbase.command.annotations.SubCommand;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
-import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -20,13 +20,13 @@ import org.bukkit.configuration.InvalidConfigurationException;
  */
 @RequiredArgsConstructor
 @Command("rankgrantplus")
-@Description("Main command for RankGrant+.")
 @Aliases({"rankgrant+", "rg+"})
 public class RankGrantPlusCmd extends CommandBase {
 
   private final RankGrantPlus i;
 
   @Default
+  @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
     ChatUtils.coloredTell(
         sender,
