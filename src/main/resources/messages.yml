@@ -25,3 +25,6 @@ insufficient-permission: "&aYou must have the &f%permission% &apermission to do 
 # If the command sender does not provide enough/valid arguments.
 # Use %usage% for the correct usage.
 incorrect-usage: "&aIncorrect usage! Did you mean: &f%usage%"
+
+# When configuration files have been successfully reloaded.
+reloaded: "&aSuccessfully reloaded configuration files."

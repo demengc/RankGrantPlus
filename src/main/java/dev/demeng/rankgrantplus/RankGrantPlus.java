@@ -33,6 +33,7 @@ import dev.demeng.pluginbase.YamlConfig;
 import dev.demeng.pluginbase.chat.ChatUtils;
 import dev.demeng.pluginbase.plugin.BaseManager;
 import dev.demeng.pluginbase.plugin.BasePlugin;
+import dev.demeng.rankgrantplus.commands.RankGrantPlusCmd;
 import dev.demeng.rankgrantplus.util.SupportedPermissionPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,6 +91,9 @@ public final class RankGrantPlus extends BasePlugin {
     if (!hookPermission() || !initialSetup()) {
       return;
     }
+
+    getLogger().info("Registering commands...");
+    getCommandManager().register(new RankGrantPlusCmd(this));
 
     getLogger().info("Loading metrics...");
     loadMetrics();
