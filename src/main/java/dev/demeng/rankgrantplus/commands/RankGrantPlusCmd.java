@@ -20,7 +20,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
  */
 @RequiredArgsConstructor
 @Command("rankgrantplus")
-@Aliases({"rankgrant+", "rg+"})
+@Aliases({"rgp"})
 public class RankGrantPlusCmd extends CommandBase {
 
   private final RankGrantPlus i;
