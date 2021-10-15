@@ -92,7 +92,7 @@ public final class RankGrantPlus extends BasePlugin {
     }
 
     getLogger().info("Loading metrics...");
-    new Metrics(this, 3766);
+    loadMetrics();
 
     getLogger().info("Checking for updates...");
     checkUpdates();
@@ -224,6 +224,20 @@ public final class RankGrantPlus extends BasePlugin {
 
     Common.error(null, "Activation/expiration commands are not set in settings.yml.", true);
     return false;
+  }
+
+  /**
+   * Loads bStats metrics (sends stats if enabled in bStats config).
+   */
+  private void loadMetrics() {
+    try {
+      new Metrics(this, 3766);
+    } catch (IllegalStateException ex) {
+      if (ex.getMessage().equals("bStats Metrics class has not been relocated correctly!")) {
+        // Send warning instead of disabling, since bStats is not relocated when I'm testing.
+        getLogger().warning("bStats has not been relocated, skipping.");
+      }
+    }
   }
 
   /**
