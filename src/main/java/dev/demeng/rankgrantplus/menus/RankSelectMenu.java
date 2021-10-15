@@ -24,6 +24,7 @@ public class RankSelectMenu extends ConfigMenu {
 
       final String permission = i.getRanks().getString("ranks." + rank + ".permission");
 
+      // Do not display the rank if the issuer does not have the required permission.
       if (permission != null
           && !permission.equalsIgnoreCase("none")
           && !issuer.hasPermission(permission)) {
