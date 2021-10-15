@@ -20,3 +20,13 @@ commands:
   activation: [ ]
   # The list of commands to be executed when a rank expires.
   expiration: [ ]
+
+# Style configuration for the menus.
+menus:
+  # Configuration for the rank selection menu.
+  rank-select:
+    # The number of slots in the menu.
+    # Must be between 9 and 54 and be a multiple of 9.
+    slots: 54
+    # The GUI title. You can use %target% for the target player's name.
+    title: "Select a Rank"

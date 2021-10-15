@@ -11,3 +11,22 @@
 # -----------------------------------------------------------------------------
 
 config-version: 3
+
+# The list of ranks.
+ranks:
+  # The ID of the GROUP, AS IN YOUR PERMISSION PLUGIN.
+  example:
+    # The slot that this rank will appear in.
+    slot: 1
+    # The name of the material that the rank will show up as in the menu.
+    material: "BEACON"
+    # The display name of the rank.
+    display-name: "&2&lExample Rank"
+    # The lore of the rank.
+    lore:
+      - "&7This is an example rank."
+      - "&0"
+      - "&a&lClick to select this rank."
+    # The custom permission required to see this rank in the GUI.
+    # Set as "none" if there should be no additional permissions required.
+    permission: "rankgrantplus.grant.example"
