@@ -30,3 +30,32 @@ menus:
     slots: 54
     # The GUI title. You can use %target% for the target player's name.
     title: "Select a Rank"
+  duration-select:
+    slots: 54
+    title: "Select a Duration"
+    # The button for adding 1 second to the duration.
+    add-second:
+      # The slot that this button should go in, starts at 1.
+      slot: 12
+      # The name of the material for the button.
+      material: "EMERALD_BLOCK"
+      # The display name of the button.
+      display-name: "&a+1 Second"
+      # The lore of the button.
+      # You can use %duration% for the current duration.
+      lore:
+        - "&aCurrent Duration: &f%duration%"
+    # The button for subtracting 1 second from the duration.
+    subtract-second:
+      slot: 16
+      material: "REDSTONE_BLOCK"
+      display-name: "&c-1 Second"
+      lore:
+        - "&cCurrent Duration: &f%duration%"
+    # The button to continue to reason selection.
+    continue:
+      slot: 54
+      material: "ARROW"
+      display-name: "&6&lContinue"
+      lore:
+        - "&eClick to confirm the grant duration of &f%duration%&e."

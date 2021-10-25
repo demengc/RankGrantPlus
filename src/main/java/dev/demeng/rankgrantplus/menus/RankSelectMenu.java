@@ -37,7 +37,7 @@ public class RankSelectMenu extends ConfigMenu {
       addButton(MenuButton.fromConfig(
           Objects.requireNonNull(i.getRanks().getConfigurationSection("ranks." + rank)),
           Placeholders.of("%target%", target.getName()).add("%rank%", strippedName),
-          event -> ChatUtils.log("Selected rank: " + rank)));
+          event -> new DurationSelectMenu(i, issuer, target, rank).open(issuer)));
     }
   }
 }
