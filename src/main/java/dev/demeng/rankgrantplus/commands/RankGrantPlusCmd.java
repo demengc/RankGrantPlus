@@ -11,8 +11,10 @@ import dev.demeng.pluginbase.command.annotations.Permission;
 import dev.demeng.pluginbase.command.annotations.SubCommand;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 /**
@@ -52,5 +54,44 @@ public class RankGrantPlusCmd extends CommandBase {
     }
 
     ChatUtils.tell(sender, i.getMessages().getString("reloaded"));
+  }
+
+  @SubCommand("import")
+  @Description("Imports ranks from your permissions plugin.")
+  @Permission("rankgrantplus.import")
+  public void runImport(CommandSender sender) {
+
+    int slot = 1;
+
+    for (String group : i.getPermissionHook().getGroups()) {
+
+      if (slot > i.getSettings().getInt("menus.rank-select.size")) {
+        break;
+      }
+
+      final ConfigurationSection section = i.getRanks().createSection("ranks." + group);
+      section.set("slot", slot);
+      section.set("material", "BEACON");
+      section.set("display-name", "&2&l" + group);
+      section.set("lore",
+          Arrays.asList("&7This is an imported rank.",
+              "&7You can edit this in ranks.yml.",
+              "&0",
+              "&a&lClick to select this rank."));
+      section.set("permission", "none");
+
+      slot++;
+    }
+
+    i.getRanks().set("ranks.example", null);
+
+    try {
+      i.getRanksFile().save();
+    } catch (IOException ex) {
+      Common.error(ex, "Failed to import ranks.", false, sender);
+      return;
+    }
+
+    ChatUtils.tell(sender, i.getMessages().getString("imported"));
   }
 }

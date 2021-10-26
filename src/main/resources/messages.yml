@@ -29,6 +29,9 @@ incorrect-usage: "&aIncorrect usage! Did you mean: &f%usage%"
 # When configuration files have been successfully reloaded.
 reloaded: "&aSuccessfully reloaded configuration files."
 
+# Imports ranks from your permissions plugin.
+imported: "&aSuccessfully imported ranks."
+
 # The console logging format for grants.
 # %issuer% - The name of the player granting the rank.
 # %target% - The name of the player receiving the rank.
