@@ -1,10 +1,10 @@
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.chat.ChatUtils;
 import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
+import dev.demeng.rankgrantplus.util.Utils;
 import java.util.Objects;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -31,12 +31,11 @@ public class RankSelectMenu extends ConfigMenu {
         continue;
       }
 
-      final String strippedName = ChatUtils.strip(
-          i.getRanks().getString("ranks." + rank + ".display-name"));
-
       addButton(MenuButton.fromConfig(
           Objects.requireNonNull(i.getRanks().getConfigurationSection("ranks." + rank)),
-          Placeholders.of("%target%", target.getName()).add("%rank%", strippedName),
+          Placeholders
+              .of("%target%", target.getName())
+              .add("%rank%", Utils.getRankName(rank)),
           event -> new DurationSelectMenu(i, issuer, target, rank).open(issuer)));
     }
   }

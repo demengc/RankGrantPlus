@@ -39,7 +39,9 @@ import dev.demeng.rankgrantplus.util.SupportedPermissionPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -51,6 +53,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  * The main class for RankGrant+.
  */
 public final class RankGrantPlus extends BasePlugin {
+
+  @Getter @Setter(AccessLevel.PACKAGE) private static RankGrantPlus instance;
 
   // Managers for the corresponding configuration file.
   @Getter private YamlConfig settingsFile;
@@ -71,6 +75,8 @@ public final class RankGrantPlus extends BasePlugin {
   public void enable() {
 
     final long startTime = System.currentTimeMillis();
+
+    setInstance(this);
 
     ChatUtils.coloredConsole("\n\n"
         + "&2__________  ________             \n"

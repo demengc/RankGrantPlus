@@ -6,6 +6,7 @@ import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
+import dev.demeng.rankgrantplus.util.Utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -44,7 +45,7 @@ public class DurationSelectMenu extends ConfigMenu {
   private final String rank;
 
   private long currentSeconds = 0;
-  private Placeholders placeholders = Placeholders.of("%duration%", "Permanent");
+  private Placeholders placeholders;
   private long lastClicked;
 
   public DurationSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank) {
@@ -55,6 +56,10 @@ public class DurationSelectMenu extends ConfigMenu {
     this.issuer = issuer;
     this.target = target;
     this.rank = rank;
+    this.placeholders = Placeholders
+        .of("%target%", target.getName())
+        .add("%rank%", Utils.getRankName(rank))
+        .add("%duration%", "Permanent");
 
     for (Map.Entry<String, Long> option : OPTIONS.entrySet()) {
 
@@ -100,8 +105,7 @@ public class DurationSelectMenu extends ConfigMenu {
       currentSeconds = 0;
     }
 
-    placeholders = Placeholders.of("%duration%", currentSeconds == 0
-        ? "Permanent"
+    placeholders.add("%duration%", currentSeconds == 0 ? "Permanent"
         : TimeUtils.formatDuration(DurationFormatter.LONG, currentSeconds * 1000));
   }
 }

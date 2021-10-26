@@ -104,5 +104,38 @@ menus:
         - "&eClick to confirm the grant duration of &f%duration%&e."
   # Configuration for the reason selection menu.
   reason-select:
-    size: 54
+    size: 36
     title: "Select a Reason"
+    # The list of reasons that will be available for selection.
+    reasons:
+      # The reason ID (can be anything).
+      issue:
+        slot: 1
+        material: "PAPER"
+        # The display name- will be used in both the GUI and chat messages.
+        display-name: "&aDonation Store Issues"
+        lore:
+          - "&fThere was an issue in the donation store."
+        # The custom permission node required to choose this reason.
+        permission: "none"
+      promotion:
+        slot: 2
+        material: "PAPER"
+        display-name: "&aPromotion"
+        lore:
+          - "&fPromote %target% to the %rank% rank!"
+        permission: "none"
+      demotion:
+        slot: 3
+        material: "PAPER"
+        display-name: "&aDemotion"
+        lore:
+          - "&fDemote %target% to the %rank% rank!"
+        permission: "none"
+      other:
+        slot: 4
+        material: "BOOK"
+        display-name: "&aOther"
+        lore:
+          - "&fThis grant has no reason or the reason is not listed."
+        permission: "none"
