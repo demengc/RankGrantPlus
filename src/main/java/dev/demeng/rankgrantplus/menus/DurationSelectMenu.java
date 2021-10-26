@@ -25,13 +25,11 @@ public class DurationSelectMenu extends ConfigMenu {
   private static final long RATE_LIMIT = 180L;
 
   static {
-    OPTIONS.put("add-second", 1L);
     OPTIONS.put("add-minute", 60L);
     OPTIONS.put("add-hour", 3600L);
     OPTIONS.put("add-day", 86400L);
     OPTIONS.put("add-week", 604800L);
 
-    OPTIONS.put("subtract-second", -1L);
     OPTIONS.put("subtract-minute", -60L);
     OPTIONS.put("subtract-hour", -3600L);
     OPTIONS.put("subtract-day", -86400L);
