@@ -25,7 +25,6 @@ public class ConfirmMenu extends ConfigMenu {
   private final OfflinePlayer target;
   private final String rank;
   private final long duration;
-  private final String reason;
   private final Placeholders placeholders;
 
   protected ConfirmMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
@@ -38,7 +37,6 @@ public class ConfirmMenu extends ConfigMenu {
     this.target = target;
     this.rank = rank;
     this.duration = duration;
-    this.reason = reason;
     this.placeholders = Placeholders
         .of("%issuer%", issuer.getName())
         .add("%target%", Objects.requireNonNull(target.getName()))
@@ -71,7 +69,8 @@ public class ConfirmMenu extends ConfigMenu {
         .add("%duration%", TimeUtils.formatDuration(DurationFormatter.CONCISE, duration * 1000));
 
     if (duration > 0) {
-      i.getData().set(target.getUniqueId() + "," + rank, duration);
+      i.getData().set("temp-grants" + "." + target.getUniqueId() + "," + rank,
+          System.currentTimeMillis() + (duration * 1000));
 
       try {
         i.getDataFile().save();

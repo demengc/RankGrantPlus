@@ -35,6 +35,7 @@ import dev.demeng.pluginbase.plugin.BaseManager;
 import dev.demeng.pluginbase.plugin.BasePlugin;
 import dev.demeng.rankgrantplus.commands.GrantCmd;
 import dev.demeng.rankgrantplus.commands.RankGrantPlusCmd;
+import dev.demeng.rankgrantplus.tasks.GrantExpirationTask;
 import dev.demeng.rankgrantplus.util.SupportedPermissionPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,6 +103,9 @@ public final class RankGrantPlus extends BasePlugin {
     getLogger().info("Registering commands...");
     getCommandManager().register(new RankGrantPlusCmd(this));
     getCommandManager().register(new GrantCmd(this));
+
+    getLogger().info("Starting tasks...");
+    Bukkit.getScheduler().runTaskTimer(this, new GrantExpirationTask(this), 100L, 100L);
 
     getLogger().info("Loading metrics...");
     loadMetrics();
