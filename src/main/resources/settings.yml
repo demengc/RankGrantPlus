@@ -139,3 +139,29 @@ menus:
         lore:
           - "&fThis grant has no reason or the reason is not listed."
         permission: "none"
+  # Configuration for the grant confirmation menu.
+  confirm:
+    size: 54
+    title: "Confirm Grant"
+    # The button for confirming the grant.
+    # %target% - The name of the player receiving the rank.
+    # %rank% - The rank to be given.
+    # %duration% - The duration of the grant.
+    # %reason% - The reason of the grant.
+    confirm:
+      slot: 11
+      display-name: "&2Confirm Grant"
+      lore:
+        - "&aTarget: &f%target%"
+        - "&aRank: &f%rank%"
+        - "&aDuration: &f%duration%"
+        - "&aReason: &f%reason%"
+    # The button for cancelling the grant.
+    cancel:
+      slot: 17
+      display-name: "&4Cancel Grant"
+      lore:
+        - "&cTarget: &f%target%"
+        - "&cRank: &f%rank%"
+        - "&cDuration: &f%duration%"
+        - "&cReason: &f%reason%"

@@ -28,3 +28,35 @@ incorrect-usage: "&aIncorrect usage! Did you mean: &f%usage%"
 
 # When configuration files have been successfully reloaded.
 reloaded: "&aSuccessfully reloaded configuration files."
+
+# The console logging format for grants.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+log-format: "%issuer% granted %target% the %rank% rank for %duration% with the reason %reason%"
+
+# When the grant issuer confirms the grant.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+grant-confirm: "&aGranted &f%target% &athe &f%rank% &arank for &f%duration% &awith the reason &f%reason%&a."
+
+# When the grant issuer cancels the grant.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+grant-cancel: "&aGrant has been cancelled."
+
+# The notification sent to the grant target when they have been granted a rank.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+notification: "none"
