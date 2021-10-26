@@ -1,7 +1,5 @@
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.TimeUtils;
-import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
 import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
@@ -24,7 +22,7 @@ public class ReasonSelectMenu extends ConfigMenu {
     final Placeholders placeholders = Placeholders
         .of("%target%", Objects.requireNonNull(target.getName()))
         .add("%rank%", Utils.getRankName(rank))
-        .add("%duration%", TimeUtils.formatDuration(DurationFormatter.LONG, duration * 1000));
+        .add("%duration%", Utils.formatDuration(duration));
 
     for (String reason : Objects.requireNonNull(
         i.getSettings().getConfigurationSection("menus.reason-select.reasons"),

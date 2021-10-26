@@ -59,4 +59,4 @@ grant-cancel: "&aGrant has been cancelled."
 # %rank% - The rank to be given.
 # %duration% - The duration of the grant.
 # %reason% - The reason of the grant.
-notification: "none"
+notification: "&aYou have been granted the &f%rank% &arank!"

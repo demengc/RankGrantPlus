@@ -141,7 +141,7 @@ menus:
         permission: "none"
   # Configuration for the grant confirmation menu.
   confirm:
-    size: 54
+    size: 27
     title: "Confirm Grant"
     # The button for confirming the grant.
     # %target% - The name of the player receiving the rank.
@@ -149,7 +149,8 @@ menus:
     # %duration% - The duration of the grant.
     # %reason% - The reason of the grant.
     confirm:
-      slot: 11
+      slot: 12
+      material: "GREEN_TERRACOTTA"
       display-name: "&2Confirm Grant"
       lore:
         - "&aTarget: &f%target%"
@@ -158,7 +159,8 @@ menus:
         - "&aReason: &f%reason%"
     # The button for cancelling the grant.
     cancel:
-      slot: 17
+      slot: 16
+      material: "RED_TERRACOTTA"
       display-name: "&4Cancel Grant"
       lore:
         - "&cTarget: &f%target%"

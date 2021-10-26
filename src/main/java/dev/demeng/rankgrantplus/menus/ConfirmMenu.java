@@ -41,7 +41,7 @@ public class ConfirmMenu extends ConfigMenu {
         .of("%issuer%", issuer.getName())
         .add("%target%", Objects.requireNonNull(target.getName()))
         .add("%rank%", Utils.getRankName(rank))
-        .add("%duration%", TimeUtils.formatDuration(DurationFormatter.LONG, duration * 1000))
+        .add("%duration%", Utils.formatDuration(duration))
         .add("%reason%", Utils.getReasonName(reason));
 
     addButton(MenuButton.fromConfig(Objects.requireNonNull(

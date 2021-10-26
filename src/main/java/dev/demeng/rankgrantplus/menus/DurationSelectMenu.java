@@ -1,7 +1,5 @@
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.TimeUtils;
-import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
 import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
@@ -105,7 +103,6 @@ public class DurationSelectMenu extends ConfigMenu {
       currentSeconds = 0;
     }
 
-    placeholders.add("%duration%", currentSeconds == 0 ? "Permanent"
-        : TimeUtils.formatDuration(DurationFormatter.LONG, currentSeconds * 1000));
+    placeholders.add("%duration%", Utils.formatDuration(currentSeconds));
   }
 }
