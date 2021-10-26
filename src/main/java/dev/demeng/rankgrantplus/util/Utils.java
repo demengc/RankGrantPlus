@@ -28,11 +28,14 @@ import dev.demeng.pluginbase.TimeUtils;
 import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
 import dev.demeng.pluginbase.chat.ChatUtils;
 import dev.demeng.rankgrantplus.RankGrantPlus;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Common utilities.
  */
-public class Utils {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Utils {
 
   /**
    * Gets the stripped display name of the rank.
