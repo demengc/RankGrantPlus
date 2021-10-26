@@ -84,7 +84,7 @@ public class ConfirmMenu extends ConfigMenu {
       Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmdPlaceholders.set(command));
     }
 
-    ChatUtils.log(cmdPlaceholders.set(i.getSettings().getString("log-format")));
+    ChatUtils.log(cmdPlaceholders.set(i.getMessages().getString("log-format")));
 
     if (target.isOnline()) {
       ChatUtils.tell((Player) target, placeholders.set(i.getMessages().getString("notification")));
