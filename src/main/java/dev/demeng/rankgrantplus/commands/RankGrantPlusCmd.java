@@ -32,7 +32,7 @@ public class RankGrantPlusCmd extends CommandBase {
         sender,
         "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.",
         "&aLink: &fhttps://spigotmc.org/resources/63403/",
-        "&aEnjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
+        "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
   }
 
   @SubCommand("reload")
