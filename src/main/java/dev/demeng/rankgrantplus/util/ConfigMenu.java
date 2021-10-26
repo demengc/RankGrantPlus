@@ -23,7 +23,7 @@ public class ConfigMenu extends Menu {
    * @param name The name of the menu in settings.yml
    */
   protected ConfigMenu(RankGrantPlus i, String name, Placeholders titlePlaceholders) {
-    super(i.getSettings().getInt(BASE_PATH + name + ".slots"),
+    super(i.getSettings().getInt(BASE_PATH + name + ".size"),
         titlePlaceholders.set(
             Objects.requireNonNull(i.getSettings().getString(BASE_PATH + name + ".title"),
                 "Menu title is null: " + name)));

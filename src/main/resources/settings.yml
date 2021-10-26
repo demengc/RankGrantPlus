@@ -27,11 +27,12 @@ menus:
   rank-select:
     # The number of slots in the menu.
     # Must be between 9 and 54 and be a multiple of 9.
-    slots: 54
+    size: 54
     # The GUI title. You can use %target% for the target player's name.
     title: "Select a Rank"
+  # Configuration for the duration selection menu.
   duration-select:
-    slots: 54
+    size: 54
     title: "Select a Duration"
     # The button for adding 1 minute to the duration.
     add-minute:
@@ -101,3 +102,7 @@ menus:
       display-name: "&6&lContinue"
       lore:
         - "&eClick to confirm the grant duration of &f%duration%&e."
+  # Configuration for the reason selection menu.
+  reason-select:
+    size: 54
+    title: "Select a Reason"
