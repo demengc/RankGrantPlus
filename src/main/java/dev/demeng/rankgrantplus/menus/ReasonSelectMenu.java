@@ -2,7 +2,6 @@ package dev.demeng.rankgrantplus.menus;
 
 import dev.demeng.pluginbase.TimeUtils;
 import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
-import dev.demeng.pluginbase.chat.ChatUtils;
 import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
@@ -43,10 +42,7 @@ public class ReasonSelectMenu extends ConfigMenu {
 
       addButton(MenuButton.fromConfig(
           Objects.requireNonNull(i.getSettings().getConfigurationSection(path)), placeholders,
-          event -> {
-            ChatUtils.log("Selected Reason: " + Utils.getReasonName(reason));
-            //TODO Open confirmation menu.
-          }));
+          event -> new ConfirmMenu(i, issuer, target, rank, duration, reason).open(issuer)));
     }
   }
 }
