@@ -51,7 +51,7 @@ public class ConfirmMenu extends ConfigMenu {
   private final long duration;
   private final Placeholders placeholders;
 
-  protected ConfirmMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
+  ConfirmMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
       long duration, String reason) {
     super(i, "confirm", Placeholders.of("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));

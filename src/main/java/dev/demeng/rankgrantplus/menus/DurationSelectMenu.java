@@ -70,7 +70,7 @@ public class DurationSelectMenu extends ConfigMenu {
   private final Placeholders placeholders;
   private long lastClicked;
 
-  public DurationSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank) {
+  DurationSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank) {
     super(i, "duration-select", Placeholders.of("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 

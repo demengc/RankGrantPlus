@@ -38,7 +38,7 @@ import org.bukkit.entity.Player;
  */
 public class ReasonSelectMenu extends ConfigMenu {
 
-  public ReasonSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
+  ReasonSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
       long duration) {
     super(i, "reason-select", Placeholders.of("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
