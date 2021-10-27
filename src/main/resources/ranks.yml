@@ -1,50 +1,32 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  _____             _     _____                 _          #
-# |  __ \           | |   / ____|               | |    _    #
-# | |__) |__ _ _ __ | | _| |  __ _ __ __ _ _ __ | |_ _| |_  #
-# |  _  // _` | '_ \| |/ / | |_ | '__/ _` | '_ \| __|_   _| #
-# | | \ \ (_| | | | |   <| |__| | | | (_| | | | | |_  |_|   #
-# |_|  \_\__,_|_| |_|_|\_\\_____|_|  \__,_|_| |_|\__|       #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# -----------------------------------------------------------------------------
+# __________  ________
+# \______   \/  _____/     .__
+#  |       _/   \  ___   __|  |___
+#  |    |   \    \_\  \ /__    __/
+#  |____|_  /\______  /    |__|
+#         \/        \/
 # |
-# RANKS CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
-# This is where you can customize basically everything that has to do with ranks in RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options.
-# Thank you for using RankGrant+!
+# RANKS.YML - This is where you configure the ranks for RankGrant+.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
 
-config-version: 2
+config-version: 3
 
-# Should RankGrant+ automatically search through your permissions plugin and list all ranks in the /grant GUI?
-auto-list-ranks: true
-
-# If the setting above is "true", what will each button be in terms of visuals?
-default-format:
-  item: "WHITE_WOOL"
-  name: "&2%rank%"
-  lore:
-    - "&f&m                                                          "
-    - "&aClick to grant &f%target% &athe &f%rank% &arank."
-    - "&f&m                                                          "
-
-# This is a very important configuration section if you DO NOT WANT TO AUTO-LIST RANKS.
-# This is where you list all your ranks and customize each rank item in the GUI.
-# To add a rank, simply start a new configuration section by the name of the group in your permission plugin.
-# Then, fill out the slot, item, name, lore, and special permission required to grant this rank.
+# The list of ranks.
 ranks:
-  JUST_AN_EXAMPLE_RANK:
+  # The ID of the GROUP, AS IN YOUR PERMISSION PLUGIN.
+  example:
+    # The slot that this rank will appear in.
     slot: 1
-    item: "REDSTONE"
-    name: "&4&lExample Rank"
+    # The name of the material that the rank will show up as in the menu.
+    material: "BEACON"
+    # The display name of the rank.
+    display-name: "&2&lExample Rank"
+    # The lore of the rank.
     lore:
-      - "&cThis is the description of the rank."
-      - "&cHope you enjoy this example! :)"
-    permission: "your.custom.required.permission.here"
-  Rank2:
-    slot: 2
-    item: "NETHER_STAR"
-    name: "&b&lA Cool Rank"
-    lore:
-      - "&6Want to make somebody a cool guy?"
-      - "&6Grant them this rank!"
-      - "&6You're currently making &e%target% &6a cool guy."
-    permission: "custom.permission"
+      - "&7This is an example rank."
+      - "&0"
+      - "&a&lClick to select this rank."
+    # The custom permission required to see this rank in the GUI.
+    # Set as "none" if there should be no additional permissions required.
+    permission: "rankgrantplus.grant.example"

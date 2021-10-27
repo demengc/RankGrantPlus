@@ -1,46 +1,65 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  _____             _     _____                 _          #
-# |  __ \           | |   / ____|               | |    _    #
-# | |__) |__ _ _ __ | | _| |  __ _ __ __ _ _ __ | |_ _| |_  #
-# |  _  // _` | '_ \| |/ / | |_ | '__/ _` | '_ \| __|_   _| #
-# | | \ \ (_| | | | |   <| |__| | | | (_| | | | | |_  |_|   #
-# |_|  \_\__,_|_| |_|_|\_\\_____|_|  \__,_|_| |_|\__|       #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# -----------------------------------------------------------------------------
+# __________  ________
+# \______   \/  _____/     .__
+#  |       _/   \  ___   __|  |___
+#  |    |   \    \_\  \ /__    __/
+#  |____|_  /\______  /    |__|
+#         \/        \/
 # |
-# LANGUAGE CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG7215 #
-# This is where you can customize the messages for RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options.
-# Thank you for using RankGrant+!
+# MESSAGES.YML - This is where you configure the locale for RankGrant+.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
 
-config-version: 6
+config-version: 7
 
-# The prefix that will be displayed in front of every message RankGrant+ sends.
-prefix: "&8[&2RankGrant+&8] &r"
+# The prefix that will be displayed in front of most messages.
+prefix: "&2[RG+] &r"
 
-# The message the person WHO RECEIVES THE RANK will receive.
-notification: "&aYou have been granted the &f%rank% &arank for &f%duration% &afor the reason &f%reason% &aby &f%op%&a."
+# If the command is players-only but was executed by the console.
+not-player: "&aYou must be a player to execute that command."
 
-# This message will be sent if the command executor does not have permission to execute the command.
-no-permission: "&aYou do not have permission to execute that command."
+# If the command executor does not have sufficient permission.
+# Use %permission% for the required permission.
+insufficient-permission: "&aYou must have the &f%permission% &apermission to do that!"
 
-# The message that will be sent if a user uses one of RankGrant+'s command incorrectly.
-invalid-args: "&aInvalid arguments. Please see command usage."
+# If the command sender does not provide enough/valid arguments.
+# Use %usage% for the correct usage.
+incorrect-usage: "&aIncorrect usage! Did you mean: &f%usage%"
 
-# This message will be sent when all configuration files have been successfully reloaded.
-reloaded: "&aSuccessfully reloaded all configuration files."
+# When configuration files have been successfully reloaded.
+reloaded: "&aSuccessfully reloaded configuration files."
 
-# The message that will be sent if a player tries to execute a command they do not have sufficient permission to.
-not-player: "&aYou must be a player to execute this command."
+# Imports ranks from your permissions plugin.
+imported: "&aSuccessfully imported ranks."
 
-# The names of the GUIs for Select Rank, Duration Selection, Select Reason, and Confirm Grant.
-gui-names:
-  select-rank: "&2Select a Rank"
-  choose-time: "&2Choose Duration of Grant"
-  select-reason: "&2Select a Reason"
-  confirm-grant: "&2Confirm Grant"
+# The console logging format for grants.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+log-format: "%issuer% granted %target% the %rank% rank for %duration% with the reason %reason%"
 
-# This message will be sent if an error occurred during the granting process.
-failed-grant: "&aError: Could not grant. Please try again."
+# When the grant issuer confirms the grant.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+grant-confirm: "&aGranted &f%target% &athe &f%rank% &arank for &f%duration% &awith the reason &f%reason%&a."
 
-# The format of each log in log.txt.
-log-format: "%op% granted %target% the %rank% rank for the reason %reason%. Duration: %duration%"
+# When the grant issuer cancels the grant.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+grant-cancel: "&aGrant has been cancelled."
+
+# The notification sent to the grant target when they have been granted a rank.
+# %issuer% - The name of the player granting the rank.
+# %target% - The name of the player receiving the rank.
+# %rank% - The rank to be given.
+# %duration% - The duration of the grant.
+# %reason% - The reason of the grant.
+notification: "&aYou have been granted the &f%rank% &arank!"

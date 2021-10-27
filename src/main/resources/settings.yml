@@ -1,197 +1,169 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#  _____             _     _____                 _          #
-# |  __ \           | |   / ____|               | |    _    #
-# | |__) |__ _ _ __ | | _| |  __ _ __ __ _ _ __ | |_ _| |_  #
-# |  _  // _` | '_ \| |/ / | |_ | '__/ _` | '_ \| __|_   _| #
-# | | \ \ (_| | | | |   <| |__| | | | (_| | | | | |_  |_|   #
-# |_|  \_\__,_|_| |_|_|\_\\_____|_|  \__,_|_| |_|\__|       #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# -----------------------------------------------------------------------------
+# __________  ________
+# \______   \/  _____/     .__
+#  |       _/   \  ___   __|  |___
+#  |    |   \    \_\  \ /__    __/
+#  |____|_  /\______  /    |__|
+#         \/        \/
 # |
-# CONFIGURATION FILE FOR RANKGRANT+ BY DEMENG #
-# This is where you can customize the functions of RankGrant+. #
-# Everything in this file should be clearly explained. For questions, use the support options.
-# Thank you for using RankGrant+!
+# SETTINGS.YML - This is where you configure the settings for RankGrant+.
+# Support: https://demeng.dev/discord
+# -----------------------------------------------------------------------------
 
-config-version: 5
+config-version: 6
 
-# The commands that are executed on grant/ungrant. This should be the commands from your permissions plugin.
-# DO NOT leave this as "none"!
+# The commands that will be executed on grant activation and expiration.
+# These should correspond to your permission plugin and automatically set on startup.
+# Do not include the /. Use %target% for the player name and %rank% for the rank ID.
 commands:
-  grant:
-    - "none"
-  ungrant:
-    - "none"
+  # The list of commands to be executed when a rank is granted.
+  activation: [ ]
+  # The list of commands to be executed when a rank expires.
+  expiration: [ ]
 
-# The size of the Rank Selection GUI and the Reason Selection GUI, in terms of number of slots.
-# Must be a multiple of 9.
-gui-size:
-  ranks: 54
-  reasons: 54
-
-# Everything that will be listed in the reason selection GUI.
-reasons:
-  issue:
-    slot: 1
-    item: "PAPER"
-    name: "&2Donation Store Issues"
-    lore:
-      - "&aThere was an issue in the donation store."
-      - "&aThe purchased rank requires to be manually given."
-    permission: "rankgrantplus.grant"
-  promotion:
-    slot: 2
-    item: "PAPER"
-    name: "&2Promotion"
-    lore:
-      - "&aPromote &f%target% &ato the &f%rank% &arank!"
-    permission: "rankgrantplus.grant"
-  demotion:
-    slot: 3
-    item: "PAPER"
-    name: "&2Demotion"
-    lore:
-      - "&aDemote &f%target% &ato the &f%rank% &arank!"
-    permission: "rankgrantplus.grant"
-  other:
-    slot: 4
-    item: "BOOK"
-    name: "&2Other"
-    lore:
-      - "&aThis grant has no reason or the reason is not listed."
-    permission: "rankgrantplus.grant"
-
-# Everything related to the Duration Selection GUI.
-duration:
-  # How should the durations be displayed?
-  duration-format: "&f%weeks%&7w &f%days%&7d &f%hours%&7h &f%minutes%&7m &f%seconds%&7s"
-  # If the grant is permanent, how should the word "Permanent" be displayed in place of the temporary duration?
-  word-permanent: "&fPermanent"
-  # Everything below in this section are the buttons in the Duration Selection GUI.
-  add-week:
-    slot: 12
-    item: "EMERALD_BLOCK"
-    name: "&2Add Week"
-    lore:
-      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-      - "&f&m                                                          "
-      - "&aCurrent Duration:"
-      - "%duration%"
-  add-day:
-    slot: 21
-    item: "EMERALD_BLOCK"
-    name: "&2Add Day"
-    lore:
-      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-      - "&f&m                                                          "
-      - "&aCurrent Duration:"
-      - "%duration%"
-  add-hour:
-    slot: 30
-    item: "EMERALD_BLOCK"
-    name: "&2Add Hour"
-    lore:
-      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-      - "&f&m                                                          "
-      - "&aCurrent Duration:"
-      - "%duration%"
-  add-minute:
-    slot: 39
-    item: "EMERALD_BLOCK"
-    name: "&2Add Minute"
-    lore:
-      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-      - "&f&m                                                          "
-      - "&aCurrent Duration:"
-      - "%duration%"
-  add-second:
-    slot: 48
-    item: "EMERALD_BLOCK"
-    name: "&2Add Second"
-    lore:
-      - "&aTemporarily grant &f%target% &athe &f%rank% &arank."
-      - "&f&m                                                          "
-      - "&aCurrent Duration:"
-      - "%duration%"
-  subtract-week:
-    slot: 16
-    item: "REDSTONE_BLOCK"
-    name: "&4Subtract Week"
-    lore:
-      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-      - "&f&m                                                          "
-      - "&cCurrent Duration:"
-      - "%duration%"
-  subtract-day:
-    slot: 25
-    item: "REDSTONE_BLOCK"
-    name: "&4Subtract Day"
-    lore:
-      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-      - "&f&m                                                          "
-      - "&cCurrent Duration:"
-      - "%duration%"
-  subtract-hour:
-    slot: 34
-    item: "REDSTONE_BLOCK"
-    name: "&4Subtract Hour"
-    lore:
-      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-      - "&f&m                                                          "
-      - "&cCurrent Duration:"
-      - "%duration%"
-  subtract-minute:
-    slot: 43
-    item: "REDSTONE_BLOCK"
-    name: "&4Subtract Minute"
-    lore:
-      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-      - "&f&m                                                          "
-      - "&cCurrent Duration:"
-      - "%duration%"
-  subtract-second:
-    slot: 52
-    item: "REDSTONE_BLOCK"
-    name: "&4Subtract Second"
-    lore:
-      - "&cTemporarily grant &f%target% &cthe &f%rank% &crank."
-      - "&f&m                                                          "
-      - "&cCurrent Duration:"
-      - "%duration%"
-  permanent:
-    slot: 5
-    item: "OBSIDIAN"
-    name: "&6Permanent"
-    lore:
-      - "&f%target% &ewill have the &f%rank% &erank forever."
-  continue:
-    slot: 54
-    item: "ARROW"
-    name: "&6&lContinue"
-    lore:
-      - "&eGrant &f%target% &ethe &f%rank% &efor &f%duration%&e."
-      - "&eContinue to the reason selection page."
-
-# Modify items in the Grant Confirmation GUI.
-confirmation:
+# Style configuration for the menus.
+menus:
+  # Configuration for the rank selection menu.
+  rank-select:
+    # The number of slots in the menu.
+    # Must be between 9 and 54 and be a multiple of 9.
+    size: 54
+    # The GUI title. You can use %target% for the target player's name.
+    title: "Select a Rank"
+  # Configuration for the duration selection menu.
+  duration-select:
+    size: 54
+    title: "Select a Duration"
+    # The button for adding 1 minute to the duration.
+    add-minute:
+      # The slot that this button should go in, starts at 1.
+      slot: 12
+      # The name of the material for the button.
+      material: "EMERALD_BLOCK"
+      # The display name of the button.
+      display-name: "&a+1 Minute"
+      # The lore of the button.
+      # You can use %duration% for the current duration.
+      lore:
+        - "&aCurrent Duration: &f%duration%"
+    # The button for adding 1 hour to the duration.
+    add-hour:
+      slot: 21
+      material: "EMERALD_BLOCK"
+      display-name: "&a+1 Hour"
+      lore:
+        - "&aCurrent Duration: &f%duration%"
+    # The button for adding 1 day to the duration.
+    add-day:
+      slot: 30
+      material: "EMERALD_BLOCK"
+      display-name: "&a+1 Day"
+      lore:
+        - "&aCurrent Duration: &f%duration%"
+    # The button for adding 1 week to the duration.
+    add-week:
+      slot: 39
+      material: "EMERALD_BLOCK"
+      display-name: "&a+1 Week"
+      lore:
+        - "&aCurrent Duration: &f%duration%"
+    # The button for subtracting 1 minute to the duration.
+    subtract-minute:
+      slot: 16
+      material: "REDSTONE_BLOCK"
+      display-name: "&c-1 Minute"
+      lore:
+        - "&cCurrent Duration: &f%duration%"
+    # The button for subtracting 1 hour to the duration.
+    subtract-hour:
+      slot: 25
+      material: "REDSTONE_BLOCK"
+      display-name: "&c-1 Hour"
+      lore:
+        - "&cCurrent Duration: &f%duration%"
+    # The button for subtracting 1 day to the duration.
+    subtract-day:
+      slot: 34
+      material: "REDSTONE_BLOCK"
+      display-name: "&c-1 Day"
+      lore:
+        - "&cCurrent Duration: &f%duration%"
+    # The button for subtracting 1 week to the duration.
+    subtract-week:
+      slot: 43
+      material: "REDSTONE_BLOCK"
+      display-name: "&c-1 Week"
+      lore:
+        - "&cCurrent Duration: &f%duration%"
+    # The button to continue to reason selection.
+    continue:
+      slot: 54
+      material: "ARROW"
+      display-name: "&6&lContinue"
+      lore:
+        - "&eClick to confirm the grant duration of &f%duration%&e."
+  # Configuration for the reason selection menu.
+  reason-select:
+    size: 36
+    title: "Select a Reason"
+    # The list of reasons that will be available for selection.
+    reasons:
+      # The reason ID (can be anything).
+      issue:
+        slot: 1
+        material: "PAPER"
+        # The display name- will be used in both the GUI and chat messages.
+        display-name: "&aDonation Store Issues"
+        lore:
+          - "&fThere was an issue in the donation store."
+        # The custom permission node required to choose this reason.
+        permission: "none"
+      promotion:
+        slot: 2
+        material: "PAPER"
+        display-name: "&aPromotion"
+        lore:
+          - "&fPromote %target% to the %rank% rank!"
+        permission: "none"
+      demotion:
+        slot: 3
+        material: "PAPER"
+        display-name: "&aDemotion"
+        lore:
+          - "&fDemote %target% to the %rank% rank!"
+        permission: "none"
+      other:
+        slot: 4
+        material: "BOOK"
+        display-name: "&aOther"
+        lore:
+          - "&fThis grant has no reason or the reason is not listed."
+        permission: "none"
+  # Configuration for the grant confirmation menu.
   confirm:
-    item: "EMERALD_BLOCK"
-    name: "&2&lConfirm Grant"
-    lore:
-      - "&aConfirm your grant."
-      - "&f&m                                                          "
-      - "&aTarget: &f%target%"
-      - "&aRank: &f%rank%"
-      - "&aDuration: %duration%"
-      - "&aReason: &f%reason%"
-    message: "&aGranted &f%target% &athe &f%rank% &arank for &f%duration% &afor the reason &f%reason%&a."
-  cancel:
-    item: "REDSTONE_BLOCK"
-    name: "&4&lCancel Grant"
-    lore:
-      - "&cCancel your grant."
-      - "&f&m                                                          "
-      - "&cTarget: &f%target%"
-      - "&cRank: &f%rank%"
-      - "&cDuration: %duration%"
-      - "&cReason: &f%reason%"
-    message: "&aGrant has been successfully cancelled."
+    size: 27
+    title: "Confirm Grant"
+    # The button for confirming the grant.
+    # %target% - The name of the player receiving the rank.
+    # %rank% - The rank to be given.
+    # %duration% - The duration of the grant.
+    # %reason% - The reason of the grant.
+    confirm:
+      slot: 12
+      material: "GREEN_TERRACOTTA"
+      display-name: "&2Confirm Grant"
+      lore:
+        - "&aTarget: &f%target%"
+        - "&aRank: &f%rank%"
+        - "&aDuration: &f%duration%"
+        - "&aReason: &f%reason%"
+    # The button for cancelling the grant.
+    cancel:
+      slot: 16
+      material: "RED_TERRACOTTA"
+      display-name: "&4Cancel Grant"
+      lore:
+        - "&cTarget: &f%target%"
+        - "&cRank: &f%rank%"
+        - "&cDuration: &f%duration%"
+        - "&cReason: &f%reason%"
