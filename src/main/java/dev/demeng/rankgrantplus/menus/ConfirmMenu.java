@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,16 +25,16 @@
 package dev.demeng.rankgrantplus.menus;
 
 import dev.demeng.pluginbase.Common;
-import dev.demeng.pluginbase.TimeUtils;
-import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
-import dev.demeng.pluginbase.chat.ChatUtils;
-import dev.demeng.pluginbase.chat.Placeholders;
+import dev.demeng.pluginbase.Time;
+import dev.demeng.pluginbase.Time.DurationFormatter;
 import dev.demeng.pluginbase.menu.model.MenuButton;
+import dev.demeng.pluginbase.text.Text;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
 import dev.demeng.rankgrantplus.util.Utils;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -49,11 +49,12 @@ public class ConfirmMenu extends ConfigMenu {
   private final OfflinePlayer target;
   private final String rank;
   private final long duration;
-  private final Placeholders placeholders;
+  private final String reason;
+  private final UnaryOperator<String> placeholders;
 
   ConfirmMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
       long duration, String reason) {
-    super(i, "confirm", Placeholders.of("%target%",
+    super(i, "confirm", str -> str.replace("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 
     this.i = i;
@@ -61,36 +62,40 @@ public class ConfirmMenu extends ConfigMenu {
     this.target = target;
     this.rank = rank;
     this.duration = duration;
-    this.placeholders = Placeholders
-        .of("%issuer%", issuer.getName())
-        .add("%target%", Objects.requireNonNull(target.getName()))
-        .add("%rank%", Utils.getRankName(rank))
-        .add("%duration%", Utils.formatDuration(duration))
-        .add("%reason%", Utils.getReasonName(reason));
+    this.reason = reason;
+    this.placeholders = str -> str
+        .replace("%issuer%", issuer.getName())
+        .replace("%target%", Objects.requireNonNull(target.getName()))
+        .replace("%rank%", Utils.getRankName(rank))
+        .replace("%duration%", Utils.formatDuration(duration))
+        .replace("%reason%", Utils.getReasonName(reason));
 
-    addButton(MenuButton.fromConfig(Objects.requireNonNull(
+    addButton(MenuButton.create(Objects.requireNonNull(
             i.getSettings().getConfigurationSection("menus.confirm.confirm"),
             "Confirm button is null"), placeholders,
         event -> {
           grant();
-          ChatUtils.tell(issuer, placeholders.set(i.getMessages().getString("grant-confirm")));
+          Text.tell(issuer, placeholders.apply(i.getMessages().getString("grant-confirm")));
           issuer.closeInventory();
         }));
 
-    addButton(MenuButton.fromConfig(Objects.requireNonNull(
+    addButton(MenuButton.create(Objects.requireNonNull(
             i.getSettings().getConfigurationSection("menus.confirm.cancel"),
             "Cancel button is null"), placeholders,
         event -> {
-          ChatUtils.tell(issuer, placeholders.set(i.getMessages().getString("grant-cancel")));
+          Text.tell(issuer, placeholders.apply(i.getMessages().getString("grant-cancel")));
           issuer.closeInventory();
         }));
   }
 
   private void grant() {
 
-    final Placeholders cmdPlaceholders = placeholders.copy()
-        .add("%rank%", rank)
-        .add("%duration%", TimeUtils.formatDuration(DurationFormatter.CONCISE, duration * 1000));
+    final UnaryOperator<String> cmdPlaceholders = str -> str
+        .replace("%issuer%", issuer.getName())
+        .replace("%target%", Objects.requireNonNull(target.getName()))
+        .replace("%rank%", rank)
+        .replace("%duration%", Time.formatDuration(DurationFormatter.CONCISE, duration * 1000))
+        .replace("%reason%", Utils.getReasonName(reason));
 
     if (duration > 0) {
       i.getData().set("temp-grants" + "." + target.getUniqueId() + "," + rank,
@@ -105,13 +110,13 @@ public class ConfirmMenu extends ConfigMenu {
     }
 
     for (String command : i.getSettings().getStringList("commands.activation")) {
-      Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmdPlaceholders.set(command));
+      Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmdPlaceholders.apply(command));
     }
 
-    ChatUtils.log(cmdPlaceholders.set(i.getMessages().getString("log-format")));
+    Text.log(cmdPlaceholders.apply(i.getMessages().getString("log-format")));
 
     if (target.isOnline()) {
-      ChatUtils.tell((Player) target, placeholders.set(i.getMessages().getString("notification")));
+      Text.tell((Player) target, placeholders.apply(i.getMessages().getString("notification")));
     }
   }
 }

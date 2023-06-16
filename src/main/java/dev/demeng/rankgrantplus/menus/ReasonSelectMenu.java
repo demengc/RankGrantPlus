@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,12 @@
 
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
 import dev.demeng.rankgrantplus.util.Utils;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -40,13 +40,13 @@ public class ReasonSelectMenu extends ConfigMenu {
 
   ReasonSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank,
       long duration) {
-    super(i, "reason-select", Placeholders.of("%target%",
+    super(i, "reason-select", str -> str.replace("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 
-    final Placeholders placeholders = Placeholders
-        .of("%target%", Objects.requireNonNull(target.getName()))
-        .add("%rank%", Utils.getRankName(rank))
-        .add("%duration%", Utils.formatDuration(duration));
+    final UnaryOperator<String> placeholders = str -> str
+        .replace("%target%", Objects.requireNonNull(target.getName()))
+        .replace("%rank%", Utils.getRankName(rank))
+        .replace("%duration%", Utils.formatDuration(duration));
 
     for (String reason : Objects.requireNonNull(
         i.getSettings().getConfigurationSection("menus.reason-select.reasons"),
@@ -62,7 +62,7 @@ public class ReasonSelectMenu extends ConfigMenu {
         continue;
       }
 
-      addButton(MenuButton.fromConfig(
+      addButton(MenuButton.create(
           Objects.requireNonNull(i.getSettings().getConfigurationSection(path)), placeholders,
           event -> new ConfirmMenu(i, issuer, target, rank, duration, reason).open(issuer)));
     }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
 
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.chat.Placeholders;
+import dev.demeng.pluginbase.DynamicPlaceholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
@@ -32,6 +32,8 @@ import dev.demeng.rankgrantplus.util.Utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -71,17 +73,15 @@ public class DurationSelectMenu extends ConfigMenu {
   private long lastClicked;
 
   DurationSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target, String rank) {
-    super(i, "duration-select", Placeholders.of("%target%",
+    super(i, "duration-select", str -> str.replace("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 
     this.i = i;
     this.issuer = issuer;
     this.target = target;
     this.rank = rank;
-    this.placeholders = Placeholders
-        .of("%target%", target.getName())
-        .add("%rank%", Utils.getRankName(rank))
-        .add("%duration%", "Permanent");
+    this.placeholders = new Placeholders(
+        target.getName(), Utils.getRankName(rank), "Permanent");
 
     for (Map.Entry<String, Long> option : OPTIONS.entrySet()) {
 
@@ -89,7 +89,7 @@ public class DurationSelectMenu extends ConfigMenu {
           .getConfigurationSection("menus.duration-select." + option.getKey());
 
       if (section != null) {
-        optionButtons.put(option.getValue(), MenuButton.fromConfig(section, null));
+        optionButtons.put(option.getValue(), MenuButton.create(section, null));
       }
     }
 
@@ -99,17 +99,17 @@ public class DurationSelectMenu extends ConfigMenu {
   private void reload() {
 
     for (Map.Entry<Long, MenuButton> entry : optionButtons.entrySet()) {
-      addButton(new MenuButton(entry.getValue().getSlot(),
-          placeholders.set(entry.getValue().getStack()), event -> {
-        updateCurrentDuration(entry.getKey());
-        reload();
-        issuer.updateInventory();
-      }));
+      addButton(MenuButton.create(entry.getValue().getSlot(),
+          placeholders.replace(entry.getValue().getStack()), event -> {
+            updateCurrentDuration(entry.getKey());
+            reload();
+            issuer.updateInventory();
+          }));
     }
 
-    addButton(MenuButton.fromConfig(Objects.requireNonNull(
+    addButton(MenuButton.create(Objects.requireNonNull(
             i.getSettings().getConfigurationSection("menus.duration-select.continue")),
-        placeholders,
+        placeholders.toOperator(),
         event -> new ReasonSelectMenu(i, issuer, target, rank, currentSeconds).open(issuer)));
   }
 
@@ -127,6 +127,23 @@ public class DurationSelectMenu extends ConfigMenu {
       currentSeconds = 0;
     }
 
-    placeholders.add("%duration%", Utils.formatDuration(currentSeconds));
+    placeholders.setDuration(Utils.formatDuration(currentSeconds));
+  }
+
+  @Data
+  @AllArgsConstructor
+  public class Placeholders implements DynamicPlaceholders {
+
+    private String target;
+    private String rank;
+    private String duration;
+
+    @Override
+    public String setPlaceholders(String str) {
+      return str
+          .replace("%target%", target)
+          .replace("%rank%", rank)
+          .replace("%duration%", duration);
+    }
   }
 }

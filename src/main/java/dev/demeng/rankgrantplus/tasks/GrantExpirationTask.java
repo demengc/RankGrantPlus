@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,10 +25,10 @@
 package dev.demeng.rankgrantplus.tasks;
 
 import dev.demeng.pluginbase.Common;
-import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 
@@ -60,12 +60,11 @@ public class GrantExpirationTask implements Runnable {
 
       Objects.requireNonNull(target, "Expiration target name is null");
 
-      final Placeholders placeholders = Placeholders
-          .of("%target%", target)
-          .add("%rank%", rank);
+      final UnaryOperator<String> placeholders =
+          str -> str.replace("%target%", target).replace("%rank%", rank);
 
       for (String command : i.getSettings().getStringList("commands.expiration")) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholders.set(command));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), placeholders.apply(command));
       }
 
       i.getData().set("temp-grants." + key, null);

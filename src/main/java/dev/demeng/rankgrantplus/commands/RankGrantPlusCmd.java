@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,14 +25,7 @@
 package dev.demeng.rankgrantplus.commands;
 
 import dev.demeng.pluginbase.Common;
-import dev.demeng.pluginbase.chat.ChatUtils;
-import dev.demeng.pluginbase.command.CommandBase;
-import dev.demeng.pluginbase.command.annotations.Aliases;
-import dev.demeng.pluginbase.command.annotations.Command;
-import dev.demeng.pluginbase.command.annotations.Default;
-import dev.demeng.pluginbase.command.annotations.Description;
-import dev.demeng.pluginbase.command.annotations.Permission;
-import dev.demeng.pluginbase.command.annotations.SubCommand;
+import dev.demeng.pluginbase.text.Text;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
 import java.util.Arrays;
@@ -40,31 +33,32 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
+import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.DefaultFor;
+import revxrsal.commands.annotation.Description;
+import revxrsal.commands.annotation.Subcommand;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 /**
  * The main command of RankGrant+.
  */
 @RequiredArgsConstructor
-@Command("rankgrantplus")
-@Aliases({"rgp"})
-public class RankGrantPlusCmd extends CommandBase {
+@Command({"rankgrantplus", "rgp"})
+public class RankGrantPlusCmd {
 
   private final RankGrantPlus i;
 
-  @Default
+  @DefaultFor({"rankgrantplus", "rgp"})
   @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
-    ChatUtils.coloredTell(
-        sender,
-        "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.",
-        "&aLink: &fhttps://spigotmc.org/resources/63403/",
-        "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
+    Text.coloredTell(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");
+    Text.coloredTell(sender, "&aLink: &fhttps://spigotmc.org/resources/63403/");
+    Text.coloredTell(sender, "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
   }
 
-  @SubCommand("reload")
+  @Subcommand({"reload", "rl"})
   @Description("Reloads configuration files.")
-  @Aliases("rl")
-  @Permission("rankgrantplus.reload")
+  @CommandPermission("rankgrantplus.reload")
   public void runReload(CommandSender sender) {
 
     try {
@@ -77,12 +71,14 @@ public class RankGrantPlusCmd extends CommandBase {
       return;
     }
 
-    ChatUtils.tell(sender, i.getMessages().getString("reloaded"));
+    i.updateBaseSettings();
+
+    Text.tell(sender, i.getMessages().getString("reloaded"));
   }
 
-  @SubCommand("import")
+  @Subcommand("import")
   @Description("Imports ranks from your permissions plugin.")
-  @Permission("rankgrantplus.import")
+  @CommandPermission("rankgrantplus.import")
   public void runImport(CommandSender sender) {
 
     int slot = 1;
@@ -116,6 +112,6 @@ public class RankGrantPlusCmd extends CommandBase {
       return;
     }
 
-    ChatUtils.tell(sender, i.getMessages().getString("imported"));
+    Text.tell(sender, i.getMessages().getString("imported"));
   }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 
 package dev.demeng.rankgrantplus.menus;
 
-import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.model.MenuButton;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.util.ConfigMenu;
@@ -39,7 +38,7 @@ import org.bukkit.entity.Player;
 public class RankSelectMenu extends ConfigMenu {
 
   public RankSelectMenu(RankGrantPlus i, Player issuer, OfflinePlayer target) {
-    super(i, "rank-select", Placeholders.of("%target%",
+    super(i, "rank-select", str -> str.replace("%target%",
         Objects.requireNonNull(target.getName(), "Target name is null")));
 
     for (String rank : Objects.requireNonNull(
@@ -55,11 +54,11 @@ public class RankSelectMenu extends ConfigMenu {
         continue;
       }
 
-      addButton(MenuButton.fromConfig(
+      addButton(MenuButton.create(
           Objects.requireNonNull(i.getRanks().getConfigurationSection("ranks." + rank)),
-          Placeholders
-              .of("%target%", target.getName())
-              .add("%rank%", Utils.getRankName(rank)),
+          str -> str
+              .replace("%target%", target.getName())
+              .replace("%rank%", Utils.getRankName(rank)),
           event -> new DurationSelectMenu(i, issuer, target, rank).open(issuer)));
     }
   }

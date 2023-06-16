@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,10 @@
 
 package dev.demeng.rankgrantplus.util;
 
-import dev.demeng.pluginbase.chat.Placeholders;
 import dev.demeng.pluginbase.menu.layout.Menu;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -46,9 +46,9 @@ public class ConfigMenu extends Menu {
    * @param i    The instance of the main class
    * @param name The name of the menu in settings.yml
    */
-  protected ConfigMenu(RankGrantPlus i, String name, Placeholders titlePlaceholders) {
+  protected ConfigMenu(RankGrantPlus i, String name, UnaryOperator<String> titlePlaceholders) {
     super(i.getSettings().getInt(BASE_PATH + name + ".size"),
-        titlePlaceholders.set(
+        titlePlaceholders.apply(
             Objects.requireNonNull(i.getSettings().getString(BASE_PATH + name + ".title"),
                 "Menu title is null: " + name)));
 

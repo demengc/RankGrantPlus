@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>rankgrantplus</artifactId>
-  <version>4.0.1</version>
+  <version>4.1.0</version>
   <packaging>jar</packaging>
 
   <name>RankGrantPlus</name>
@@ -49,6 +49,10 @@
                   <shadedPattern>dev.demeng.rankgrantplus.shaded.pluginbase</shadedPattern>
                 </relocation>
                 <relocation>
+                  <pattern>revxrsal.commands</pattern>
+                  <shadedPattern>dev.demeng.rankgrantplus.shaded.pluginbase.commands</shadedPattern>
+                </relocation>
+                <relocation>
                   <pattern>org.bstats</pattern>
                   <shadedPattern>dev.demeng.rankgrantplus.shaded.bstats</shadedPattern>
                 </relocation>
@@ -81,13 +85,19 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
+      <version>1.20.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.github.Demeng7215.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>ae8cde3800</version>
+      <version>f4a63bc528</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.Demeng7215</groupId>
+      <artifactId>PluginBase-Lamp</artifactId>
+      <version>1a71e71107</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -99,7 +109,7 @@
     <dependency>
       <groupId>org.bstats</groupId>
       <artifactId>bstats-bukkit</artifactId>
-      <version>2.2.1</version>
+      <version>3.0.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

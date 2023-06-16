@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,9 @@
 
 package dev.demeng.rankgrantplus.util;
 
-import dev.demeng.pluginbase.TimeUtils;
-import dev.demeng.pluginbase.TimeUtils.DurationFormatter;
-import dev.demeng.pluginbase.chat.ChatUtils;
+import dev.demeng.pluginbase.Time;
+import dev.demeng.pluginbase.Time.DurationFormatter;
+import dev.demeng.pluginbase.text.Text;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -44,7 +44,7 @@ public final class Utils {
    * @return The stripped display name of the rank
    */
   public static String getRankName(String rank) {
-    return ChatUtils.strip(
+    return Text.strip(
         RankGrantPlus.getInstance().getRanks().getString("ranks." + rank + ".display-name"));
   }
 
@@ -55,7 +55,7 @@ public final class Utils {
    * @return The stripped display name of the reason
    */
   public static String getReasonName(String reason) {
-    return ChatUtils.strip(
+    return Text.strip(
         RankGrantPlus.getInstance().getSettings()
             .getString("menus.reason-select.reasons." + reason + ".display-name"));
   }
@@ -68,6 +68,6 @@ public final class Utils {
    */
   public static String formatDuration(long duration) {
     return duration == 0 ? "Permanent"
-        : TimeUtils.formatDuration(DurationFormatter.LONG, duration * 1000);
+        : Time.formatDuration(DurationFormatter.LONG, duration * 1000);
   }
 }

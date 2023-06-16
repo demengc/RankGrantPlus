@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2018-2022 Demeng Chen
+ * Copyright (c) 2023 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,33 +24,31 @@
 
 package dev.demeng.rankgrantplus.commands;
 
-import dev.demeng.pluginbase.command.CommandBase;
-import dev.demeng.pluginbase.command.annotations.Command;
-import dev.demeng.pluginbase.command.annotations.Completion;
-import dev.demeng.pluginbase.command.annotations.Default;
-import dev.demeng.pluginbase.command.annotations.Description;
-import dev.demeng.pluginbase.command.annotations.Permission;
-import dev.demeng.pluginbase.command.annotations.Usage;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import dev.demeng.rankgrantplus.menus.RankSelectMenu;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import revxrsal.commands.annotation.AutoComplete;
+import revxrsal.commands.annotation.Command;
+import revxrsal.commands.annotation.Description;
+import revxrsal.commands.annotation.Usage;
+import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 /**
  * The command used for opening the grant GUI.
  */
 @RequiredArgsConstructor
-@Command("grant")
-public class GrantCmd extends CommandBase {
+public class GrantCmd  {
 
   private final RankGrantPlus i;
 
-  @Default
+  @Command("grant")
   @Description("Grants a player a rank.")
-  @Permission("rankgrantplus.grant")
+  @CommandPermission("rankgrantplus.grant")
+  @AutoComplete("@players")
   @Usage("/grant <player>")
-  public void runDefault(Player sender, @Completion("#players") String strTarget) {
+  public void runDefault(Player sender, String strTarget) {
     //noinspection deprecation
     new RankSelectMenu(i, sender, Bukkit.getOfflinePlayer(strTarget)).open(sender);
   }
