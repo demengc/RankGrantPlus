@@ -10,7 +10,7 @@
 # Support: https://demeng.dev/discord
 # -----------------------------------------------------------------------------
 
-config-version: 6
+config-version: 7
 
 # The commands that will be executed on grant activation and expiration.
 # These should correspond to your permission plugin and automatically set on startup.
