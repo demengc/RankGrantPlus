@@ -10,7 +10,7 @@
 # Support: https://demeng.dev/discord
 # -----------------------------------------------------------------------------
 
-config-version: 3
+config-version: 4
 
 # The list of ranks.
 ranks:
@@ -21,7 +21,7 @@ ranks:
     # The name of the material that the rank will show up as in the menu.
     material: "BEACON"
     # The display name of the rank.
-    display-name: "&2&lExample Rank"
+    name: "&2&lExample Rank"
     # The lore of the rank.
     lore:
       - "&7This is an example rank."

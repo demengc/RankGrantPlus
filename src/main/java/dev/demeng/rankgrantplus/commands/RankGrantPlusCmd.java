@@ -92,7 +92,7 @@ public class RankGrantPlusCmd {
       final ConfigurationSection section = i.getRanks().createSection("ranks." + group);
       section.set("slot", slot);
       section.set("material", "BEACON");
-      section.set("display-name", "&2&l" + group);
+      section.set("name", "&2&l" + group);
       section.set("lore",
           Arrays.asList("&7This is an imported rank.",
               "&7You can edit this in ranks.yml.",

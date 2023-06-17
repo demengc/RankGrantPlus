@@ -45,7 +45,7 @@ public final class Utils {
    */
   public static String getRankName(String rank) {
     return Text.strip(
-        RankGrantPlus.getInstance().getRanks().getString("ranks." + rank + ".display-name"));
+        RankGrantPlus.getInstance().getRanks().getString("ranks." + rank + ".name"));
   }
 
   /**
@@ -57,7 +57,7 @@ public final class Utils {
   public static String getReasonName(String reason) {
     return Text.strip(
         RankGrantPlus.getInstance().getSettings()
-            .getString("menus.reason-select.reasons." + reason + ".display-name"));
+            .getString("menus.reason-select.reasons." + reason + ".name"));
   }
 
   /**
