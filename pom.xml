@@ -91,7 +91,7 @@
     <dependency>
       <groupId>com.github.Demeng7215.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>f4a63bc528</version>
+      <version>8b0ed7dea6</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
