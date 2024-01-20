@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>rankgrantplus</artifactId>
-  <version>4.1.4</version>
+  <version>4.1.5</version>
   <packaging>jar</packaging>
 
   <name>RankGrantPlus</name>
@@ -97,7 +97,7 @@
     <dependency>
       <groupId>com.github.Demeng7215</groupId>
       <artifactId>PluginBase-Lamp</artifactId>
-      <version>18ffd36dab</version>
+      <version>47e42452ec</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
