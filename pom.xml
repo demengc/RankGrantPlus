@@ -6,7 +6,7 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>rankgrantplus</artifactId>
-  <version>4.1.9</version>
+  <version>4.1.10</version>
   <packaging>jar</packaging>
 
   <name>RankGrantPlus</name>
@@ -85,25 +85,25 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.21-R0.1-SNAPSHOT</version>
+      <version>1.21.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>2cf103496a</version>
+      <version>b035537af7</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase-Lamp</groupId>
       <artifactId>common</artifactId>
-      <version>e6d23a5b27</version>
+      <version>6fcd5fb3aa</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase-Lamp</groupId>
       <artifactId>bukkit</artifactId>
-      <version>e6d23a5b27</version>
+      <version>6fcd5fb3aa</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
