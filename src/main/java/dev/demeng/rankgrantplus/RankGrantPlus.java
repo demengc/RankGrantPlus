@@ -70,7 +70,7 @@ public final class RankGrantPlus extends BasePlugin {
 
   // Versions of the corresponding configuration file.
   private static final int SETTINGS_VERSION = 7;
-  private static final int MESSAGES_VERSION = 8;
+  private static final int MESSAGES_VERSION = 9;
   private static final int RANKS_VERSION = 4;
   private static final int DATA_VERSION = 2;
 
