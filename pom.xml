@@ -6,14 +6,14 @@
 
   <groupId>dev.demeng</groupId>
   <artifactId>rankgrantplus</artifactId>
-  <version>4.1.10</version>
+  <version>4.2.0</version>
   <packaging>jar</packaging>
 
   <name>RankGrantPlus</name>
 
   <description>Give ranks with durations and reasons through intuitive GUI menus.</description>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <url>https://demeng.dev/</url>
@@ -24,16 +24,20 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
+        <version>3.14.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <compilerArgs>
+            <!-- Preserves parameter names -->
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -47,10 +51,6 @@
                 <relocation>
                   <pattern>dev.demeng.pluginbase</pattern>
                   <shadedPattern>dev.demeng.rankgrantplus.shaded.pluginbase</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>revxrsal.commands</pattern>
-                  <shadedPattern>dev.demeng.rankgrantplus.shaded.pluginbase.commands</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>org.bstats</pattern>
@@ -85,25 +85,13 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.21.4-R0.1-SNAPSHOT</version>
+      <version>1.21.10-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.github.demengc.PluginBase</groupId>
       <artifactId>pluginbase-core</artifactId>
-      <version>fbf1bc4335</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.demengc.PluginBase-Lamp</groupId>
-      <artifactId>common</artifactId>
-      <version>6fcd5fb3aa</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.github.demengc.PluginBase-Lamp</groupId>
-      <artifactId>bukkit</artifactId>
-      <version>6fcd5fb3aa</version>
+      <version>a577c23d16</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -115,13 +103,13 @@
     <dependency>
       <groupId>org.bstats</groupId>
       <artifactId>bstats-bukkit</artifactId>
-      <version>3.0.2</version>
+      <version>3.1.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.22</version>
+      <version>1.18.42</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

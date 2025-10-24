@@ -25,6 +25,10 @@
 package dev.demeng.rankgrantplus.commands;
 
 import dev.demeng.pluginbase.Common;
+import dev.demeng.pluginbase.lib.lamp.annotation.Command;
+import dev.demeng.pluginbase.lib.lamp.annotation.Description;
+import dev.demeng.pluginbase.lib.lamp.annotation.Subcommand;
+import dev.demeng.pluginbase.lib.lamp.bukkit.annotation.CommandPermission;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
@@ -33,11 +37,6 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Description;
-import revxrsal.commands.annotation.Subcommand;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 /**
  * The main command of RankGrant+.
@@ -48,7 +47,7 @@ public class RankGrantPlusCmd {
 
   private final RankGrantPlus i;
 
-  @DefaultFor({"rankgrantplus", "rgp"})
+  @Subcommand("info")
   @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
     Text.coloredTell(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");

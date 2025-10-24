@@ -30,6 +30,10 @@ import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.UpdateChecker;
 import dev.demeng.pluginbase.UpdateChecker.Result;
 import dev.demeng.pluginbase.YamlConfig;
+import dev.demeng.pluginbase.command.BaseExceptionHandler;
+import dev.demeng.pluginbase.lib.lamp.Lamp;
+import dev.demeng.pluginbase.lib.lamp.bukkit.BukkitLamp;
+import dev.demeng.pluginbase.lib.lamp.bukkit.actor.BukkitCommandActor;
 import dev.demeng.pluginbase.locale.reader.ConfigLocaleReader;
 import dev.demeng.pluginbase.plugin.BasePlugin;
 import dev.demeng.pluginbase.text.Text;
@@ -50,7 +54,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
-import revxrsal.commands.bukkit.BukkitCommandHandler;
 
 /**
  * The main class for RankGrant+.
@@ -104,9 +107,12 @@ public final class RankGrantPlus extends BasePlugin {
     }
 
     getLogger().info("Registering commands...");
-    final BukkitCommandHandler commandHandler = BukkitCommandHandler.create(this);
-    commandHandler.register(new RankGrantPlusCmd(this));
-    commandHandler.register(new GrantCmd(this));
+    final Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
+        .exceptionHandler(new BaseExceptionHandler())
+        .build();
+
+    lamp.register(new RankGrantPlusCmd(this));
+    lamp.register(new GrantCmd(this));
 
     getLogger().info("Starting tasks...");
     Bukkit.getScheduler().runTaskTimer(this, new GrantExpirationTask(this), 100L, 100L);
