@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2023 Demeng Chen
+ * Copyright (c) 2025 Demeng Chen
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,10 @@
 package dev.demeng.rankgrantplus.commands;
 
 import dev.demeng.pluginbase.Common;
+import dev.demeng.pluginbase.lib.lamp.annotation.Command;
+import dev.demeng.pluginbase.lib.lamp.annotation.Description;
+import dev.demeng.pluginbase.lib.lamp.annotation.Subcommand;
+import dev.demeng.pluginbase.lib.lamp.bukkit.annotation.CommandPermission;
 import dev.demeng.pluginbase.text.Text;
 import dev.demeng.rankgrantplus.RankGrantPlus;
 import java.io.IOException;
@@ -33,11 +37,6 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import revxrsal.commands.annotation.Command;
-import revxrsal.commands.annotation.DefaultFor;
-import revxrsal.commands.annotation.Description;
-import revxrsal.commands.annotation.Subcommand;
-import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 /**
  * The main command of RankGrant+.
@@ -48,15 +47,25 @@ public class RankGrantPlusCmd {
 
   private final RankGrantPlus i;
 
-  @DefaultFor({"rankgrantplus", "rgp"})
+  @Subcommand("info")
   @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
+    Text.coloredTell(sender, "&r");
     Text.coloredTell(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");
     Text.coloredTell(sender, "&aLink: &fhttps://spigotmc.org/resources/63403/");
     Text.coloredTell(sender, "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
+    Text.coloredTell(sender, "&r");
   }
 
-  @Subcommand({"reload", "rl"})
+  @Subcommand("help")
+  @Description("Displays the list of commands.")
+  public void runHelp(CommandSender sender) {
+    for (String line : i.getMessages().getStringList("help")) {
+      Text.coloredTell(sender, line);
+    }
+  }
+
+  @Subcommand("reload")
   @Description("Reloads configuration files.")
   @CommandPermission("rankgrantplus.reload")
   public void runReload(CommandSender sender) {
