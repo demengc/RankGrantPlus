@@ -15,6 +15,18 @@ config-version: 9
 # The prefix that will be displayed in front of most messages.
 prefix: "&8[&2&lRG+&8] &r"
 
+# When the list of commands are requested.
+help:
+  - ""
+  - "&a&lRankGrant+ &8&l| &7Available Commands"
+  - ""
+  - " &8> &f/rgp info &8- &7Display plugin info"
+  - " &8> &f/rgp help &8- &7Display this help menu"
+  - " &8> &f/rgp reload &8- &7Reload configuration"
+  - " &8> &f/rgp import &8- &7Import ranks from permissions plugin"
+  - " &8> &f/grant &e<player> &8- &7Grant a player a rank"
+  - ""
+
 # When configuration files have been successfully reloaded.
 reloaded: "&aSuccessfully reloaded configuration files."
 
@@ -163,6 +175,10 @@ commands:
     # Invalid help page - multiple pages exist
     # Placeholders: {0} = requested page, {1} = total pages
     multiple: "&cInvalid help page: &e{0}&c. Must be between &e1 &cand &e{1}&c."
+
+  # Unknown command with suggestion
+  # {0} = user input, {1} = suggested command
+  failed-resolve: "&cUnknown command: &e/{0}&c. Did you mean &e/{1}&c?"
 
   # Unknown/non-existent command
   # Placeholder: {0} = command input

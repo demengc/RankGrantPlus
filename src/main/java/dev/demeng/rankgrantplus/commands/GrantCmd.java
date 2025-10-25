@@ -45,7 +45,7 @@ public class GrantCmd {
   @Command("grant")
   @Description("Grants a player a rank.")
   @CommandPermission("rankgrantplus.grant")
-  @Usage("/grant <player>")
+  @Usage("grant <player>")
   public void runDefault(Player sender, OfflinePlayer target) {
     new RankSelectMenu(i, sender, target).open(sender);
   }

@@ -30,9 +30,7 @@ import dev.demeng.pluginbase.Schedulers;
 import dev.demeng.pluginbase.UpdateChecker;
 import dev.demeng.pluginbase.UpdateChecker.Result;
 import dev.demeng.pluginbase.YamlConfig;
-import dev.demeng.pluginbase.command.BaseExceptionHandler;
 import dev.demeng.pluginbase.lib.lamp.Lamp;
-import dev.demeng.pluginbase.lib.lamp.bukkit.BukkitLamp;
 import dev.demeng.pluginbase.lib.lamp.bukkit.actor.BukkitCommandActor;
 import dev.demeng.pluginbase.locale.reader.ConfigLocaleReader;
 import dev.demeng.pluginbase.plugin.BasePlugin;
@@ -107,9 +105,7 @@ public final class RankGrantPlus extends BasePlugin {
     }
 
     getLogger().info("Registering commands...");
-    final Lamp<BukkitCommandActor> lamp = BukkitLamp.builder(this)
-        .exceptionHandler(new BaseExceptionHandler())
-        .build();
+    final Lamp<BukkitCommandActor> lamp = createCommandHandler().build();
 
     lamp.register(new RankGrantPlusCmd(this));
     lamp.register(new GrantCmd(this));

@@ -50,12 +50,22 @@ public class RankGrantPlusCmd {
   @Subcommand("info")
   @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
+    Text.coloredTell(sender, "&r");
     Text.coloredTell(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");
     Text.coloredTell(sender, "&aLink: &fhttps://spigotmc.org/resources/63403/");
     Text.coloredTell(sender, "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
+    Text.coloredTell(sender, "&r");
   }
 
-  @Subcommand({"reload", "rl"})
+  @Subcommand("help")
+  @Description("Displays the list of commands.")
+  public void runHelp(CommandSender sender) {
+    for (String line : i.getMessages().getStringList("help")) {
+      Text.coloredTell(sender, line);
+    }
+  }
+
+  @Subcommand("reload")
   @Description("Reloads configuration files.")
   @CommandPermission("rankgrantplus.reload")
   public void runReload(CommandSender sender) {
