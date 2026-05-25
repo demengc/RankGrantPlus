@@ -82,7 +82,7 @@ public final class RankGrantPlus extends BasePlugin {
 
     setInstance(this);
 
-    Text.coloredConsole("\n\n"
+    Text.consoleRaw("\n\n"
         + "&2__________  ________             \n"
         + "&2\\______   \\/  _____/     .__     \n"
         + "&2 |       _/   \\  ___   __|  |___ \n"
@@ -123,7 +123,7 @@ public final class RankGrantPlus extends BasePlugin {
         + " by Demeng has been enabled in "
         + (System.currentTimeMillis() - startTime) + " ms.");
 
-    Text.coloredConsole("&6Enjoying RG+? Check out GrantX! &ehttps://demeng.dev/grantx");
+    Text.consoleRaw("&6Enjoying RG+? Check out GrantX! &ehttps://demeng.dev/grantx");
   }
 
   @Override
@@ -282,12 +282,12 @@ public final class RankGrantPlus extends BasePlugin {
       final UpdateChecker checker = new UpdateChecker(63403);
 
       if (checker.getResult() == Result.OUTDATED) {
-        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
-        Text.coloredConsole("&aA new version of RankGrant+ is available!");
-        Text.coloredConsole("&aCurrent version: &r" + Common.getVersion());
-        Text.coloredConsole("&aLatest version: &r" + checker.getLatestVersion());
-        Text.coloredConsole("&aGet the update: &rhttps://spigotmc.org/resources/63403");
-        Text.coloredConsole("&2" + Text.CONSOLE_LINE);
+        Text.consoleRaw("&2" + Text.CONSOLE_LINE);
+        Text.consoleRaw("&aA new version of RankGrant+ is available!");
+        Text.consoleRaw("&aCurrent version: &r" + Common.getVersion());
+        Text.consoleRaw("&aLatest version: &r" + checker.getLatestVersion());
+        Text.consoleRaw("&aGet the update: &rhttps://spigotmc.org/resources/63403");
+        Text.consoleRaw("&2" + Text.CONSOLE_LINE);
         return;
       }
 

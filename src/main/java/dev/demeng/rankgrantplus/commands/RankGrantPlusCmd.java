@@ -50,18 +50,18 @@ public class RankGrantPlusCmd {
   @Subcommand("info")
   @Description("Displays information for RankGrant+.")
   public void runDefault(CommandSender sender) {
-    Text.coloredTell(sender, "&r");
-    Text.coloredTell(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");
-    Text.coloredTell(sender, "&aLink: &fhttps://spigotmc.org/resources/63403/");
-    Text.coloredTell(sender, "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
-    Text.coloredTell(sender, "&r");
+    Text.tellRaw(sender, "&r");
+    Text.tellRaw(sender, "&a&lRunning RankGrant+ v" + Common.getVersion() + " by Demeng.");
+    Text.tellRaw(sender, "&aLink: &fhttps://spigotmc.org/resources/63403/");
+    Text.tellRaw(sender, "&6Enjoying RG+? Check out GrantX! &fdemeng.dev/grantx");
+    Text.tellRaw(sender, "&r");
   }
 
   @Subcommand("help")
   @Description("Displays the list of commands.")
   public void runHelp(CommandSender sender) {
     for (String line : i.getMessages().getStringList("help")) {
-      Text.coloredTell(sender, line);
+      Text.tellRaw(sender, line);
     }
   }
 
